@@ -1,9 +1,5 @@
-{/* <a href="/mobicon" className="mobile-menu-toggle w-icon-hamburger" aria-label="menu-toggle"></a> */}
-          {/* <Mobmenu/> */}
 
-
-
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 
 import { BACKENDURL } from "../../config/config";
 import { toast } from "react-toastify";
@@ -16,6 +12,7 @@ const Headmidd = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
 
   
   // const [searchQuery, setSearchQuery] = useState("");
@@ -31,12 +28,33 @@ const Headmidd = () => {
     navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
   };
 
+  useEffect(() => {
+    const fetchCartCount = async () => {
+      try {
+        const res = await fetch(`${BACKENDURL}/api/v1/cart/countcart`, {
+          
+          credentials: "include"
+        });
+        const data = await res.json();
+        if (data.success) {
+          console.log(data.data.count)
+          setCartCount(data.data.count);
+        }
+      } catch (error) {
+        console.log("Error fetching cart count", error);
+      }
+    };
+
+    fetchCartCount();
+  }, []);
+
+
   return (
     <div className="header-middle">
       <div className="container">
         <div className="header-left mr-md-4">
         <button 
-          className="lg:hidden text-2xl p-2 focus:outline-none" 
+          className="lg:hidden text-4xl p-2 focus:outline-none" 
           onClick={() => setIsMenuOpen(true)}
         >
           ☰
@@ -97,19 +115,18 @@ const Headmidd = () => {
             <i className="w-icon-heart"></i>
             <span className="wishlist-label d-lg-show">Wishlist</span>
           </a>
-          <a className="compare label-down link d-xs-show" href="compare.html">
-            <i className="w-icon-compare"></i>
-            <span className="compare-label d-lg-show">Compare</span>
-          </a>
+          
 
           <div className="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
             <div className="cart-overlay"></div>
             <a href="cart" className="cart-toggle label-down link">
               <i className="w-icon-cart">
-                <span className="cart-count">2</span>
+                <span className="cart-count">{cartCount}</span>
               </i>
               <span className="cart-label">Cart</span>
             </a>
+
+
 
             <div className="dropdown-box">
               <div className="cart-header">
@@ -166,82 +183,3 @@ export default Headmidd;
 
 
 
-
-// import React, { useState } from "react";
-// import { BACKENDURL } from "../../config/config";
-// import { toast } from "react-toastify";
-// import { useNavigate } from "react-router-dom";
-// import Mobmenu from "./Mobmenu";
-
-// const Headmidd = () => {
-//   const [searchQuery, setSearchQuery] = useState("");
-//   const navigate = useNavigate(); 
-//   const [isMenuOpen, setIsMenuOpen] = useState(false); // State for Mobile Menu
-
-//   const handleSearch = (e) => {
-//     e.preventDefault();
-//     if (!searchQuery.trim()) {
-//       toast.error("Please enter a search term.");
-//       return;
-//     }
-//     navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
-//   };
-
-//   return (
-//     <div className="header-middle">
-//       <div className="container flex items-center justify-between">
-//         {/* Hamburger Icon - Visible only on Mobile */}
-//         <button 
-//           className="lg:hidden text-2xl p-2 focus:outline-none" 
-//           onClick={() => setIsMenuOpen(true)}
-//         >
-//           ☰
-//         </button>
-
-//         {/* Logo */}
-//         <a href="/" className="logo ml-lg-0">
-//           <img src="assets/images/logo.png" alt="logo" width="144" height="45" />
-//         </a>
-
-//         {/* Search Bar - Visible on Desktop */}
-//         <form 
-//           onSubmit={handleSearch} 
-//           className="header-search hs-expanded hs-round d-none d-md-flex input-wrapper"
-//         >
-//           <div className="select-box">
-//             <select id="category" name="category">
-//               <option value="">All Categories</option>
-//               <option value="4">Fashion</option>
-//               <option value="5">Furniture</option>
-//               <option value="6">Shoes</option>
-//               <option value="7">Sports</option>
-//               <option value="8">Games</option>
-//               <option value="9">Computers</option>
-//               <option value="10">Electronics</option>
-//               <option value="11">Kitchen</option>
-//               <option value="12">Clothing</option>
-//             </select>
-//           </div>
-//           <input
-//             type="text"
-//             className="form-control"
-//             name="search"
-//             id="search"
-//             placeholder="Search in..."
-//             required
-//             value={searchQuery}
-//             onChange={(e) => setSearchQuery(e.target.value)}
-//           />
-//           <button className="btn btn-search" type="submit">
-//             <i className="w-icon-search"></i>
-//           </button>
-//         </form>
-
-//         {/* Mobile Menu Component */}
-//         {isMenuOpen && <Mobmenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Headmidd;

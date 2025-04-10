@@ -79,6 +79,57 @@ export const addStore = async (req, res) => {
 };
 
 
+// export const addStore = async (req, res) => {
+//   try {
+//     const { userId, shopName, description, shopUrl, phoneNumber } = req.body;
+
+//     // Check if user exists
+//     const userExists = await User.findById(userId);
+//     if (!userExists) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     // Check if vendor store already exists
+//     const existingVendor = await Vendor.findOne({ userId });
+//     if (existingVendor) {
+//       if (!existingVendor.isApproved) {
+//         return res.status(403).json({ message: "Vendor is not approved to add a store" });
+//       }
+//       return res.status(400).json({ message: "Vendor store already exists for this user" });
+//     }
+
+//     // Get uploaded file paths
+//     const logo = req.files["logo"] ? `/uploads/${req.files["logo"][0].filename}` : null;
+//     const bgimage = req.files["bgimage"] ? `/uploads/${req.files["bgimage"][0].filename}` : null;
+
+//     // Create new vendor store
+//     const newVendor = new Vendor({
+//       userId,
+//       shopName,
+//       description,
+//       shopUrl,
+//       logo,
+//       bgimage,
+//       phoneNumber,
+//       productsByCategory: [],
+//       isApproved: true, // Ensure the vendor is approved before adding a store
+//     });
+
+//     // Save vendor in the database
+//     await newVendor.save();
+
+//     res.status(201).json({
+//       message: "Store created successfully",
+//       vendor: newVendor,
+//     });
+//   } catch (error) {
+//     console.error("Error adding store:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+
+
 export const getAllStores = async (req, res) => {
   try {
     const stores = await Vendor.find();

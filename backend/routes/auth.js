@@ -7,6 +7,8 @@ import {
     userDetailsController,
     getAdminStatsController,
     getVendorDetails,
+    getAllUsers,
+    updateUserRole,
   
 } from "../controller/userSignUpController.js";
 
@@ -18,6 +20,8 @@ router.get("/user-details",authToken, userDetailsController);
 router.get("/vendor/details/:userId",authToken,getVendorDetails);
 // router.get("/getVendor/:shopName", getVendorDetails);
 router.get("/admin/stats", authToken, getAdminStatsController);
+router.get("/admin/users", authToken, getAllUsers);
+router.put("/update-role/:userId",authToken, updateUserRole);
 
 
 export default router;

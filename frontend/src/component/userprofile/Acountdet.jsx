@@ -204,11 +204,11 @@ const Acountdet = () => {
                 <p class="greeting">
                     Hello
                     {/* <span class="text-dark font-weight-bold">{currentUser.name}</span> */}
-                    <span class="text-dark font-weight-bold">{currentUser?.name || 'Guest'}</span>
+                    <span class="text-dark font-weight-bold"> {currentUser?.name || 'Guest'}</span>
 
-                    (not
+                    {/* (not
                     <span class="text-dark font-weight-bold">John Doe</span>?
-                    <a href="#" class="text-primary">Log out</a>)
+                    <a href="#" class="text-primary">Log out</a>) */}
                 </p>
 
                 <p class="mb-4">
@@ -223,7 +223,7 @@ const Acountdet = () => {
 
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
-                        <a href="#account-orders" class="link-to-tab">
+                        <a href="orders" class="link-to-tab">
                             <div class="icon-box text-center">
                                 <span class="icon-box-icon icon-orders">
                                     <i class="w-icon-orders"></i>
@@ -271,7 +271,7 @@ const Acountdet = () => {
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
-                        <a href="wishlist.html" class="link-to-tab">
+                        <a href="wishlist" class="link-to-tab">
                             <div class="icon-box text-center">
                                 <span class="icon-box-icon icon-wishlist">
                                     <i class="w-icon-heart"></i>

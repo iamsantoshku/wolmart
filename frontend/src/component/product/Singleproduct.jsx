@@ -11,19 +11,19 @@ import SimilarProducts from "./SimilarProducts";
 
 const SingleProduct = () => {
   const { id } = useParams();
+  const { name } = useParams();
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
-  // const { id } = useParams(); // Ensure `id` is coming from the route params
-
-  // console.log("SingleProduct ID:", id);
+  
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`${BACKENDURL}/api/v1/product/productdet/${id}`);
+        const response = await fetch(`${BACKENDURL}/api/v1/product/productdet/${name}`);
         const data = await response.json();
         if (data.success) {
           setProduct(data.data);
@@ -41,7 +41,7 @@ const SingleProduct = () => {
     };
 
     fetchProduct();
-  }, [id]);
+  }, [name]);
 
   const handleAddToCart = (e) => {
     if (!selectedSize) {
@@ -123,9 +123,8 @@ const SingleProduct = () => {
                     {product.vendor && (
                       <div className="vendor-details">
                         <p><strong>Sold by:</strong> {product.vendor.shopName || "Unknown Shop"}</p>
-                        {/* <p><strong>Owner:</strong> {product.vendor.
-shpUrl }</p> */}
-                        {/* <p><strong>Contact:</strong> {product.vendor.email || "N/A"}</p> */}
+                        
+                       
                       </div>
                     )}
                     <div className="product-meta">
@@ -237,10 +236,10 @@ shpUrl }</p> */}
               </div>
             </div>
           </div>
-          <SimilarProducts productId={id} />
+          <SimilarProducts name={name} />
         </div>
         {/* <SimilarProducts/> */}
-        
+
       </div>
 
     </>

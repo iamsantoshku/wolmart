@@ -6,6 +6,12 @@ import CategoryBanner from './CategoryBanner'
 import Categorymonth from './Categorymonth'
 import Populardeprt from './Populardeprt'
 import Homeintroo from './Homeintroo'
+import Deals from './Deals'
+import Banner1 from './Banner1'
+import Clothingbann from './Clothingbann'
+import Banner3 from './Banner3'
+import Ourclient from './Ourclient'
+import Fromblog from './Fromblog'
 
 const Home = () => {
   return (
@@ -18,8 +24,14 @@ const Home = () => {
             <Homeswipe />
             {/* <Catogryba/> */}
             {/* <CategoryBanner/> */}
+            <Deals/>
             <Categorymonth/>
             <Populardeprt/>
+            <Banner1/>
+            <Clothingbann/>
+            <Banner3/>
+            <Ourclient/>
+            <Fromblog/>
           </div>
 
         </main>

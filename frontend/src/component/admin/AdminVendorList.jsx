@@ -50,7 +50,7 @@ const AdminVendorList = () => {
               <div key={vendor._id} className="bg-white p-4 shadow rounded-lg">
                 <div className="flex items-center gap-3">
                   <img
-                    src={`http://localhost:5000${vendor.logo}`} // Adjust backend URL if needed
+                    src={`${BACKENDURL}${vendor.logo}`} // Adjust backend URL if needed
                     alt="Vendor Logo"
                     className="w-16 h-16 object-cover rounded-full"
                   />

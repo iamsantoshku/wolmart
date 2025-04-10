@@ -1,5 +1,10 @@
+
+
+
+
 // import React from "react";
 // import { BACKENDURL } from "../../config/config";
+// import addToCart from "../../helpers/addTocart"; // Import your addToCart function
 
 // const ProductList = ({ products, categoryName, loading }) => {
 //   return (
@@ -22,7 +27,7 @@
 //               <div key={product._id} className="product-wrap">
 //                 <div className="product text-center">
 //                   <figure className="product-media">
-//                     <a href={`/product/${product._id}`}>
+//                     <a href={`/product/${product.name}`}>
 //                       <img
 //                         src={imageUrl}
 //                         alt={product.name}
@@ -34,11 +39,17 @@
 //                           objectFit: "cover",
 //                           backgroundColor: "#f5f5f5",
 //                         }}
-//                         onError={(e) => { e.target.src = "/assets/images/shop/default-product.jpg"; }} 
+//                         onError={(e) => {
+//                           e.target.src = "/assets/images/shop/default-product.jpg";
+//                         }}
 //                       />
 //                     </a>
 //                     <div className="product-action-horizontal">
-//                       <a href="#" className="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+//                       <button
+//                         className="btn-product-icon btn-cart w-icon-cart"
+//                         title="Add to cart"
+//                         onClick={(e) => addToCart(e, product._id, product.availableSizes?.[0], product.availableColors?.[0])} 
+//                       ></button>
 //                       <a href="#" className="btn-product-icon btn-wishlist w-icon-heart" title="Wishlist"></a>
 //                       <a href="#" className="btn-product-icon btn-compare w-icon-compare" title="Compare"></a>
 //                       <a href="#" className="btn-product-icon btn-quickview w-icon-search" title="Quick View"></a>
@@ -92,13 +103,16 @@
 
 import React from "react";
 import { BACKENDURL } from "../../config/config";
-import addToCart from "../../helpers/addTocart"; // Import your addToCart function
+import addToCart from "../../helpers/addTocart";
+import addToWishlist from "../../helpers/addToWishlist";
 
 const ProductList = ({ products, categoryName, loading }) => {
   return (
     <div>
       <h2 className="text-center mb-4">
-        {categoryName ? `Products in ${categoryName}` : "Select a category to view products"}
+        {categoryName
+          ? `Products in ${categoryName}`
+          : "Select a category to view products"}
       </h2>
 
       {loading ? (
@@ -106,16 +120,15 @@ const ProductList = ({ products, categoryName, loading }) => {
       ) : products.length > 0 ? (
         <div className="product-wrapper row cols-xl-4 cols-lg-4 cols-md-3 cols-sm-2 cols-2">
           {products.map((product) => {
-            // Construct Image URL
             const imageUrl = product.images?.[0]?.urls?.[0]
               ? `${BACKENDURL}/uploads/product/${product.images[0].urls[0].split("\\").pop()}`
-              : "/assets/images/shop/default-product.jpg"; // Fallback image
+              : "/assets/images/shop/default-product.jpg";
 
             return (
               <div key={product._id} className="product-wrap">
                 <div className="product text-center">
                   <figure className="product-media">
-                    <a href={`/product/${product._id}`}>
+                    <a href={`/product/${product.name}`}>
                       <img
                         src={imageUrl}
                         alt={product.name}
@@ -128,7 +141,8 @@ const ProductList = ({ products, categoryName, loading }) => {
                           backgroundColor: "#f5f5f5",
                         }}
                         onError={(e) => {
-                          e.target.src = "/assets/images/shop/default-product.jpg";
+                          e.target.src =
+                            "/assets/images/shop/default-product.jpg";
                         }}
                       />
                     </a>
@@ -136,42 +150,42 @@ const ProductList = ({ products, categoryName, loading }) => {
                       <button
                         className="btn-product-icon btn-cart w-icon-cart"
                         title="Add to cart"
-                        onClick={(e) => addToCart(e, product._id, product.availableSizes?.[0], product.availableColors?.[0])} 
+                        onClick={(e) =>
+                          addToCart(
+                            e,
+                            product._id,
+                            product.availableSizes?.[0],
+                            product.availableColors?.[0]
+                          )
+                        }
                       ></button>
-                      <a href="#" className="btn-product-icon btn-wishlist w-icon-heart" title="Wishlist"></a>
-                      <a href="#" className="btn-product-icon btn-compare w-icon-compare" title="Compare"></a>
-                      <a href="#" className="btn-product-icon btn-quickview w-icon-search" title="Quick View"></a>
+                      <a
+                        // href="#"
+                        onClick={(e) => addToWishlist(e, product._id)}
+                        className="btn-product-icon btn-wishlist w-icon-heart"
+                        title="Wishlist"
+                      ></a>
+                      <a
+                        href="#"
+                        className="btn-product-icon btn-compare w-icon-compare"
+                        title="Compare"
+                      ></a>
+                      <a
+                        href={`/product/${product.name}`}
+                        className="btn-product-icon btn-quickview w-icon-search"
+                        title="Quick View"
+                      ></a>
                     </div>
                   </figure>
                   <div className="product-details">
-                    <div className="product-cat">
-                      <a href={`/category/${categoryName}`}>{categoryName || "Category"}</a>
-                    </div>
                     <h3 className="product-name">
-                      <a href={`/product/${product._id}`}>{product.name}</a>
-                    </h3>
-                    <div className="ratings-container">
-                      <div className="ratings-full">
-                        <span className="ratings" style={{ width: `${(product.rating / 5) * 100}%` }}></span>
-                        <span className="tooltiptext tooltip-top"></span>
-                      </div>
-                      <a href={`/product/${product._id}`} className="rating-reviews">
-                        ({product.reviews?.length || 0} reviews)
+                      <a href={`/product/${product.name}`}>
+                        {product.name}
                       </a>
+                    </h3>
+                    <div className="product-price">
+                      ₹{product.price?.toFixed(2) || "N/A"}
                     </div>
-                    <div className="product-pa-wrapper">
-                      <div className="product-price">
-                        {product.discountedPrice ? (
-                          <>
-                            <ins className="new-price">${product.discountedPrice}</ins>
-                            <del className="old-price">${product.price}</del>
-                          </>
-                        ) : (
-                          `$${product.price}`
-                        )}
-                      </div>
-                    </div>
-                    <p>Stock: {product.stock}</p>
                   </div>
                 </div>
               </div>
@@ -179,7 +193,7 @@ const ProductList = ({ products, categoryName, loading }) => {
           })}
         </div>
       ) : (
-        <p className="text-center">No products found for this category.</p>
+        <p className="text-center">No products found.</p>
       )}
     </div>
   );

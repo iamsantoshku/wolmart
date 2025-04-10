@@ -13,7 +13,7 @@
 
 
 import express from "express";
-import { placeOrder, getVendorOrders, getUserOrders, updateOrderStatus, cancelOrder } from "../controller/checkoutController.js";
+import { placeOrder, getVendorOrders, getUserOrders, updateOrderStatus, cancelOrder,getAllOrdersForAdmin } from "../controller/checkoutController.js";
 import { authToken } from "../middleware/authToken.js";
 
 const router = express.Router();
@@ -24,5 +24,6 @@ router.get("/orders/:userId", getUserOrders);
 // router.put("/update-status", updateOrderStatus);
 router.put("/update-status/:orderId", updateOrderStatus);
 router.put("/cancel-order/:orderId", cancelOrder);
+router.get("/admin/orders", getAllOrdersForAdmin);
 
 export default router;

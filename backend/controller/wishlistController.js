@@ -46,31 +46,6 @@ export const addToWishlistController = async (req, res) => {
 };
 
 
-// export const getWishlistController = async (req, res) => {
-//     try {
-//         const currentUser = req.userId;
-
-//         // Fetch wishlist items for the logged-in user and populate product details
-//         const wishlistItems = await addToWishlistModel
-//             .find({ userId: currentUser })
-//             .populate("productId"); // Assuming `productId` is a reference to the product model
-
-//         return res.json({
-//             data: wishlistItems,
-//             message: "Wishlist items retrieved successfully",
-//             success: true,
-//             error: false,
-//         });
-
-//     } catch (err) {
-//         res.json({
-//             message: err?.message || err,
-//             error: true,
-//             success: false,
-//         });
-//     }
-// };
-
 
 export const getWishlistController = async (req, res) => {
     try {
@@ -109,4 +84,50 @@ export const getWishlistController = async (req, res) => {
             success: false,
         });
     }
+};
+
+
+
+export const removeFromWishlistController = async (req, res) => {
+  try {
+    const userId = req.userId; // Set from auth middleware
+    const { productId } = req.params; // Assuming productId is coming from params
+
+    // Check required fields
+    if (!userId || !productId || productId === "undefined") {
+      return res.status(400).json({
+        message: "User ID and Product ID are required",
+        success: false,
+        error: true,
+      });
+    }
+
+    // Find and delete product from wishlist
+    const deletedItem = await addToWishlistModel.findOneAndDelete({
+      userId: userId,
+      productId: productId,
+    });
+
+    if (!deletedItem) {
+      return res.status(404).json({
+        message: "Product not found in wishlist",
+        success: false,
+        error: true,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Product removed from wishlist successfully",
+      success: true,
+      error: false,
+    });
+
+  } catch (error) {
+    console.error("Error removing from wishlist:", error);
+    return res.status(500).json({
+      message: error?.message || "Internal Server Error",
+      success: false,
+      error: true,
+    });
+  }
 };

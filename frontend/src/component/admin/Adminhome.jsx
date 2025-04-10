@@ -509,8 +509,8 @@ const Adminhome = () => {
           <NavLink to="/admin-panel/orders" className="nav-link">
             <FiShoppingCart className="icon" /> {sidebarOpen && "Orders"}
           </NavLink>
-          <NavLink to="/admin-panel/transactions" className="nav-link">
-            <FiDollarSign className="icon" /> {sidebarOpen && "Transactions"}
+          <NavLink to="/admin-panel/alluser" className="nav-link">
+            <FiDollarSign className="icon" /> {sidebarOpen && "AllUsers"}
           </NavLink>
           <NavLink to="/admin-panel/reports" className="nav-link">
             <FiBarChart2 className="icon" /> {sidebarOpen && "Reports"}

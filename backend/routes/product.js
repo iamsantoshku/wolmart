@@ -28,7 +28,7 @@
 
 
 import express from "express";
-import { uploadProduct, getProductsByVendor,getProductsByCategory, getAllProducts,getSingleProduct,searchProducts,getSimilarProducts } from "../controller/productController.js";
+import { uploadProduct, getProductsByVendor,getProductsByCategory, getAllProducts,getSingleProduct,searchProducts,getSimilarProducts ,getClothingAndFashionProducts} from "../controller/productController.js";
 import { upload } from "../config/localStorageConfig.js";
 // import { upload } from "../config/cloudinaryConfig.js";
 
@@ -41,9 +41,14 @@ router.get("/vendor/:shopName", getProductsByVendor);
 router.get("/products/:category", getProductsByCategory);
 router.get("/allproduct", getAllProducts);
 
-router.get("/productdet/:productId", getSingleProduct);
+// router.get("/productdet/:productId", getSingleProduct);
+router.get('/productdet/:name', getSingleProduct)
 router.get("/search/:query", searchProducts);
-router.get("/products/:productId/similar", getSimilarProducts);
+// router.get("/products/:productId/similar", getSimilarProducts);
+router.get("/products/:productName/similar", getSimilarProducts);
+// router.get("/clothing-fashion", getClothingAndFashionProducts);
+router.get("/clothing-fashion", getClothingAndFashionProducts);
+
 
 
 export default router;

@@ -238,9 +238,9 @@ const Headund = () => {
             </ul>
         </li>
         <li>
-            <a href="blog.html">Blog</a>
+            <a href="blog">Blog</a>
             <ul>
-                <li><a href="blog.html">classNameic</a></li>
+                <li><a href="blog">classNameic</a></li>
                 <li><a href="blog-listing.html">Listing</a></li>
                 <li>
                     <a href="blog-grid-3cols.html">Grid</a>
@@ -276,9 +276,9 @@ const Headund = () => {
             <a href="about-us.html">Pages</a>
             <ul>
 
-                <li><a href="about-us.html">About Us</a></li>
-                <li><a href="become-a-vendor.html">Become A Vendor</a></li>
-                <li><a href="contact-us.html">Contact Us</a></li>
+                <li><a href="about-us">About Us</a></li>
+                <li><a href="become-a-vendor">Become A Vendor</a></li>
+                <li><a href="contact-us">Contact Us</a></li>
                 <li><a href="faq.html">FAQs</a></li>
                 <li><a href="error-404.html">Error 404</a></li>
                 <li><a href="coming-soon.html">Coming Soon</a></li>

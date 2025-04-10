@@ -106,6 +106,15 @@ import Orderdetcom from '../component/userprofile/Orderdetcom';
 import Order from '../component/userprofile/Order';
 import Adminhome from '../component/admin/Adminhome';
 import AdminVendorList from '../component/admin/AdminVendorList';
+import Vendordas from '../component/vendor/Vendordas';
+import AdminOrders from '../component/admin/AdminOrders';
+import AdminUsers from '../component/admin/AdminUsers';
+import NotFound from '../page/NotFound';
+import About from '../page/About';
+import Contact from '../page/Contact';
+import Blog from '../page/Blog';
+import Becomevendor from '../page/Becomevendor';
+
 
 const ProtectedRoute = ({ element: Element }) => {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
@@ -124,16 +133,29 @@ const AppRoutes = () => {
       <Route path="/vendor-store-list" element={<Storelist />} />
       <Route path="/vendor/:shopName" element={<Store />} />
       <Route path="/category/:categoryName" element={<CategoryPage />} />
-      <Route path="/product/:id" element={<SingleProduct />} />
+      {/* <Route path="/product/:id" element={<SingleProduct />} /> */}
+      <Route path="/product/:name" element={<SingleProduct />} />
+
       <Route path="/cart" element={<Cart />} />
       <Route path="/search" element={<SearchResultsPage />} />
       <Route path="/checkout" element={<Checkoute />} />
       <Route path="/order-detail" element={<Orderdetcom />} />
       <Route path="/orders" element={<Order />} />
+      <Route path='*' element={<NotFound/>}></Route>
+      <Route path='/about-us' element={<About/>}></Route>
+      <Route path='/contact-us' element = {<Contact/>}></Route>
+      <Route path='/blog' element = {<Blog/>}></Route>
+      <Route path='/become-a-vendor/' element = {<Becomevendor/>}></Route>
+
+
+      <Route path='vendor-panel' element = {<Vendordas/>}/>
+      
 
       {/* Admin Panel Routes */}
       <Route path="/admin-panel" element={ <Adminhome/>}>
         <Route path="vendors" element={<AdminVendorList />} />
+        <Route path='orders' element={<AdminOrders/>}></Route>
+        <Route path='alluser' element={<AdminUsers/>}></Route>
       </Route>
     </Routes>
   );

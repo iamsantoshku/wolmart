@@ -171,3 +171,21 @@ export const cancelOrder = async (req, res) => {
         return res.status(500).json({ success: false, message: error.message });
     }
 };
+
+
+
+export const getAllOrdersForAdmin = async (req, res) => {
+    try {
+        // Fetch all orders with vendor details
+        const orders = await Checkoute.find().populate("products.vendorId", "name email phone").sort({ createdAt: -1 });
+
+        if (!orders || orders.length === 0) {
+            return res.status(404).json({ success: false, message: "No orders found" });
+        }
+
+        res.status(200).json({ success: true, orders });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+

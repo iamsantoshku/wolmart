@@ -249,14 +249,27 @@ const CategoryBanner = () => {
               return (
                 <SwiperSlide key={store._id} className="flex justify-center">
                   <figure className="w-32 h-20 md:w-40 md:h-24 flex items-center justify-center border border-gray-200 rounded-md shadow-md bg-white hover:shadow-lg transition">
+                    <a href={`/vendor/${store.shopName}`}>
                     <img
                       src={imageUrl}
                       alt={store.name}
+                                    
                       className="w-full h-full object-contain"
                       onError={(e) => {
                         e.target.src = "/assets/images/shop/default-brand.png";
                       }}
                     />
+                    </a>
+                    {/* <img
+                      src={imageUrl}
+                      alt={store.name}
+                     
+                
+                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        e.target.src = "/assets/images/shop/default-brand.png";
+                      }}
+                    /> */}
                   </figure>
                 </SwiperSlide>
               );

@@ -166,29 +166,59 @@ export const addToCartController = async (req, res) => {
     }
   };
 
+// export const countAddToCartProduct = async(req,res)=>{
+//     try{
+//         const userId = req.userId
+
+//         const count = await CartModel.countDocuments({
+//             userId : userId
+//         })
+
+//         res.json({
+//             data : {
+//                 count : count
+//             },
+//             message : "ok",
+//             error : false,
+//             success : true
+//         })
+//     }catch(error){
+//         res.json({
+//             message : error.message || error,
+//             error : false,
+//             success : false,
+//         })
+//     }
+// }
+
+
+
 export const countAddToCartProduct = async(req,res)=>{
-    try{
-        const userId = req.userId
+  try{
+      const userId = req.userId;
+      if (!userId) {
+          return res.status(401).json({
+              message : "Unauthorized User",
+              error : true,
+              success : false,
+          })
+      }
 
-        const count = await CartModel.countDocuments({
-            userId : userId
-        })
+      const count = await CartModel.countDocuments({ userId });
 
-        res.json({
-            data : {
-                count : count
-            },
-            message : "ok",
-            error : false,
-            success : true
-        })
-    }catch(error){
-        res.json({
-            message : error.message || error,
-            error : false,
-            success : false,
-        })
-    }
+      res.json({
+          data : { count },
+          message : "ok",
+          error : false,
+          success : true
+      })
+  }catch(error){
+      res.status(500).json({
+          message : error.message || error,
+          error : true,
+          success : false,
+      })
+  }
 }
 
 
@@ -265,82 +295,3 @@ export const removeFromCartController = async (req, res) => {
 
 
 
-// const addToWishlistModel = require("../../models/addToWishlist");
-
-
-
-// module.exports = addToWishlistController;
-
-// export const removeFromCartController = async (req, res) => {
-//   try {
-//     const { productId, size, selectedColor, removeAll } = req.body;
-//     const userId = req.userId; // Assuming authentication middleware sets req.userId
-
-//     if (!productId ) {
-//       return res.status(400).json({
-//         message: "Product ID and size are required",
-//         success: false,
-//         error: true,
-//       });
-//     }
-
-//     // Find the user's cart
-//     let cart = await CartModel.findOne({ user: userId });
-
-//     if (!cart || cart.items.length === 0) {
-//       return res.status(404).json({
-//         message: "Cart is empty",
-//         success: false,
-//         error: true,
-//       });
-//     }
-
-//     // Find the item in the cart
-//     const itemIndex = cart.items.findIndex(
-//       (item) =>
-//         item.product.toString() === productId
-//         // item.size === size &&
-//         // item.color === selectedColor
-//     );
-
-//     if (itemIndex === -1) {
-//       return res.status(404).json({
-//         message: "Product not found in cart",
-//         success: false,
-//         error: true,
-//       });
-//     }
-
-//     if (removeAll || cart.items[itemIndex].quantity === 1) {
-//       // Remove the item completely if removeAll is true or quantity is 1
-//       cart.items.splice(itemIndex, 1);
-//     } else {
-//       // Decrease the quantity by 1
-//       cart.items[itemIndex].quantity -= 1;
-//     }
-
-//     // Recalculate total price and quantity
-//     cart.totalPrice = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-//     cart.totalQuantity = cart.items.reduce((sum, item) => sum + item.quantity, 0);
-
-//     // Save the updated cart
-//     await cart.save();
-
-//     return res.status(200).json({
-//       data: cart,
-//       message: "Product removed from cart",
-//       success: true,
-//       error: false,
-//     });
-//   } catch (err) {
-//     console.error("Remove from Cart Error:", err);
-//     res.status(500).json({
-//       message: err?.message || "Internal server error",
-//       error: true,
-//       success: false,
-//     });
-//   }
-// };
-
-
-// module.exports = countAddToCartProduct

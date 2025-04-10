@@ -95,7 +95,7 @@ const Footer = () => {
                 </div>
             </div>
         </div>
-        <div className="footer-middle">
+        {/* <div className="footer-middle">
             <div className="widget widget-category">
                 <div className="category-box">
                     <h6 className="category-name">Consumer Electric:</h6>
@@ -170,10 +170,10 @@ const Footer = () => {
                     <a href="#">View all</a>
                 </div>
             </div>
-        </div>
+        </div> */}
         <div className="footer-bottom">
             <div className="footer-left">
-                <p className="copyright">Copyright © 2021 Wolmart Store. All Rights Reserved.</p>
+                <p className="copyright">Copyright © 2025 Zumpon. All Rights Reserved. Developed By WeBreak Global</p>
             </div>
             <div className="footer-right">
                 <span className="payment-label mr-lg-8">We're using safe payment for</span>

@@ -471,10 +471,26 @@ const Cart = () => {
                             <a href={`/product/${item.product._id}`}>
                               <figure>
                                 <img
-                                  src={item.product.image || "assets/images/shop/default.jpg"}
+                                  // src={item.product.image || "assets/images/shop/default.jpg"}
+                                  // src={`${BACKENDURL}/uploads/product/${item.product.images?.[0]?.urls?.[0].split("\\").pop()}`}
+                                  // src={
+                                  //   item.product.images?.[0]?.urls?.[0]
+                                  //     ? `${BACKENDURL}/uploads/product/${item.product.images[0].urls[0].split("\\").pop()}`
+                                  //     : "assets/images/shop/default.jpg"
+                                  // }
+                                  // alt={item.product.name}
+                                  // width="300"
+                                  // height="338"
+
+
+                                  src={
+                                    item.product.image
+                                      ? `${BACKENDURL}/uploads/product/${item.product.image.split("\\").pop()}`
+                                      : "/assets/images/shop/default.jpg"
+                                  }
                                   alt={item.product.name}
-                                  width="300"
-                                  height="338"
+                                  width="200"
+                                  height="200"
                                 />
                               </figure>
                             </a>
@@ -525,27 +541,7 @@ const Cart = () => {
                <button className="btn btn-dark btn-outline btn-rounded">Apply Coupon</button>
              </form>
             </div>
-            {/* <div className="col-lg-4 sticky-sidebar-wrapper">
-              <div className="sticky-sidebar">
-                <div className="cart-summary mb-4">
-                  <h3 className="cart-title text-uppercase">Cart Totals</h3>
-                  <div className="cart-subtotal d-flex align-items-center justify-content-between">
-                    <label className="ls-25">Subtotal</label>
-                    <span>${cart?.totalPrice?.toFixed(2) || "0.00"}</span>
-                  </div>
-                  <hr className="divider mb-6" />
-                  <div className="order-total d-flex justify-content-between align-items-center">
-                    <label>Total</label>
-                    <span className="ls-50">${cart?.totalPrice?.toFixed(2) || "0.00"}</span>
-                  </div>
-                  <button onClick={handleCheckout} className="btn btn-dark btn-block">
-                    Proceed to Checkout
-                  </button>
-                </div>
-              </div>
-            </div> */}
-
-
+            
             <div className="col-lg-4 sticky-sidebar-wrapper">
             <div className="sticky-sidebar">
               <div className="cart-summary mb-4">
