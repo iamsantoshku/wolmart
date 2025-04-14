@@ -325,10 +325,10 @@ const Homeintroo = () => {
         }}
       >
         <div className="container">
-          <figure className="slide-image skrollable slide-animate">
+          <figure className="slide-image skrollable slide-animate ml-20">
             <img src={slides[currentSlide].image} alt="Banner" width="474" height="397" />
           </figure>
-          <div className="banner-content y-50 text-right">
+          <div className="banner-content y-50 text-right mr-10">
             <h5 className="banner-subtitle font-weight-normal text-default ls-50 lh-1 mb-2 slide-animate">
               {slides[currentSlide].subtitle}
             </h5>

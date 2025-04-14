@@ -6,8 +6,64 @@ import Checkoute from "../models/checkoutSchema.js";
 import User from "../models/userSchema.js";
 import Product from "../models/productSchema.js";
 import Vendor from "../models/vendorSchema.js"
+import { sendOrderConfirmationEmail } from "../config/conformationmail.js";
+
+
+
 
 // Place Order Controller
+// export const placeOrder = async (req, res) => {
+//     try {
+//         const { userId, products, billingDetails } = req.body;
+
+//         const user = await User.findById(userId);
+//         if (!user) {
+//             return res.status(404).json({ success: false, message: "User not found" });
+//         }
+
+//         let totalAmount = 0;
+//         const validatedProducts = await Promise.all(
+//             products.map(async (item) => {
+//                 const product = await Product.findById(item.productId);
+//                 if (!product) {
+//                     throw new Error(`Product with ID ${item.productId} not found`);
+//                 }
+
+//                 if (product.vendor) {
+//                     item.vendor = product.vendor.toString(); // Ensure vendor ID is a string
+//                 } else {
+//                     throw new Error(`Vendor ID is required for product ${item.productId}`);
+//                 }
+
+//                 const productTotal = product.price * item.quantity;
+//                 totalAmount += productTotal;
+
+//                 return {
+//                     productId: product._id,
+//                     vendorId: item.vendor, // Ensure this is correctly set
+//                     name: product.name,
+//                     quantity: item.quantity,
+//                     price: productTotal,
+//                 };
+//             })
+//         );
+
+//         const newOrder = new Checkoute({
+//             userId,
+//             products: validatedProducts,
+//             totalAmount,
+//             billingDetails,
+//             status: "Pending",
+//         });
+
+//         await newOrder.save();
+//         res.status(201).json({ success: true, message: "Order placed successfully", order: newOrder });
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: error.message });
+//     }
+// };
+
+
 export const placeOrder = async (req, res) => {
     try {
         const { userId, products, billingDetails } = req.body;
@@ -21,22 +77,15 @@ export const placeOrder = async (req, res) => {
         const validatedProducts = await Promise.all(
             products.map(async (item) => {
                 const product = await Product.findById(item.productId);
-                if (!product) {
-                    throw new Error(`Product with ID ${item.productId} not found`);
-                }
-
-                if (product.vendor) {
-                    item.vendor = product.vendor.toString(); // Ensure vendor ID is a string
-                } else {
-                    throw new Error(`Vendor ID is required for product ${item.productId}`);
-                }
+                if (!product) throw new Error(`Product with ID ${item.productId} not found`);
+                if (!product.vendor) throw new Error(`Vendor ID is required for product ${item.productId}`);
 
                 const productTotal = product.price * item.quantity;
                 totalAmount += productTotal;
 
                 return {
                     productId: product._id,
-                    vendorId: item.vendor, // Ensure this is correctly set
+                    vendorId: product.vendor.toString(),
                     name: product.name,
                     quantity: item.quantity,
                     price: productTotal,
@@ -53,12 +102,15 @@ export const placeOrder = async (req, res) => {
         });
 
         await newOrder.save();
+
+        // ✅ Send order confirmation email
+        await sendOrderConfirmationEmail(billingDetails.email, newOrder);
+
         res.status(201).json({ success: true, message: "Order placed successfully", order: newOrder });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 };
-
 
 
 

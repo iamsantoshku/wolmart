@@ -135,4 +135,20 @@
 }
 
 
+.slide-image {
+  margin-bottom: 10px; /* Reduce space below the image */
+}
+
+.banner-content h5,
+.banner-content h3,
+.banner-content p {
+  margin-top: 5px;
+  margin-bottom: 5px; /* Reduce vertical space between text blocks */
+}
+
+.banner-content {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 

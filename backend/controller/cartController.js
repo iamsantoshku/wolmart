@@ -7,23 +7,115 @@ import Product from "../models/productSchema.js"
 
 
 
-export const addToCartController = async (req, res) => {
-    try {
-      const { productId, size, selectedColor } = req.body;
-      const userId = req.userId; // Assuming authentication middleware sets req.userId
+// export const addToCartController = async (req, res) => {
+//     try {
+//       const { productId, size, selectedColor } = req.body;
+//       const userId = req.userId; // Assuming authentication middleware sets req.userId
   
-      if (!productId || !size) {
+//       if (!productId || !size) {
+//         return res.status(400).json({
+//           message: "Product ID and size are required",
+//           success: false,
+//           error: true,
+//         });
+//       }
+  
+//       // Check if the product exists
+//       const product = await Product.findById(productId);
+//       if (!product) {
+//         console.error("Invalid productId:", productId);
+//         return res.status(404).json({
+//           message: "Product not found",
+//           success: false,
+//           error: true,
+//         });
+//       }
+  
+//       // Check if the selected size exists
+//       const sizeInfo = product.sizes?.find((s) => s.size === size);
+//       if (!sizeInfo) {
+//         return res.status(400).json({
+//           message: "Invalid size selection",
+//           success: false,
+//           error: true,
+//         });
+//       }
+  
+//       // Calculate the price with additional charges
+//       const finalPrice = product.price + (sizeInfo.additionalPrice || 0);
+  
+//       // Find the user's cart or create a new one if it doesn't exist
+//       let cart = await CartModel.findOne({ user: userId });
+  
+//       if (!cart) {
+//         cart = new CartModel({ user: userId, items: [], totalPrice: 0, totalQuantity: 0 });
+//       }
+  
+//       // Check if the product is already in the cart
+//       const existingItem = cart.items.find(
+//         (item) =>
+//           item.product.toString() === productId &&
+//           item.size === size &&
+//           item.color === selectedColor
+//       );
+  
+//       if (existingItem) {
+//         // If exists, increase the quantity
+//         existingItem.quantity += 1;
+//       } else {
+//         // Add new item to cart
+//         cart.items.push({
+//           product: productId,
+//           size,
+//           color: selectedColor, // ✅ Use color instead of selectedColor
+//           quantity: 1,
+//           price: finalPrice,
+//         });
+//       }
+  
+//       // Recalculate total price and quantity
+//       cart.totalPrice = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+//       cart.totalQuantity = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+  
+//       // Save the updated cart
+//       await cart.save();
+  
+//       return res.status(200).json({
+//         data: cart,
+//         message: "Product added to cart",
+//         success: true,
+//         error: false,
+//       });
+//     } catch (err) {
+//       console.error("Add to Cart Error:", err);
+//       res.status(500).json({
+//         message: err?.message || "Internal server error",
+//         error: true,
+//         success: false,
+//       });
+//     }
+//   };
+
+
+
+
+  export const addToCartController = async (req, res) => {
+    try {
+      const { name, size, selectedColor } = req.body;
+      const userId = req.userId; // Assuming auth middleware sets this
+  
+      if (!name || !size) {
         return res.status(400).json({
-          message: "Product ID and size are required",
+          message: "Product name and size are required",
           success: false,
           error: true,
         });
       }
   
-      // Check if the product exists
-      const product = await Product.findById(productId);
+      // Find the product by name
+      const product = await Product.findOne({ name });
       if (!product) {
-        console.error("Invalid productId:", productId);
+        console.error("Product not found for name:", name);
         return res.status(404).json({
           message: "Product not found",
           success: false,
@@ -31,7 +123,6 @@ export const addToCartController = async (req, res) => {
         });
       }
   
-      // Check if the selected size exists
       const sizeInfo = product.sizes?.find((s) => s.size === size);
       if (!sizeInfo) {
         return res.status(400).json({
@@ -41,43 +132,44 @@ export const addToCartController = async (req, res) => {
         });
       }
   
-      // Calculate the price with additional charges
       const finalPrice = product.price + (sizeInfo.additionalPrice || 0);
   
-      // Find the user's cart or create a new one if it doesn't exist
       let cart = await CartModel.findOne({ user: userId });
   
       if (!cart) {
-        cart = new CartModel({ user: userId, items: [], totalPrice: 0, totalQuantity: 0 });
+        cart = new CartModel({
+          user: userId,
+          items: [],
+          totalPrice: 0,
+          totalQuantity: 0,
+        });
       }
   
-      // Check if the product is already in the cart
       const existingItem = cart.items.find(
         (item) =>
-          item.product.toString() === productId &&
+          item.product.toString() === product._id.toString() &&
           item.size === size &&
           item.color === selectedColor
       );
   
       if (existingItem) {
-        // If exists, increase the quantity
         existingItem.quantity += 1;
       } else {
-        // Add new item to cart
         cart.items.push({
-          product: productId,
+          product: product._id,
           size,
-          color: selectedColor, // ✅ Use color instead of selectedColor
+          color: selectedColor || null,
           quantity: 1,
           price: finalPrice,
         });
       }
   
-      // Recalculate total price and quantity
-      cart.totalPrice = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      cart.totalPrice = cart.items.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
       cart.totalQuantity = cart.items.reduce((sum, item) => sum + item.quantity, 0);
   
-      // Save the updated cart
       await cart.save();
   
       return res.status(200).json({
@@ -95,10 +187,7 @@ export const addToCartController = async (req, res) => {
       });
     }
   };
-
-
   
-
 
   export const getCartController = async (req, res) => {
     try {

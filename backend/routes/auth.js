@@ -9,6 +9,9 @@ import {
     getVendorDetails,
     getAllUsers,
     updateUserRole,
+    forgotPassword,
+    resetPassword,
+ 
   
 } from "../controller/userSignUpController.js";
 
@@ -22,6 +25,8 @@ router.get("/vendor/details/:userId",authToken,getVendorDetails);
 router.get("/admin/stats", authToken, getAdminStatsController);
 router.get("/admin/users", authToken, getAllUsers);
 router.put("/update-role/:userId",authToken, updateUserRole);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 
 
 export default router;

@@ -450,7 +450,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKENDURL } from "../../config/config";
 
-// ✅ Import Swiper and its modules correctly for Swiper v8+
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules"; 
 

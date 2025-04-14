@@ -114,6 +114,9 @@ import About from '../page/About';
 import Contact from '../page/Contact';
 import Blog from '../page/Blog';
 import Becomevendor from '../page/Becomevendor';
+import PrivacyPolicy from '../component/footer/PrivacyPolicy';
+import ResetPassword from '../page/ResetPassword';
+import OrderSuccess from '../page/OrderSuccess';
 
 
 const ProtectedRoute = ({ element: Element }) => {
@@ -146,6 +149,9 @@ const AppRoutes = () => {
       <Route path='/contact-us' element = {<Contact/>}></Route>
       <Route path='/blog' element = {<Blog/>}></Route>
       <Route path='/become-a-vendor/' element = {<Becomevendor/>}></Route>
+      <Route path='/privecy-policy/' element = {<PrivacyPolicy/>}></Route>
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
+      <Route path='/order-success' element = {<OrderSuccess/>} ></Route>
 
 
       <Route path='vendor-panel' element = {<Vendordas/>}/>

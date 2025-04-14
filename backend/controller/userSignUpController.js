@@ -3,9 +3,9 @@ import userModel from "../models/userSchema.js"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
 import VendorModel from "../models/vendorSchema.js";
-
-
-
+import nodemailer from "nodemailer";
+import dotenv from "dotenv"
+import crypto from "crypto";
 
 
 export const userSignUpController = async (req, res) => {
@@ -151,7 +151,7 @@ export const usersignin = async (req, res) => {
 
 export const userDetailsController = async (req, res) => {
     try {
-        console.log("Fetching user details for userId:", req.userId);
+        // console.log("Fetching user details for userId:", req.userId);
 
         if (!req.userId) {
             return res.status(400).json({
@@ -199,7 +199,7 @@ export const userDetailsController = async (req, res) => {
             message: "User details retrieved successfully"
         });
 
-        console.log("User details:", userData);
+        // console.log("User details:", userData);
 
     } catch (err) {
         console.error("Error fetching user details:", err);
@@ -283,32 +283,6 @@ export const getAllUsers = async (req, res) => {
     }
 };
 
-// export const updateUserRole = async (req, res) => {
-//     try {
-//         const { userId } = req.params; // Get user ID from request params
-//         const { newRole } = req.body; // Get new role from request body
-
-//         // Validate input
-//         if (!userId || !newRole) {
-//             return res.status(400).json({ success: false, message: "User ID and new role are required" });
-//         }
-
-//         // Check if the user exists
-//         const user = await userModel.findById(userId);
-//         if (!user) {
-//             return res.status(404).json({ success: false, message: "User not found" });
-//         }
-
-//         // Update user role
-//         user.role = newRole.toLowerCase(); // Ensure role is stored in lowercase
-//         await user.save();
-
-//         return res.status(200).json({ success: true, message: "User role updated successfully", user });
-//     } catch (error) {
-//         console.error("Error updating user role:", error);
-//         return res.status(500).json({ success: false, message: "Internal Server Error" });
-//     }
-// };
 
 
 
@@ -341,6 +315,89 @@ export const updateUserRole = async (req, res) => {
         console.error("Error updating user role:", error);
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
+};
+
+const saltRounds = 10;
+
+dotenv.config();
+export const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,  // Your email
+    pass: process.env.EMAIL_PASS,  // Your app password
+  },
+});
+
+// 🔹 Forgot Password
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  try {
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Generate a reset token (valid for 1 hour)
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    await user.save();
+
+    // Send email with reset link
+    const resetLink = `${process.env.CLIENT_SITE_URL}reset-password/${resetToken}`;
+
+    await transporter.sendMail({
+      from: `"Support Team" <${process.env.EMAIL_USER}>`,
+      to: user.email,
+      subject: "Password Reset Request",
+      html: `<p>You requested a password reset.</p>
+             <p>Click the link below to reset your password:</p>
+             <a href="${resetLink}">${resetLink}</a>
+             <p>This link is valid for 1 hour.</p>`,
+    });
+
+    res.status(200).json({ message: "Reset link sent to email" });
+  } catch (error) {
+    console.error("Forgot Password Error:", error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
+// 🔹 Reset Password
+export const resetPassword = async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  if (!token || !newPassword) {
+    return res.status(400).json({ error: "Token and new password are required" });
+  }
+
+  try {
+    const user = await userModel.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: "Invalid or expired token" });
+    }
+
+    // Hash the new password
+    user.password = await bcrypt.hash(newPassword, saltRounds);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successfully" });
+  } catch (error) {
+    console.error("Reset Password Error:", error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
 };
 
 // export const updateUserRole = async (req, res) => {

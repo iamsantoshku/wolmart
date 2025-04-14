@@ -45,11 +45,12 @@ const Footer = () => {
                             </p>
 
                             <div className="social-icons social-icons-colored">
-                                <a href="#" className="social-icon social-facebook w-icon-facebook"></a>
+                                 <a href="https://www.facebook.com/makeustrips/" className="social-icon social-facebook w-icon-facebook"></a>
                                 <a href="#" className="social-icon social-twitter w-icon-twitter"></a>
                                 <a href="#" className="social-icon social-instagram w-icon-instagram"></a>
                                 <a href="#" className="social-icon social-youtube w-icon-youtube"></a>
-                                <a href="#" className="social-icon social-pinterest w-icon-pinterest"></a>
+                                <a href="#" className="social-icon social-pinterest w-icon-pinterest"></a> 
+                                 
                             </div>
                         </div>
                     </div>
@@ -58,12 +59,12 @@ const Footer = () => {
                     <div className="widget">
                         <h3 className="widget-title">Company</h3>
                         <ul className="widget-body">
-                            <li><a href="about-us.html">About Us</a></li>
+                            <li><a href="about-us/">About Us</a></li>
                             <li><a href="#">Team Member</a></li>
                             <li><a href="#">Career</a></li>
-                            <li><a href="contact-us.html">Contact Us</a></li>
+                            <li><a href="contact-us/">Contact Us</a></li>
                             <li><a href="#">Affilate</a></li>
-                            <li><a href="#">Order History</a></li>
+                            <li><a href="order-detail/">Order History</a></li>
                         </ul>
                     </div>
                 </div>
@@ -71,12 +72,12 @@ const Footer = () => {
                     <div className="widget">
                         <h4 className="widget-title">My Account</h4>
                         <ul className="widget-body">
-                            <li><a href="#">Track My Order</a></li>
-                            <li><a href="cart.html">View Cart</a></li>
+                            <li><a href="order-detail/">Track My Order</a></li>
+                            <li><a href="cart/">View Cart</a></li>
                             <li><a href="login.html">Sign In</a></li>
                             <li><a href="#">Help</a></li>
-                            <li><a href="wishlist.html">My Wishlist</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="wishlist/">My Wishlist</a></li>
+                            <li><a href="privecy-policy/">Privacy Policy</a></li>
                         </ul>
                     </div>
                 </div>
@@ -173,7 +174,7 @@ const Footer = () => {
         </div> */}
         <div className="footer-bottom">
             <div className="footer-left">
-                <p className="copyright">Copyright © 2025 Zumpon. All Rights Reserved. Developed By WeBreak Global</p>
+                <a href="https://www.webreakglobal.com/"><p className="copyright">Copyright © 2025 Zumpon. All Rights Reserved. Developed By WeBreak Global</p></a>
             </div>
             <div className="footer-right">
                 <span className="payment-label mr-lg-8">We're using safe payment for</span>

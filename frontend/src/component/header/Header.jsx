@@ -132,6 +132,7 @@ import Headed1 from './Headed1';
 import Headfur from './Headfur';
 import Headund from './Headund';
 import Mobmenu from '../mobile/Mobmenu';
+import MergedHeader from './MergedHeader';
 
 const Header = () => {
   const location = useLocation(); // Get the current route
@@ -169,10 +170,11 @@ const Header = () => {
                   {dropdownVisible && (
                     <div className="dropdown-box">
                       <ul className="menu vertical-menu category-menu">
-                        <Headerend />
+                        {/* <Headerend />
                         
                         <Headed1 />
-                        <Headfur />
+                        <Headfur /> */}
+                        <MergedHeader/>
                       </ul>
                     </div>
                   )}

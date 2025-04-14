@@ -68,6 +68,7 @@ export const getWishlistController = async (req, res) => {
                 model: Product,
                 select: "name image price inStock"
             });
+           
 
         return res.status(200).json({
             data: wishlistItems || [],

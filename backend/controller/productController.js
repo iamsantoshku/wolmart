@@ -245,9 +245,33 @@ export const getAllProducts = async (req, res) => {
 
 
 // controller/productController.js
+// export const getSingleProduct = async (req, res) => {
+//   try {
+//     const product = await Product.findOne({ name: req.params.name });
+
+//     if (!product) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Product not found",
+//       });
+//     }
+
+//     res.status(200).json({
+//       success: true,
+//       data: product,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "Error fetching product",
+//       error,
+//     });
+//   }
+// };
+
 export const getSingleProduct = async (req, res) => {
   try {
-    const product = await Product.findOne({ name: req.params.name });
+    const product = await Product.findOne({ name: req.params.name }).populate("vendor");
 
     if (!product) {
       return res.status(404).json({
@@ -264,10 +288,11 @@ export const getSingleProduct = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error fetching product",
-      error,
+      error: error.message,
     });
   }
 };
+
 
 export const searchProducts = async (req, res) => {
   try {
