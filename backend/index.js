@@ -81,7 +81,7 @@ const __dirname = path.dirname(__filename);
 app.use(express.json()); 
 app.use(cors({
   // origin: "http://localhost:5173", // Explicitly allow frontend
-  origin: ["http://localhost:5173", "https://wolmart-frontend.onrender.com"],
+  origin: ["http://localhost:5173", "https://zumpon.com/"],
   credentials: true, // Allow cookies
 }));
 app.use(cookieParser());
