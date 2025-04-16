@@ -27,7 +27,7 @@ const Profile = () => {
                       <Acountdet/>                   
                       </div> */}
                       <div className="flex">
-  <div className="w-1/4">
+  <div className="w-1/4 hidden lg:block">
   <Dasboard />
   </div>
   <div className="w-3/4 ml-8">

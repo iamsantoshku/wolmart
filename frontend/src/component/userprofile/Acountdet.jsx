@@ -235,13 +235,13 @@ const Acountdet = () => {
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
-                        <a href="#account-downloads" class="link-to-tab">
+                        <a href="order-detail" class="link-to-tab">
                             <div class="icon-box text-center">
                                 <span class="icon-box-icon icon-download">
                                     <i class="w-icon-download"></i>
                                 </span>
                                 <div class="icon-box-content">
-                                    <p class="text-uppercase mb-0">Downloads</p>
+                                    <p class="text-uppercase mb-0">Order Details</p>
                                 </div>
                             </div>
                         </a>
@@ -283,7 +283,7 @@ const Acountdet = () => {
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
-                        <a href="#">
+                        <a href="login">
                             <div class="icon-box text-center">
                                 <span class="icon-box-icon icon-logout">
                                     <i class="w-icon-logout"></i>

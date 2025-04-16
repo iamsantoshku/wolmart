@@ -82,7 +82,7 @@ app.use(express.json());
 app.use(cors({
   
   // origin: ["http://localhost:5173", "https://zumpon.com/"],
-  origin:["https://zumpon.com"],
+  origin:["http://localhost:5173","https://zumpon.com"],
   credentials: true, // Allow cookies
 }));
 app.use(cookieParser());

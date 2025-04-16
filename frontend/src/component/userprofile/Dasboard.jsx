@@ -1,155 +1,4 @@
-// import React from 'react'
-// import { useContext } from "react";
-// import { useNavigate } from "react-router-dom";
-// import Context from "../../context/index";
 
-// const Dasboard = () => {
-    
-//   return (
-//     <div>
-//          <ul className="nav nav-tabs mb-6" role="tablist">
-//                             <li className="nav-item ">
-//                                 <a href="#account-dashboard" className="nav-link active">Dashboard</a>
-//                             </li>
-//                             <li className="nav-item text-red-400">
-//                                 <a href="#account-orders" className="nav-link active">Orders</a>
-//                             </li>
-//                             <li className="nav-item">
-//                                 <a href="#account-downloads" className="nav-link active">Downloads</a>
-//                             </li>
-//                             <li className="nav-item">
-//                                 <a href="#account-addresses" className="nav-link active">Addresses</a>
-//                             </li>
-//                             <li className="nav-item">
-//                                 <a href="#account-details" className="nav-link active">Account details</a>
-//                             </li>
-//                             <li className="link-item">
-//                                 <a href="wishlist.html" className='nav-link active'>Wishlist</a>
-//                             </li>
-                           
-//                             <button 
-       
-//       className="btn btn-danger"
-//     >
-//       Logout
-//     </button>
-//                         </ul>
-      
-//     </div>
-//   )
-// }
-
-// export default Dasboard
-
-
-
-
-// import React from 'react';
-// import { useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-// import { clearUser } from "../../store/UserSlice";
-// import Context from "../../context/index";
-// import { useContext } from "react";
-
-// const Dashboard = () => {
-//     const dispatch = useDispatch();
-//     const navigate = useNavigate();
-//     const { fetchUserDetails } = useContext(Context);
-
-//     const handleLogout = () => {
-//         dispatch(clearUser()); // Clear user details from Redux
-//         fetchUserDetails(); // Reset user state in context
-//         navigate("/login"); // Redirect to login page
-//     };
-
-//     return (
-//         <div>
-//             <ul className="nav nav-tabs mb-6" role="tablist">
-//                 <li className="nav-item">
-//                     <a href="#account-dashboard" className="nav-link active">Dashboard</a>
-//                 </li>
-//                 <li className="nav-item text-red-400">
-//                     <a href="#account-orders" className="nav-link active">Orders</a>
-//                 </li>
-//                 <li className="nav-item">
-//                     <a href="#account-downloads" className="nav-link active">Downloads</a>
-//                 </li>
-//                 <li className="nav-item">
-//                     <a href="#account-addresses" className="nav-link active">Addresses</a>
-//                 </li>
-//                 <li className="nav-item">
-//                     <a href="#account-details" className="nav-link active">Account details</a>
-//                 </li>
-//                 <li className="link-item">
-//                     <a href="wishlist.html" className='nav-link active'>Wishlist</a>
-//                 </li>
-//                 <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
-//             </ul>
-//         </div>
-//     );
-// };
-
-// export default Dashboard;
-
-
-
-// import React from 'react';
-// import { useDispatch, useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-// import { clearUser } from "../../store/UserSlice";
-// import Context from "../../context/index";
-// import { useContext } from "react";
-
-// const Dashboard = () => {
-//     const dispatch = useDispatch();
-//     const navigate = useNavigate();
-//     const { fetchUserDetails } = useContext(Context);
-//     const user = useSelector((state) => state.user.user);
-
-//     const handleLogout = () => {
-//         dispatch(clearUser()); // Clear user details from Redux
-//         fetchUserDetails(); // Reset user state in context
-//         navigate("/login"); // Redirect to login page
-//     };
-
-//     return (
-//         <div>
-//             <ul className="nav nav-tabs mb-6" role="tablist">
-//                 <li className="nav-item">
-//                     <a href="#account-dashboard" className="nav-link active">Dashboard</a>
-//                 </li>
-//                 <li className="nav-item text-red-400">
-//                     <a href="#account-orders" className="nav-link active">Orders</a>
-//                 </li>
-//                 <li className="nav-item">
-//                     <a href="#account-downloads" className="nav-link active">Downloads</a>
-//                 </li>
-//                 <li className="nav-item">
-//                     <a href="#account-addresses" className="nav-link active">Addresses</a>
-//                 </li>
-//                 <li className="nav-item">
-//                     <a href="#account-details" className="nav-link active">Account details</a>
-//                 </li>
-//                 <li className="nav-item">
-//                     <a href="wishlist.html" className='nav-link active'>Wishlist</a>
-//                 </li>
-//                 {user?.role === "admin" && (
-//                     <li className="nav-item">
-//                         <a href="#admin-dashboard" className="nav-link active">Admin Panel</a>
-//                     </li>
-//                 )}
-//                 {user?.role === "vendor" && (
-//                     <li className="nav-item">
-//                         <a href="#vendor-dashboard" className="nav-link active">Vendor Panel</a>
-//                     </li>
-//                 )}
-//                 <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
-//             </ul>
-//         </div>
-//     );
-// };
-
-// export default Dashboard;
 
 
 
@@ -229,3 +78,137 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+
+// import React, { useState, useContext } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { useNavigate, useParams, Link } from "react-router-dom";
+// import { clearUser } from "../../store/UserSlice";
+// import Context from "../../context/index";
+// import {
+//   FaUser,
+//   FaBox,
+//   FaDownload,
+//   FaMapMarkerAlt,
+//   FaHeart,
+//   FaCogs,
+//   FaStore,
+//   FaSignOutAlt,
+//   FaBars,
+//   FaTimes,
+// } from "react-icons/fa";
+
+// const Dashboard = () => {
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+//   const { fetchUserDetails } = useContext(Context);
+//   const user = useSelector((state) => state.user.user);
+//   const { userId } = useParams(); // Get userId from URL
+
+//   const handleLogout = () => {
+//     dispatch(clearUser()); // Clear user details from Redux
+//     fetchUserDetails(); // Reset user state in context
+//     navigate("/login"); // Redirect to login page
+//   };
+
+//   const [menuOpen, setMenuOpen] = useState(false);
+
+//   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+//   const menuItems = (
+//     <>
+//       <li className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
+//         <FaUser />
+//         <Link to="#account-dashboard" className="text-lg md:text-xl">
+//           Dashboard
+//         </Link>
+//       </li>
+//       <li className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
+//         <FaBox />
+//         <Link to="/orders" className="text-lg md:text-xl">
+//           Orders
+//         </Link>
+//       </li>
+//       <li className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
+//         <FaBox />
+//         <Link to={`/order-detail/${userId}`} className="text-lg md:text-xl">
+//           Order Details
+//         </Link>
+//       </li>
+//       <li className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
+//         <FaDownload />
+//         <Link to="#account-downloads" className="text-lg md:text-xl">
+//           Downloads
+//         </Link>
+//       </li>
+//       <li className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
+//         <FaMapMarkerAlt />
+//         <Link to="#account-addresses" className="text-lg md:text-xl">
+//           Addresses
+//         </Link>
+//       </li>
+//       <li className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
+//         <FaCogs />
+//         <Link to="#account-details" className="text-lg md:text-xl">
+//           Account Details
+//         </Link>
+//       </li>
+//       <li className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
+//         <FaHeart />
+//         <Link to="/wishlist" className="text-lg md:text-xl">
+//           Wishlist
+//         </Link>
+//       </li>
+//       {user?.role === "admin" && (
+//         <li className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
+//           <FaCogs />
+//           <Link to="/admin-panel" className="text-lg md:text-xl">
+//             Admin Panel
+//           </Link>
+//         </li>
+//       )}
+//       {user?.role === "vendor" && (
+//         <li className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
+//           <FaStore />
+//           <Link to="/vendor-panel" className="text-lg md:text-xl">
+//             Vendor Panel
+//           </Link>
+//         </li>
+//       )}
+//       <li
+//         className="flex items-center gap-3 p-3 hover:bg-red-600 rounded-lg cursor-pointer text-red-400 hover:text-white"
+//         onClick={handleLogout}
+//       >
+//         <FaSignOutAlt />
+//         <span className="text-lg">Logout</span>
+//       </li>
+//     </>
+//   );
+
+//   return (
+//     <div className="md:w-68 w-full bg-gray-900 text-white min-h-screen p-5 rounded-xl shadow-lg">
+//       {/* Header for Mobile */}
+//       <div className="flex justify-between items-center md:hidden mb-5">
+//         <h2 className="text-2xl font-bold">Dashboard</h2>
+//         <button
+//           className="text-white text-2xl focus:outline-none"
+//           onClick={toggleMenu}
+//         >
+//           {menuOpen ? <FaTimes /> : <FaBars />}
+//         </button>
+//       </div>
+
+//       {/* Sidebar content */}
+//       <div
+//         className={`${
+//           menuOpen ? "block" : "hidden"
+//         } md:block transition-all duration-300`}
+//       >
+//         <ul className="space-y-4">{menuItems}</ul>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Dashboard;

@@ -123,7 +123,7 @@ const SingleProduct = () => {
                     {product.vendor && (
                       <div className="vendor-details">
                         <p><strong>Sold by:</strong> {product.vendor.shopName || "Unknown Shop"}</p>
-                        
+                       
                        
                       </div>
                     )}

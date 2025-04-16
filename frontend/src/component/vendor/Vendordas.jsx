@@ -263,6 +263,9 @@ const Dashboard = () => {
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Main Content */}
+      {/* <main className="flex-grow">
+    <VendorOrderDetails />
+  </main> */}
       <div className="w-4/5 p-6">
         {activeTab === "addStore" && <AddStore />}
         {activeTab === "addCategory" && <AddCategory />}

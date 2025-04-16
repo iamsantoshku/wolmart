@@ -54,11 +54,11 @@
 //                                 }">SHOP NOW<i className="w-icon-long-arrow-right"></i></a>
 
 //                                 </div>
-                              
+
 //                             </div>
-                         
+
 //                         </div>
-                      
+
 
 //                         <div className="swiper-slide banner banner-fixed intro-slide intro-slide2"
 //                             style="background-image: url(assets/images/demos/demo1/sliders/slide-2.jpg); background-color: #ebeef2;">
@@ -155,18 +155,18 @@
 //                                             className="btn btn-dark btn-outline btn-rounded btn-icon-right">SHOP
 //                                             NOW<i className="w-icon-long-arrow-right"></i></a>
 //                                     </div>
-                                  
+
 //                                 </div>
-                               
+
 //                             </div>
 //                         </div>
-                       
+
 //                     </div>
 //                     <div className="swiper-pagination"></div>
 //                     <button className="swiper-button-next"></button>
 //                     <button className="swiper-button-prev"></button>
 //                 </div>
-               
+
 //             </section>
 //     // </div>
 //   )
@@ -273,7 +273,7 @@
 
 
 import React, { useState, useEffect } from "react";
-// import "./Homeintroo.css"; // Import the external CSS
+
 
 const slides = [
   {
@@ -324,10 +324,14 @@ const Homeintroo = () => {
           backgroundColor: "#ebeef2",
         }}
       >
-        <div className="container">
+        {/* container */}
+        <div className="container flex flex-col float-right gap-10">
+          <div className="">
           <figure className="slide-image skrollable slide-animate ml-20">
             <img src={slides[currentSlide].image} alt="Banner" width="474" height="397" />
           </figure>
+          </div>
+         
           <div className="banner-content y-50 text-right mr-10">
             <h5 className="banner-subtitle font-weight-normal text-default ls-50 lh-1 mb-2 slide-animate">
               {slides[currentSlide].subtitle}
@@ -342,6 +346,8 @@ const Homeintroo = () => {
               SHOP NOW<i className="w-icon-long-arrow-right"></i>
             </a>
           </div>
+
+
         </div>
       </div>
 
@@ -356,3 +362,6 @@ const Homeintroo = () => {
 };
 
 export default Homeintroo;
+
+
+

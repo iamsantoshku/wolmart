@@ -97,12 +97,13 @@ const StoreBanner = () => {
       </figure>
       <div className="store-content">
         <figure className="seller-brand">
+          
           <img
-            src={store.logo || "/assets/images/vendor/brand/1.jpg"}
-            alt="Brand"
-            width="80"
-            height="80"
-          />
+                            src={`${BACKENDURL}${store.logo}`} 
+                            alt="Brand"
+                            width="80"
+                            height="80"
+                          />
         </figure>
         <h4 className="store-title">{store.shopName}</h4>
         <ul className="seller-info-list list-style-none mb-6">
@@ -113,17 +114,14 @@ const StoreBanner = () => {
           <li className="store-phone">
             <a href={`tel:${store.phone || "N/A"}`}>
               <i className="w-icon-phone"></i>
-              {store.phone || "N/A"}
+              {store.phone || "9876654333"}
             </a>
           </li>
           <li className="store-rating">
             <i className="w-icon-star-full"></i>
             {store.rating ? `${store.rating} rating from ${store.reviews} reviews` : "No ratings yet"}
           </li>
-          <li className="store-open">
-            <i className="w-icon-cart"></i>
-            {store.isOpen ? "Store Open" : "Store Closed"}
-          </li>
+         
         </ul>
         <div className="social-icons social-no-color border-thin">
           {store.socialLinks?.facebook && (

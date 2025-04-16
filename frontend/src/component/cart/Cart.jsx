@@ -466,21 +466,13 @@ const Cart = () => {
                   {cart?.items?.length > 0 ? (
                     cart.items.map((item) => (
                       <tr key={item.product._id}>
-                        <td className="product-thumbnail">
+                        <td className="product-thumbnail ">
                           <div className="p-relative">
+                          {/* className="sm:w-[200px] w-[100px]" */}
                             <a href={`/product/${item.product._id}`}>
                               <figure>
                                 <img
-                                  // src={item.product.image || "assets/images/shop/default.jpg"}
-                                  // src={`${BACKENDURL}/uploads/product/${item.product.images?.[0]?.urls?.[0].split("\\").pop()}`}
-                                  // src={
-                                  //   item.product.images?.[0]?.urls?.[0]
-                                  //     ? `${BACKENDURL}/uploads/product/${item.product.images[0].urls[0].split("\\").pop()}`
-                                  //     : "assets/images/shop/default.jpg"
-                                  // }
-                                  // alt={item.product.name}
-                                  // width="300"
-                                  // height="338"
+                                  
 
 
                                   src={
@@ -604,4 +596,6 @@ const Cart = () => {
 };
 
 export default Cart;
+
+
 

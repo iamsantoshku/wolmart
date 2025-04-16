@@ -117,6 +117,8 @@ import Becomevendor from '../page/Becomevendor';
 import PrivacyPolicy from '../component/footer/PrivacyPolicy';
 import ResetPassword from '../page/ResetPassword';
 import OrderSuccess from '../page/OrderSuccess';
+import HelpPage from '../component/footer/HelpPage';
+import TermsAndConditions from '../component/footer/TermsAndConditions';
 
 
 const ProtectedRoute = ({ element: Element }) => {
@@ -152,6 +154,8 @@ const AppRoutes = () => {
       <Route path='/privecy-policy/' element = {<PrivacyPolicy/>}></Route>
       <Route path="/reset-password/:token" element={<ResetPassword />} />
       <Route path='/order-success' element = {<OrderSuccess/>} ></Route>
+      <Route path='/help' element = {<HelpPage/>}></Route>
+      <Route path='/term-and-condition' element = {<TermsAndConditions/>}></Route>
 
 
       <Route path='vendor-panel' element = {<Vendordas/>}/>
