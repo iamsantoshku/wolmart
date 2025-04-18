@@ -203,7 +203,7 @@ const MergedHeader = () => {
   return (
     <div>
       {/* Static Headerend Section */}
-      <li className='ml-3'>
+      {/* <li className='ml-3'>
         <a href="shop-fullwidth-banner.html">
           <i className="w-icon-tshirt2"></i>Fashion
         </a>
@@ -217,17 +217,18 @@ const MergedHeader = () => {
             <hr className="divider" />
           </li>
         </ul>
-      </li>
+      </li> */}
 
       {/* Dynamic Categories Section */}
       {visibleCategories.map((category, index) => (
         <React.Fragment key={category._id}>
-          <div className='px-5 py-1'><hr /></div>
+          
           <li className='ml-3'>
             <a href={`/category/${category._id}`}>
               <i className={`w-icon-${getIconClass(index)}`}></i>{category.name}
             </a>
           </li>
+          <div className='px-5 py-1'><hr /></div>
         </React.Fragment>
       ))}
 
@@ -252,9 +253,10 @@ const MergedHeader = () => {
 
 // Optional icon mapping logic
 const getIconClass = (index) => {
+  // electronics
   const icons = [
-    "electronics", "furniture", "heartbeat", "gift", "gamepad",
-    "ice-cream", "ios", "camera", "ruby", "shirt", "tshirt2", "home","tshirt2",
+    "ruby", "furniture", "sport", "tshirt2", "gamepad",
+    "tshirt2", "ios", "gamepad", "ruby", "shirt", "tshirt2", "home","tshirt2",
   ];
   return icons[index % icons.length];
 };

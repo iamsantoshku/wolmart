@@ -144,7 +144,7 @@ const Fromblog = () => {
             }
           }`}
         >
-          <div className="swiper-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-1 gap-.4">
+          <div className="swiper-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-1 gap-0.4">
             <div className="swiper-slide post text-center overlay-zoom">
               <figure className="post-media br-sm">
                 <a href="post-single.html">
