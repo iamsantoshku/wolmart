@@ -231,6 +231,26 @@
 
 import mongoose from "mongoose";
 
+const reviewSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    stars: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 5,
+    },
+    comment: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
+
 const ProductSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: String,
@@ -241,6 +261,7 @@ const ProductSchema = new mongoose.Schema({
   isFeatured: Boolean,
   specifications: Object,
   variants: Array,
+  
   colors: [
     {
       color: { type: String, required: true },
@@ -256,6 +277,9 @@ const ProductSchema = new mongoose.Schema({
   ],
   images: [{ color: String, urls: [String] }],
   vendor: { type: mongoose.Schema.Types.ObjectId, ref: "Vendor" },
+  reviews: [reviewSchema],
+  averageRating: { type: Number, default: 0 },
+  totalReviews: { type: Number, default: 0 },
 }, { timestamps: true });
 
 export default mongoose.model("Product", ProductSchema);

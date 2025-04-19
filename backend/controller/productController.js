@@ -405,3 +405,137 @@ export const getClothingAndFashionProducts = async (req, res) => {
   }
 };
 
+
+
+// export const addReviewToProduct = async (req, res) => {
+//   try {
+//     const { productId } = req.params;
+//     const { stars, comment } = req.body;
+//     const userId = req.userId; // get user ID from middleware
+
+//     if (!stars || stars < 1 || stars > 5) {
+//       return res.status(400).json({ success: false, message: "Rating must be between 1 and 5 stars." });
+//     }
+
+//     const product = await Product.findById(productId);
+//     if (!product) {
+//       return res.status(404).json({ success: false, message: "Product not found." });
+//     }
+
+//     const existingReview = product.reviews.find(
+//       (rev) => rev.user.toString() === userId.toString()
+//     );
+
+//     if (existingReview) {
+//       existingReview.stars = stars;
+//       existingReview.comment = comment || "";
+//     } else {
+//       product.reviews.push({
+//         user: userId,
+//         stars,
+//         comment,
+//       });
+//     }
+
+//     product.totalReviews = product.reviews.length;
+//     product.averageRating =
+//       product.reviews.reduce((sum, r) => sum + r.stars, 0) / product.totalReviews;
+
+//     await product.save();
+
+//     res.status(200).json({
+//       success: true,
+//       message: "Review submitted successfully.",
+//       reviews: product.reviews,
+//       averageRating: product.averageRating,
+//       totalReviews: product.totalReviews,
+//     });
+//   } catch (error) {
+//     console.error("Error adding review:", error);
+//     res.status(500).json({ success: false, message: "Server error." });
+//   }
+// };
+
+
+
+export const addReviewToProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const { stars, comment } = req.body;
+    const userId = req.userId; // get user ID from the auth middleware
+
+    if (!stars || stars < 1 || stars > 5) {
+      return res.status(400).json({ success: false, message: "Rating must be between 1 and 5 stars." });
+    }
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ success: false, message: "Product not found." });
+    }
+
+    const existingReview = product.reviews.find(
+      (rev) => rev.user.toString() === userId.toString()
+    );
+
+    if (existingReview) {
+      existingReview.stars = stars;
+      existingReview.comment = comment || "";
+    } else {
+      product.reviews.push({
+        user: userId,
+        stars,
+        comment,
+      });
+    }
+
+    product.totalReviews = product.reviews.length;
+    product.averageRating =
+      product.reviews.reduce((sum, r) => sum + r.stars, 0) / product.totalReviews;
+
+    await product.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Review submitted successfully.",
+      reviews: product.reviews,
+      averageRating: product.averageRating,
+      totalReviews: product.totalReviews,
+    });
+  } catch (error) {
+    console.error("Error adding review:", error);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+};
+
+
+export const getProductReviews = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    const product = await Product.findById(productId)
+      .populate({
+        path: "reviews.user",
+        select: "name email", // you can include more user fields if needed
+      });
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      reviews: product.reviews,
+      averageRating: product.averageRating || 0,
+      totalReviews: product.totalReviews || 0,
+    });
+  } catch (error) {
+    console.error("Error fetching product reviews:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error.",
+    });
+  }
+};

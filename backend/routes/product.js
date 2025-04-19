@@ -28,9 +28,10 @@
 
 
 import express from "express";
-import { uploadProduct, getProductsByVendor,getProductsByCategory, getAllProducts,getSingleProduct,searchProducts,getSimilarProducts ,getClothingAndFashionProducts} from "../controller/productController.js";
+import { uploadProduct, getProductsByVendor,getProductsByCategory, getAllProducts,getSingleProduct,searchProducts,getSimilarProducts ,getClothingAndFashionProducts,addReviewToProduct, getProductReviews} from "../controller/productController.js";
 import { upload } from "../config/localStorageConfig.js";
 // import { upload } from "../config/cloudinaryConfig.js";
+import { authToken } from "../middleware/authToken.js";
 
 const router = express.Router();
 
@@ -48,6 +49,11 @@ router.get("/search/:query", searchProducts);
 router.get("/products/:productName/similar", getSimilarProducts);
 // router.get("/clothing-fashion", getClothingAndFashionProducts);
 router.get("/clothing-fashion", getClothingAndFashionProducts);
+router.post("/productrv/:productId/review",authToken, addReviewToProduct);
+
+// GET all reviews for a product
+router.get("/productrv/:productId/reviews", getProductReviews);
+
 
 
 
