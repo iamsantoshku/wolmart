@@ -3,6 +3,7 @@ import fetchWishlistProducts from '../helpers/viewwishlist';
 import { Link } from 'react-router-dom';
 import { BACKENDURL } from '../config/config';
 import removeWishlistProduct from '../helpers/removewishlist';
+import DynamicHead from '../component/DynamicHead';
 
 const Wishlist = () => {
     const [wishlistItems, setWishlistItems] = useState([]);
@@ -40,7 +41,16 @@ const Wishlist = () => {
     };
 
     return (
-        <main className="main wishlist-page">
+        <>
+        <DynamicHead
+  title="Your Wishlist - Zumpon"
+  description="View and manage your saved products on Zumpon. Easily add items to your cart or keep track of your favorite picks."
+  keywords="Wishlist, Saved Products, Favorite Items, Zumpon Wishlist"
+  image="https://zumpon.com/images/wishlist-banner.png"
+  url="https://zumpon.com/wishlist"
+  author="Zumpon Team"
+/>
+<main className="main wishlist-page">
             <div className="page-header">
                 <div className="container">
                     <h1 className="page-title mb-0">Wishlist</h1>
@@ -149,6 +159,8 @@ const Wishlist = () => {
                 </div>
             </div>
         </main>
+        </>
+       
     );
 };
 

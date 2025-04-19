@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import DynamicHead from "../component/DynamicHead";
 
 const OrderSuccess = () => {
   const navigate = useNavigate();
@@ -13,7 +14,17 @@ const OrderSuccess = () => {
   }, [navigate]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 px-4">
+    <>
+    <DynamicHead
+  title="Order Successful - Zumpon"
+  description="Thank you for your purchase! Your order has been placed successfully. Track your order and explore more amazing products on Zumpon."
+  keywords="Order Success, Purchase Complete, Order Confirmation, Zumpon"
+  image="https://zumpon.com/images/order-success-banner.png"
+  url="https://zumpon.com/order-success"
+  author="Zumpon Team"
+/>
+
+<div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-md w-full animate-fade-in">
         <div className="flex justify-center mb-4">
           <svg
@@ -50,6 +61,8 @@ const OrderSuccess = () => {
         <p className="text-sm text-gray-500 mt-4">Redirecting to home in 20 seconds...</p>
       </div>
     </div>
+    </>
+   
   );
 };
 

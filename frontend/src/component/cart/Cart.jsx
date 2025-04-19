@@ -401,6 +401,7 @@ import axios from "axios";
 import { BACKENDURL } from "../../config/config";
 import Cartnav from "./Cartnav";
 import { useNavigate } from "react-router-dom";
+import DynamicHead from "../DynamicHead";
 
 const Cart = () => {
   const [cart, setCart] = useState(null);
@@ -447,6 +448,14 @@ const Cart = () => {
 
   return (
     <>
+    <DynamicHead
+  title="Your Shopping Cart - Zumpon"
+  description="View the items in your shopping cart and proceed to checkout. Secure, fast, and reliable shopping at Zumpon."
+  keywords="Zumpon Cart, Shopping Cart, Checkout, Cart Items, Zumpon"
+  image="https://zumpon.com/images/cart-banner.png"
+  url="https://zumpon.com/cart"
+  author="Zumpon Team"
+/>
       <Cartnav />
       <div className="page-content">
         <div className="container">

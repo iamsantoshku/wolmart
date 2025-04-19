@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { BACKENDURL } from "../config/config";
 import Context from '../context';
 import { toast } from 'react-toastify';
+import DynamicHead from "../component/DynamicHead";
 
 
 const Login = () => {
@@ -92,7 +93,16 @@ const Login = () => {
   
 
   return (
-    <main className="main login-page">
+    <>
+    <DynamicHead
+        title="Login - Zumpon"
+        description="Access your Zumpon account to view orders, manage your profile, and enjoy personalized shopping experiences."
+        keywords="Zumpon Login, Sign In, User Account, E-commerce Login"
+        image="https://zumpon.com/images/login-banner.png"
+        url="https://zumpon.com/login"
+        author="Zumpon Team"
+      />
+       <main className="main login-page">
       <nav className="breadcrumb-nav">
         <div className="container">
           <ul className="breadcrumb">
@@ -178,6 +188,8 @@ const Login = () => {
         </div>
       </div>
     </main>
+    </>
+   
   );
 };
 
