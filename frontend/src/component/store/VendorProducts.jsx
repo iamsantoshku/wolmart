@@ -298,7 +298,7 @@ const VendorProducts = () => {
                   />
                 </a>
 
-                {/* Action buttons: vertical for all screens */}
+               
 
 
                 <div className="product-action-vertical absolute top-2 right-4 flex flex-col gap-2">
@@ -313,7 +313,7 @@ const VendorProducts = () => {
                   <a href={`/product/${product._id}`}>{product.name}</a>
                 </h3>
 
-                <div className="ratings-container text-sm text-gray-600 mt-1">
+                {/* <div className="ratings-container text-sm text-gray-600 mt-1">
                   <div className="ratings-full">
                     <span className="ratings" style={{ width: "100%" }}></span>
                     <span className="tooltiptext tooltip-top"></span>
@@ -324,7 +324,15 @@ const VendorProducts = () => {
                   >
                     ({product.reviews?.length || 0} reviews)
                   </a>
-                </div>
+                </div> */}
+
+<div className="flex justify-center items-center mt-1">
+  <div className="text-orange-400 text-3xl">
+    {"★".repeat(product.averageRating || 0)}
+    {"☆".repeat(5 - (product.averageRating || 0))}
+  </div>
+  <span className="ml-1 text-sm text-gray-500">({product.totalReviews || 0})</span>
+</div>
 
                 <div className="product-pa-wrapper mt-2">
                   <div className="product-price text-lg font-medium text-gray-900">

@@ -85,19 +85,17 @@
 }
 
 
-/* .slide-image {
-  margin-bottom: 10px; 
+
+/* Responsive image styling */
+
+@media (max-width: 768px) {
+  .product-image {
+    height: 250px !important;
+  }
 }
 
-.banner-content h5,
-.banner-content h3,
-.banner-content p {
-  margin-top: 5px;
-  margin-bottom: 5px; 
-
-.banner-content {
-  padding-top: 0;
-  padding-bottom: 0;
+@media (max-width: 480px) {
+  .product-image {
+    height: 200px !important;
+  }
 }
-
- */
