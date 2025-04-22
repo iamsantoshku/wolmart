@@ -97,6 +97,40 @@ import Product from "../models/productSchema.js"
 //   };
 
 
+export const countCartController = async (req, res) => {
+  try {
+    const userId = req.userId; // Set by authentication middleware
+
+    const cart = await CartModel.findOne({ user: userId });
+
+    if (!cart) {
+      return res.status(200).json({
+        data: {
+          count: 0,
+        },
+        message: "Cart is empty",
+        success: true,
+        error: false,
+      });
+    }
+
+    return res.status(200).json({
+      data: {
+        count: cart.totalQuantity,
+      },
+      message: "Cart item count retrieved successfully",
+      success: true,
+      error: false,
+    });
+  } catch (err) {
+    console.error("Count Cart Error:", err);
+    res.status(500).json({
+      message: err?.message || "Internal server error",
+      success: false,
+      error: true,
+    });
+  }
+};
 
 
   export const addToCartController = async (req, res) => {
@@ -255,60 +289,37 @@ import Product from "../models/productSchema.js"
     }
   };
 
+
+
+
+
 // export const countAddToCartProduct = async(req,res)=>{
-//     try{
-//         const userId = req.userId
+//   try{
+//       const userId = req.userId;
+//       if (!userId) {
+//           return res.status(401).json({
+//               message : "Unauthorized User",
+//               error : true,
+//               success : false,
+//           })
+//       }
 
-//         const count = await CartModel.countDocuments({
-//             userId : userId
-//         })
+//       const count = await CartModel.countDocuments({ userId });
 
-//         res.json({
-//             data : {
-//                 count : count
-//             },
-//             message : "ok",
-//             error : false,
-//             success : true
-//         })
-//     }catch(error){
-//         res.json({
-//             message : error.message || error,
-//             error : false,
-//             success : false,
-//         })
-//     }
+//       res.json({
+//           data : { count },
+//           message : "ok",
+//           error : false,
+//           success : true
+//       })
+//   }catch(error){
+//       res.status(500).json({
+//           message : error.message || error,
+//           error : true,
+//           success : false,
+//       })
+//   }
 // }
-
-
-
-export const countAddToCartProduct = async(req,res)=>{
-  try{
-      const userId = req.userId;
-      if (!userId) {
-          return res.status(401).json({
-              message : "Unauthorized User",
-              error : true,
-              success : false,
-          })
-      }
-
-      const count = await CartModel.countDocuments({ userId });
-
-      res.json({
-          data : { count },
-          message : "ok",
-          error : false,
-          success : true
-      })
-  }catch(error){
-      res.status(500).json({
-          message : error.message || error,
-          error : true,
-          success : false,
-      })
-  }
-}
 
 
 

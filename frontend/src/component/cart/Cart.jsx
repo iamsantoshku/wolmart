@@ -53,14 +53,14 @@ const Cart = () => {
 
   return (
     <>
-    <DynamicHead
-  title="Your Shopping Cart - Zumpon"
-  description="View the items in your shopping cart and proceed to checkout. Secure, fast, and reliable shopping at Zumpon."
-  keywords="Zumpon Cart, Shopping Cart, Checkout, Cart Items, Zumpon"
-  image="https://zumpon.com/images/cart-banner.png"
-  url="https://zumpon.com/cart"
-  author="Zumpon Team"
-/>
+      <DynamicHead
+        title="Your Shopping Cart - Zumpon"
+        description="View the items in your shopping cart and proceed to checkout. Secure, fast, and reliable shopping at Zumpon."
+        keywords="Zumpon Cart, Shopping Cart, Checkout, Cart Items, Zumpon"
+        image="https://zumpon.com/images/cart-banner.png"
+        url="https://zumpon.com/cart"
+        author="Zumpon Team"
+      />
       <Cartnav />
       <div className="page-content">
         <div className="container">
@@ -82,11 +82,11 @@ const Cart = () => {
                       <tr key={item.product._id}>
                         <td className="product-thumbnail ">
                           <div className="p-relative">
-                          {/* className="sm:w-[200px] w-[100px]" */}
+                            {/* className="sm:w-[200px] w-[100px]" */}
                             <a href={`/product/${item.product._id}`}>
                               <figure>
                                 <img
-                                  
+
 
 
                                   src={
@@ -100,8 +100,8 @@ const Cart = () => {
                                 />
                               </figure>
                             </a>
-                            <button 
-                              type="button" 
+                            <button
+                              type="button"
                               className="btn btn-close"
                               onClick={() => handleRemoveFromCart(item.product._id)}
                             >
@@ -109,9 +109,31 @@ const Cart = () => {
                             </button>
                           </div>
                         </td>
+
+
                         <td className="product-name">
                           <a href={`/product/${item.product._id}`}>{item.product.name}</a>
+                          {item.size && <p className="mt-1 text-sm">Size: <strong>{item.size}</strong></p>}
+                          {item.color && (
+                            <p className="mt-1 text-sm d-flex align-items-center">
+                              Color: <span
+                                style={{
+                                  backgroundColor: item.color,
+                                  width: "15px",
+                                  height: "15px",
+                                  border: "1px solid #000",
+                                  display: "inline-block",
+                                  marginLeft: "5px",
+                                  borderRadius: "50%",
+                                }}
+                              ></span>
+                            </p>
+                          )}
                         </td>
+
+
+
+
                         <td className="product-price">
                           <span className="amount">${item.price.toFixed(2)}</span>
                         </td>
@@ -142,66 +164,66 @@ const Cart = () => {
                 </tbody>
               </table>
               <form className="coupon">
-               <h5 className="title coupon-title font-weight-bold text-uppercase">Coupon Discount</h5>
-               <input type="text" className="form-control mb-4" placeholder="Enter coupon code here..." required />
-               <button className="btn btn-dark btn-outline btn-rounded">Apply Coupon</button>
-             </form>
+                <h5 className="title coupon-title font-weight-bold text-uppercase">Coupon Discount</h5>
+                <input type="text" className="form-control mb-4" placeholder="Enter coupon code here..." required />
+                <button className="btn btn-dark btn-outline btn-rounded">Apply Coupon</button>
+              </form>
             </div>
-            
+
             <div className="col-lg-4 sticky-sidebar-wrapper">
-            <div className="sticky-sidebar">
-              <div className="cart-summary mb-4">
-                <h3 className="cart-title text-uppercase">Cart Totals</h3>
-                <div className="cart-subtotal d-flex align-items-center justify-content-between">
-                  <label className="ls-25">Subtotal</label>
-                  <span>${cart?.totalPrice?.toFixed(2) || "0.00"}</span>
+              <div className="sticky-sidebar">
+                <div className="cart-summary mb-4">
+                  <h3 className="cart-title text-uppercase">Cart Totals</h3>
+                  <div className="cart-subtotal d-flex align-items-center justify-content-between">
+                    <label className="ls-25">Subtotal</label>
+                    <span>${cart?.totalPrice?.toFixed(2) || "0.00"}</span>
+                  </div>
+
+                  <hr className="divider" />
+
+                  <ul className="shipping-methods mb-2">
+                    <li>
+                      <label className="shipping-title text-dark font-weight-bold">Shipping</label>
+                    </li>
+                    <li>
+                      <div className="custom-radio">
+                        <input type="radio" id="free-shipping" className="custom-control-input" name="shipping" />
+                        <label htmlFor="free-shipping" className="custom-control-label color-dark">
+                          Free Shipping
+                        </label>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="custom-radio">
+                        <input type="radio" id="local-pickup" className="custom-control-input" name="shipping" />
+                        <label htmlFor="local-pickup" className="custom-control-label color-dark">
+                          Local Pickup
+                        </label>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="custom-radio">
+                        <input type="radio" id="flat-rate" className="custom-control-input" name="shipping" />
+                        <label htmlFor="flat-rate" className="custom-control-label color-dark">
+                          Flat rate: $5.00
+                        </label>
+                      </div>
+                    </li>
+                  </ul>
+
+                  <hr className="divider mb-6" />
+                  <div className="order-total d-flex justify-content-between align-items-center">
+                    <label>Total</label>
+                    <span className="ls-50">${cart?.totalPrice?.toFixed(2) || "0.00"}</span>
+                  </div>
+
+
+                  <button onClick={handleCheckout} className="btn btn-dark btn-block">
+                    Proceed to Checkout
+                  </button>
                 </div>
-
-                <hr className="divider" />
-
-                <ul className="shipping-methods mb-2">
-                  <li>
-                    <label className="shipping-title text-dark font-weight-bold">Shipping</label>
-                  </li>
-                  <li>
-                    <div className="custom-radio">
-                      <input type="radio" id="free-shipping" className="custom-control-input" name="shipping" />
-                      <label htmlFor="free-shipping" className="custom-control-label color-dark">
-                        Free Shipping
-                      </label>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="custom-radio">
-                      <input type="radio" id="local-pickup" className="custom-control-input" name="shipping" />
-                      <label htmlFor="local-pickup" className="custom-control-label color-dark">
-                        Local Pickup
-                      </label>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="custom-radio">
-                      <input type="radio" id="flat-rate" className="custom-control-input" name="shipping" />
-                      <label htmlFor="flat-rate" className="custom-control-label color-dark">
-                        Flat rate: $5.00
-                      </label>
-                    </div>
-                  </li>
-                </ul>
-
-                <hr className="divider mb-6" />
-                <div className="order-total d-flex justify-content-between align-items-center">
-                  <label>Total</label>
-                  <span className="ls-50">${cart?.totalPrice?.toFixed(2) || "0.00"}</span>
-                </div>
-                
-
-<button onClick={handleCheckout} className="btn btn-dark btn-block">
-                  Proceed to Checkout
-                </button>
               </div>
             </div>
-          </div>
           </div>
         </div>
       </div>

@@ -1,15 +1,4 @@
-// import React from 'react'
 
-// const AddStore = () => {
-//   return (
-//     <div>
-//         store
-      
-//     </div>
-//   )
-// }
-
-// export default AddStore
 
 
 import { useState } from "react";

@@ -3,13 +3,13 @@
 // const authMiddleware = require("../middlewares/authMiddleware"); // Ensure authentication
 
 import express from "express";
-import { addToCartController, countAddToCartProduct,getCartController,removeFromCartController } from "../controller/cartController.js";
+import { addToCartController, getCartController,removeFromCartController,countCartController } from "../controller/cartController.js";
 import { authToken } from "../middleware/authToken.js";
 const router = express.Router();
 
 // Route to add a product to the cart
 router.post("/addtocart", authToken, addToCartController);
-router.get("/countcart", authToken, countAddToCartProduct)
+router.get("/countcart", authToken, countCartController)
 router.get("/getcart", authToken, getCartController);
 router.delete("/remove/:productId", authToken, removeFromCartController);
 

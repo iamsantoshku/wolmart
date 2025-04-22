@@ -69,6 +69,7 @@ import prductRoute from "./routes/product.js"
 import cartRoute from "./routes/cart.js"
 import checkoutRoute from "./routes/checkout.js"
 import wishlistRoute from "./routes/wishlist.js"
+import vendomsgRoute from "./routes/vendormsg.js";
 
 dotenv.config();
 const app = express();
@@ -110,6 +111,7 @@ app.use("/api/v1/product", prductRoute)
 app.use("/api/v1/cart", cartRoute)
 app.use("/api/v1/checkoutss", checkoutRoute)
 app.use("/api/v1/wishlist", wishlistRoute)
+app.use("/api/v1/vendormsg", vendomsgRoute)
 // API Test Route
 app.get("/", (req, res) => {
   res.send("🚀 API is working!");

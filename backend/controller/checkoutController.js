@@ -89,6 +89,8 @@ export const placeOrder = async (req, res) => {
                     name: product.name,
                     quantity: item.quantity,
                     price: productTotal,
+                    size: item.size,
+                   
                 };
             })
         );

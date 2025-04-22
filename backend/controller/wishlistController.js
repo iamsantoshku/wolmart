@@ -89,93 +89,48 @@ export const getWishlistController = async (req, res) => {
 
 
 
-// export const removeFromWishlistController = async (req, res) => {
-//   try {
-//     const userId = req.userId; // Set from auth middleware
-//     const { productId } = req.params;
 
-//     // Log to debug
-//     console.log("userId:", userId);
-//     console.log("productId:", productId);
-
-//     if (!userId || !productId || productId === "undefined") {
-//       return res.status(400).json({
-//         message: "User ID and Product ID are required",
-//         success: false,
-//         error: true,
-//       });
-//     }
-
-//     const deletedItem = await addToWishlistModel.findOneAndDelete({
-//       userId: userId,
-//       productId: productId,
-//     });
-
-//     if (!deletedItem) {
-//       return res.status(404).json({
-//         message: "Product not found in wishlist",
-//         success: false,
-//         error: true,
-//       });
-//     }
-
-//     return res.status(200).json({
-//       message: "Product removed from wishlist successfully",
-//       success: true,
-//       error: false,
-//     });
-//   } catch (error) {
-//     console.error("Error removing from wishlist:", error);
-//     return res.status(500).json({
-//       message: error?.message || "Internal Server Error",
-//       success: false,
-//       error: true,
-//     });
-//   }
-// };
-
-
-// export const removeFromWishlist = async (req, res) => {
-//   try {
-//       const userId = req.user._id; // assuming authentication middleware sets req.user
-//       const productId = req.params.productId;
-
-//       const removed = await addToWishlistModel.findOneAndDelete({ userId, productId });
-
-//       if (!removed) {
-//           return res.status(404).json({ success: false, message: 'Product not found in wishlist' });
-//       }
-
-//       res.status(200).json({ success: true, message: 'Removed from wishlist' });
-//   } catch (error) {
-//       res.status(500).json({ success: false, message: 'Server error', error: error.message });
-//   }
-// };
-
-
-export const removeFromWishlist = async (req, res) => {
-  try {
-      const userId = req.user._id;
-      const { productId } = req.params;
-
-      const removedItem = await Wishlist.findOneAndDelete({ userId, productId });
-
-      if (!removedItem) {
-          return res.status(404).json({
-              success: false,
-              message: 'Product not found in wishlist'
-          });
-      }
-
-      res.status(200).json({
-          success: true,
-          message: 'Product removed from wishlist'
-      });
-  } catch (err) {
-      res.status(500).json({
+export const removeFromWishlistController = async (req, res) => {
+    try {
+    //   const { productId } = req.body;
+      const { productId } = req.params; // Use req.params to get the productId from the URL
+      const userId = req.userId;
+  
+      if (!productId) {
+        return res.status(400).json({
+          message: "Product ID is required",
+          error: true,
           success: false,
-          message: 'Server error',
-          error: err.message
+        });
+      }
+  
+      const removedItem = await addToWishlistModel.findOneAndDelete({
+        productId,
+        userId,
       });
-  }
-};
+  
+      if (!removedItem) {
+        return res.status(404).json({
+          message: "Product not found in wishlist",
+          error: true,
+          success: false,
+        });
+      }
+  
+      return res.status(200).json({
+        message: "Product removed from wishlist successfully",
+        success: true,
+        error: false,
+      });
+  
+    } catch (err) {
+      console.error("Remove Wishlist Error:", err);
+      return res.status(500).json({
+        message: err?.message || "Internal server error",
+        error: true,
+        success: false,
+      });
+    }
+  };
+  
+
