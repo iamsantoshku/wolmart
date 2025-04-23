@@ -1,100 +1,9 @@
-// const addToCartModel = require("../models/Cart"); // Import Cart Model
-// const Product = require("../models/Product"); // Import Product Model
 
-// import addToCartModel from "../models/cartSchema.js"
 import CartModel from "../models/cartSchema.js"
 import Product from "../models/productSchema.js"
 
 
 
-// export const addToCartController = async (req, res) => {
-//     try {
-//       const { productId, size, selectedColor } = req.body;
-//       const userId = req.userId; // Assuming authentication middleware sets req.userId
-  
-//       if (!productId || !size) {
-//         return res.status(400).json({
-//           message: "Product ID and size are required",
-//           success: false,
-//           error: true,
-//         });
-//       }
-  
-//       // Check if the product exists
-//       const product = await Product.findById(productId);
-//       if (!product) {
-//         console.error("Invalid productId:", productId);
-//         return res.status(404).json({
-//           message: "Product not found",
-//           success: false,
-//           error: true,
-//         });
-//       }
-  
-//       // Check if the selected size exists
-//       const sizeInfo = product.sizes?.find((s) => s.size === size);
-//       if (!sizeInfo) {
-//         return res.status(400).json({
-//           message: "Invalid size selection",
-//           success: false,
-//           error: true,
-//         });
-//       }
-  
-//       // Calculate the price with additional charges
-//       const finalPrice = product.price + (sizeInfo.additionalPrice || 0);
-  
-//       // Find the user's cart or create a new one if it doesn't exist
-//       let cart = await CartModel.findOne({ user: userId });
-  
-//       if (!cart) {
-//         cart = new CartModel({ user: userId, items: [], totalPrice: 0, totalQuantity: 0 });
-//       }
-  
-//       // Check if the product is already in the cart
-//       const existingItem = cart.items.find(
-//         (item) =>
-//           item.product.toString() === productId &&
-//           item.size === size &&
-//           item.color === selectedColor
-//       );
-  
-//       if (existingItem) {
-//         // If exists, increase the quantity
-//         existingItem.quantity += 1;
-//       } else {
-//         // Add new item to cart
-//         cart.items.push({
-//           product: productId,
-//           size,
-//           color: selectedColor, // ✅ Use color instead of selectedColor
-//           quantity: 1,
-//           price: finalPrice,
-//         });
-//       }
-  
-//       // Recalculate total price and quantity
-//       cart.totalPrice = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-//       cart.totalQuantity = cart.items.reduce((sum, item) => sum + item.quantity, 0);
-  
-//       // Save the updated cart
-//       await cart.save();
-  
-//       return res.status(200).json({
-//         data: cart,
-//         message: "Product added to cart",
-//         success: true,
-//         error: false,
-//       });
-//     } catch (err) {
-//       console.error("Add to Cart Error:", err);
-//       res.status(500).json({
-//         message: err?.message || "Internal server error",
-//         error: true,
-//         success: false,
-//       });
-//     }
-//   };
 
 
 export const countCartController = async (req, res) => {
@@ -293,33 +202,6 @@ export const countCartController = async (req, res) => {
 
 
 
-// export const countAddToCartProduct = async(req,res)=>{
-//   try{
-//       const userId = req.userId;
-//       if (!userId) {
-//           return res.status(401).json({
-//               message : "Unauthorized User",
-//               error : true,
-//               success : false,
-//           })
-//       }
-
-//       const count = await CartModel.countDocuments({ userId });
-
-//       res.json({
-//           data : { count },
-//           message : "ok",
-//           error : false,
-//           success : true
-//       })
-//   }catch(error){
-//       res.status(500).json({
-//           message : error.message || error,
-//           error : true,
-//           success : false,
-//       })
-//   }
-// }
 
 
 

@@ -13,12 +13,13 @@
 
 
 import express from "express";
-import { placeOrder, getVendorOrders, getUserOrders, updateOrderStatus, cancelOrder,getAllOrdersForAdmin } from "../controller/checkoutController.js";
+import { placeOrder, getVendorOrders, getUserOrders, updateOrderStatus, cancelOrder,getAllOrdersForAdmin, placePaidOrder } from "../controller/checkoutController.js";
 import { authToken } from "../middleware/authToken.js";
 
 const router = express.Router();
 
 router.post("/checkout", authToken, placeOrder);
+router.post("/checkoutonline", authToken, placePaidOrder);
 router.get("/getvendororders/:vendorId", getVendorOrders);
 router.get("/orders/:userId", getUserOrders);
 // router.put("/update-status", updateOrderStatus);

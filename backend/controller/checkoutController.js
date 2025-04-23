@@ -7,62 +7,220 @@ import User from "../models/userSchema.js";
 import Product from "../models/productSchema.js";
 import Vendor from "../models/vendorSchema.js"
 import { sendOrderConfirmationEmail } from "../config/conformationmail.js";
+import Razorpay from "razorpay";
 
+// online paymaet 
 
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
 
+  
+  
+//   export const placePaidOrder = async (req, res) => {
+//     try {
+//       const { userId, products, billingDetails } = req.body;
+  
+//       const user = await User.findById(userId);
+//       if (!user) {
+//         return res.status(404).json({ success: false, message: "User not found" });
+//       }
+  
+//       let totalAmount = 0;
+//       const validatedProducts = await Promise.all(
+//         products.map(async (item) => {
+//           const product = await Product.findById(item.productId);
+//           if (!product) throw new Error(`Product with ID ${item.productId} not found`);
+//           if (!product.vendor) throw new Error(`Vendor ID is required for product ${item.productId}`);
+  
+//           const productTotal = product.price * item.quantity;
+//           totalAmount += productTotal;
+  
+//           return {
+//             productId: product._id,
+//             vendorId: product.vendor.toString(),
+//             name: product.name,
+//             quantity: item.quantity,
+//             price: productTotal,
+//             size: item.size,
+//           };
+//         })
+//       );
+  
+//       // Step 1: Create Razorpay order (amount in paise)
+//       const razorpayOrder = await razorpay.orders.create({
+//         amount: totalAmount * 100, // convert to paise
+//         currency: "INR",
+//         receipt: `order_rcptid_${Math.random().toString(36).substring(2, 7)}`,
+//         payment_capture: 1,
+//       });
+  
+//       // Step 2: Save as pending order in DB (optional until payment success)
+//       const newOrder = new Checkoute({
+//         userId,
+//         products: validatedProducts,
+//         totalAmount,
+//         billingDetails,
+//         status: "Payment Pending",
+//         razorpayOrderId: razorpayOrder.id,
+//       });
+  
+//       await newOrder.save();
+  
+//       // Step 3: Send back Razorpay order details to frontend
+    
+//     // res.status(201).json({
+//     //     success: true,
+//     //     razorpayOrderId: razorpayOrder.id,
+//     //     amount: razorpayOrder.amount,
+//     //     currency: razorpayOrder.currency,
+//     //     razorpayKey: process.env.RAZORPAY_KEY_ID, // match this with frontend
+//     //     order: newOrder,
+//     //   });
 
-// Place Order Controller
-// export const placeOrder = async (req, res) => {
+//     res.status(201).json({
+//         success: true,
+//         order: {
+//           id: razorpayOrder.id,
+//           amount: razorpayOrder.amount,
+//           currency: razorpayOrder.currency,
+//         },
+//         razorpayKey: process.env.RAZORPAY_KEY_ID,
+//         newOrder,
+//       });
+      
+//     } catch (error) {
+//       res.status(500).json({ success: false, message: error.message });
+//     }
+//   };
+
+// Place Order Controller cash on delevery
+
+// export const placePaidOrder = async (req, res) => {
 //     try {
 //         const { userId, products, billingDetails } = req.body;
 
-//         const user = await User.findById(userId);
-//         if (!user) {
-//             return res.status(404).json({ success: false, message: "User not found" });
-//         }
+//         console.log("Received data:", { userId, products, billingDetails });
 
-//         let totalAmount = 0;
-//         const validatedProducts = await Promise.all(
-//             products.map(async (item) => {
-//                 const product = await Product.findById(item.productId);
-//                 if (!product) {
-//                     throw new Error(`Product with ID ${item.productId} not found`);
-//                 }
-
-//                 if (product.vendor) {
-//                     item.vendor = product.vendor.toString(); // Ensure vendor ID is a string
-//                 } else {
-//                     throw new Error(`Vendor ID is required for product ${item.productId}`);
-//                 }
-
-//                 const productTotal = product.price * item.quantity;
-//                 totalAmount += productTotal;
-
-//                 return {
-//                     productId: product._id,
-//                     vendorId: item.vendor, // Ensure this is correctly set
-//                     name: product.name,
-//                     quantity: item.quantity,
-//                     price: productTotal,
-//                 };
-//             })
+//         const totalAmount = products.reduce(
+//             (acc, item) => acc + item.price * item.quantity,
+//             0
 //         );
 
-//         const newOrder = new Checkoute({
-//             userId,
-//             products: validatedProducts,
-//             totalAmount,
-//             billingDetails,
-//             status: "Pending",
+//         console.log("Total amount:", totalAmount);
+
+//         const instance = new Razorpay({
+//             key_id: process.env.RAZORPAY_KEY_ID,
+//             key_secret: process.env.RAZORPAY_KEY_SECRET,
 //         });
 
-//         await newOrder.save();
-//         res.status(201).json({ success: true, message: "Order placed successfully", order: newOrder });
+//         const options = {
+//             amount: totalAmount * 100, // in paise
+//             currency: "INR",
+//             receipt: `receipt_order_${Date.now()}`,
+//         };
+
+//         const order = await instance.orders.create(options);
+//         console.log("Razorpay order created:", order);
+
+//         return res.status(200).json({
+//             success: true,
+//             order,
+//             razorpayKey: process.env.RAZORPAY_KEY_ID,
+//         });
+        
+
 //     } catch (error) {
-//         res.status(500).json({ success: false, message: error.message });
+//         console.error("Error in placePaidOrder:", error);
+//         return res.status(500).json({
+//             success: false,
+//             message: "Payment initialization failed",
+//             error: error.message,
+//         });
 //     }
 // };
 
+export const placePaidOrder = async (req, res) => {
+    try {
+        const { userId, products, billingDetails } = req.body;
+
+        // 1. Validate user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // 2. Validate and enrich products
+        let totalAmount = 0;
+        const validatedProducts = await Promise.all(
+            products.map(async (item) => {
+                const product = await Product.findById(item.productId);
+                if (!product) throw new Error(`Product with ID ${item.productId} not found`);
+                if (!product.vendor) throw new Error(`Vendor ID is required for product ${item.productId}`);
+
+                const productTotal = product.price * item.quantity;
+                totalAmount += productTotal;
+
+                return {
+                    productId: product._id,
+                    vendorId: product.vendor.toString(),
+                    name: product.name,
+                    quantity: item.quantity,
+                    price: product.price,
+                    size: item.size,
+                };
+            })
+        );
+
+        // 3. Create Razorpay order
+        const instance = new Razorpay({
+            key_id: process.env.RAZORPAY_KEY_ID,
+            key_secret: process.env.RAZORPAY_KEY_SECRET,
+        });
+
+        const options = {
+            amount: totalAmount * 100, // Razorpay expects amount in paise
+            currency: "INR",
+            receipt: `receipt_order_${Date.now()}`,
+        };
+
+        const order = await instance.orders.create(options);
+
+        // 4. Save order in DB
+        const newOrder = new Checkoute({
+            userId,
+            products: validatedProducts,
+            billingDetails,
+            totalAmount,
+            currency: "INR",
+            razorpayOrderId: order.id,
+            paymentStatus: order.status, // usually 'created'
+            status: "Pending",
+        });
+
+        await newOrder.save();
+
+        // 5. Send confirmation email
+        await sendOrderConfirmationEmail(billingDetails.email, newOrder);
+
+        // 6. Return response
+        return res.status(200).json({
+            success: true,
+            message: "Paid order placed successfully",
+            order,
+            razorpayKey: process.env.RAZORPAY_KEY_ID,
+        });
+
+    } catch (error) {
+        console.error("❌ Error in placePaidOrder:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Payment initialization failed",
+            error: error.message,
+        });
+    }
+};
 
 export const placeOrder = async (req, res) => {
     try {
@@ -113,8 +271,6 @@ export const placeOrder = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
-
-
 
 
 

@@ -220,54 +220,6 @@ export const getAllProducts = async (req, res) => {
 
 
 
-// export const getSingleProduct = async (req, res) => {
-//   try {
-//     const { productId } = req.params; // Extract product ID from request parameters
-
-//     if (!productId) {
-//       return res.status(400).json({ message: "Product ID is required", success: false });
-//     }
-
-//     // Populate vendor details, including shopName and any other necessary fields
-//     const product = await Product.findById(productId).populate("vendor", "shopName owner email");
-
-//     if (!product) {
-//       return res.status(404).json({ message: "Product not found", success: false });
-//     }
-
-//     res.status(200).json({ success: true, data: product });
-//   } catch (error) {
-//     console.error("Backend Error:", error);
-//     res.status(500).json({ message: "Internal Server Error", success: false });
-//   }
-// };
-
-
-
-// controller/productController.js
-// export const getSingleProduct = async (req, res) => {
-//   try {
-//     const product = await Product.findOne({ name: req.params.name });
-
-//     if (!product) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "Product not found",
-//       });
-//     }
-
-//     res.status(200).json({
-//       success: true,
-//       data: product,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: "Error fetching product",
-//       error,
-//     });
-//   }
-// };
 
 export const getSingleProduct = async (req, res) => {
   try {
@@ -324,35 +276,6 @@ export const searchProducts = async (req, res) => {
 
 
 
-// export const getSimilarProducts = async (req, res) => {
-//   try {
-//     const { productId } = req.params; // Extract product ID from request parameters
-
-//     if (!productId) {
-//       return res.status(400).json({ message: "Product ID is required", success: false });
-//     }
-
-//     // Find the product to get its category
-//     const product = await Product.findById(productId);
-//     if (!product) {
-//       return res.status(404).json({ message: "Product not found", success: false });
-//     }
-
-//     // Find other products in the same category, excluding the current product
-//     const similarProducts = await Product.find({
-//       category: product.category,
-//       _id: { $ne: productId }, // Exclude the current product
-//     }).limit(5); // Limit results to 5 similar products
-
-//     // console.log("Fetched Similar Products:", similarProducts);
-
-//     res.status(200).json({ success: true, data: similarProducts });
-//   } catch (error) {
-//     console.error("Error fetching similar products:", error);
-//     res.status(500).json({ message: "Internal Server Error", success: false });
-//   }
-// };
-
 
 export const getSimilarProducts = async (req, res) => {
   try {
@@ -407,54 +330,7 @@ export const getClothingAndFashionProducts = async (req, res) => {
 
 
 
-// export const addReviewToProduct = async (req, res) => {
-//   try {
-//     const { productId } = req.params;
-//     const { stars, comment } = req.body;
-//     const userId = req.userId; // get user ID from middleware
 
-//     if (!stars || stars < 1 || stars > 5) {
-//       return res.status(400).json({ success: false, message: "Rating must be between 1 and 5 stars." });
-//     }
-
-//     const product = await Product.findById(productId);
-//     if (!product) {
-//       return res.status(404).json({ success: false, message: "Product not found." });
-//     }
-
-//     const existingReview = product.reviews.find(
-//       (rev) => rev.user.toString() === userId.toString()
-//     );
-
-//     if (existingReview) {
-//       existingReview.stars = stars;
-//       existingReview.comment = comment || "";
-//     } else {
-//       product.reviews.push({
-//         user: userId,
-//         stars,
-//         comment,
-//       });
-//     }
-
-//     product.totalReviews = product.reviews.length;
-//     product.averageRating =
-//       product.reviews.reduce((sum, r) => sum + r.stars, 0) / product.totalReviews;
-
-//     await product.save();
-
-//     res.status(200).json({
-//       success: true,
-//       message: "Review submitted successfully.",
-//       reviews: product.reviews,
-//       averageRating: product.averageRating,
-//       totalReviews: product.totalReviews,
-//     });
-//   } catch (error) {
-//     console.error("Error adding review:", error);
-//     res.status(500).json({ success: false, message: "Server error." });
-//   }
-// };
 
 
 
