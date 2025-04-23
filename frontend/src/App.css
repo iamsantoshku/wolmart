@@ -99,3 +99,10 @@
     height: 200px !important;
   }
 }
+
+
+@media (max-width: 640px) {
+  .custom-mobile-height {
+    height: 300px !important;
+  }
+}

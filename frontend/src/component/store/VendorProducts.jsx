@@ -72,8 +72,6 @@ const VendorProducts = () => {
                   />
                 </a>
 
-               
-
 
                 <div className="product-action-vertical absolute top-2 right-4 flex flex-col gap-2">
                   <a href="#" className="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>

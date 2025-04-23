@@ -8,6 +8,8 @@ import { BACKENDURL } from "../../config/config";
 import addToCart from "../../helpers/addTocart";
 import Productdetnav from "./Productdetnav";
 import SimilarProducts from "./SimilarProducts";
+import Sidebar from "./Sidebar";
+import Frewuenty from "./Frewuenty";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -66,6 +68,7 @@ const SingleProduct = () => {
       <div class="page-content">
         <div class="container">
           <div class="row gutter-lg">
+
             <div class="main-content">
               <div className="product product-single row">
                 <div className="col-md-6 mb-6">
@@ -73,7 +76,7 @@ const SingleProduct = () => {
                     <div className="swiper-container product-single-swiper swiper-theme nav-inner">
                       <div className="swiper-wrapper row cols-1 gutter-no">
                         {selectedImage ? (
-                          <div className="swiper-slide">
+                          <div className="swiper-slide  ">
                             <figure className="product-image">
                               <img
                                 src={`${BACKENDURL}/uploads/product/${selectedImage.split("\\").pop()}`}
@@ -82,14 +85,18 @@ const SingleProduct = () => {
                                 height="500"
                               />
                             </figure>
+                            
+
                           </div>
                         ) : (
                           <p>No images available</p>
                         )}
                       </div>
+
+
                     </div>
 
-                    <div className="product-thumbs-wrap swiper-container">
+                    <div className="product-thumbs-wrap swiper-container ">
                       <div className="product-thumbs swiper-wrapper row cols-4 gutter-sm">
                         {product.images && product.images.length > 0 ? (
                           product.images.map((imageObj, index) =>
@@ -133,7 +140,7 @@ const SingleProduct = () => {
                       </div>
                     </div>
                     <div className="product-price">
-                      <ins className="new-price">${product.price || "0.00"}</ins>
+                      <ins className="new-price">₹{product.price || "0.00"}</ins>
                     </div>
                     <div className="text-2xl">
                       <h3 className="">description:{product.description || "0.00"}</h3>
@@ -150,8 +157,6 @@ const SingleProduct = () => {
                       </ul>
                     </div>
                     <hr className="product-divider" />
-
-
 
                     <div className="product-form product-variation-form product-color-swatch">
                       <label>Color:</label>
@@ -234,7 +239,10 @@ const SingleProduct = () => {
                   </div>
                 </div>
               </div>
+              <Frewuenty/>
+              
             </div>
+            <Sidebar/>
           </div>
           <SimilarProducts name={name} />
         </div>
@@ -248,6 +256,9 @@ const SingleProduct = () => {
 };
 
 export default SingleProduct;
+
+
+
 
 
 

@@ -78,3 +78,111 @@ const SimilarProducts = ({ name }) => {
 };
 
 export default SimilarProducts;
+
+
+
+
+// import { useEffect, useState } from "react";
+// import { BACKENDURL } from "../../config/config";
+// import { Link } from "react-router-dom";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { Navigation } from "swiper/modules";
+// import "swiper/css";
+// import "swiper/css/navigation";
+
+// const SimilarProducts = ({ name }) => {
+//   const [similarProducts, setSimilarProducts] = useState([]);
+
+//   useEffect(() => {
+//     if (!name) return;
+
+//     const fetchSimilarProducts = async () => {
+//       try {
+//         const response = await fetch(
+//           `${BACKENDURL}/api/v1/product/products/${name}/similar`
+//         );
+//         const data = await response.json();
+
+//         if (data.success && Array.isArray(data.data)) {
+//           setSimilarProducts(data.data);
+//         } else {
+//           setSimilarProducts([]);
+//         }
+//       } catch (error) {
+//         console.error("Error fetching similar products:", error);
+//       }
+//     };
+
+//     fetchSimilarProducts();
+//   }, [name]);
+
+//   return (
+//     <section className="related-product-section">
+//       <div className="title-link-wrapper mb-4">
+//         <h4 className="title">Related Products</h4>
+//         <Link
+//           to="/products"
+//           className="btn btn-dark btn-link btn-slide-right btn-icon-right"
+//         >
+//           More Products<i className="w-icon-long-arrow-right"></i>
+//         </Link>
+//       </div>
+//       <Swiper
+//         modules={[Navigation]}
+//         spaceBetween={20}
+//         navigation
+//         breakpoints={{
+//           0: { slidesPerView: 2 },
+//           576: { slidesPerView: 3 },
+//           768: { slidesPerView: 4 },
+//           992: { slidesPerView: 3 },
+//         }}
+//         className="swiper-container swiper-theme"
+//       >
+//         <div className="swiper-wrapper row cols-lg-3 cols-md-4 cols-sm-3 cols-2">
+//           {similarProducts.map((product) => (
+//             <SwiperSlide key={product._id} className="swiper-slide product">
+//               <figure className="product-media">
+//                 <Link to={`/product/${product.name}`}>
+//                   <img
+//                     src={`${BACKENDURL}/uploads/product/${product.images?.[0]?.urls?.[0].split("\\").pop()}`}
+//                     alt="Product"
+//                     width="300"
+//                     height="338"
+//                   />
+//                 </Link>
+//                 <div className="product-action-vertical">
+//                   <a href="#" className="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+//                   <a href="#" className="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+//                   <a href="#" className="btn-product-icon btn-compare w-icon-compare" title="Add to Compare"></a>
+//                 </div>
+//                 <div className="product-action">
+//                   <Link to={`/product/${product.name}`} className="btn-product btn-quickview" title="Quick View">
+//                     Quick View
+//                   </Link>
+//                 </div>
+//               </figure>
+//               <div className="product-details">
+//                 <h4 className="product-name">
+//                   <Link to={`/product/${product.name}`}>{product.name}</Link>
+//                 </h4>
+//                 <div className="ratings-container">
+//                   <div className="ratings-full">
+//                     <span className="ratings" style={{ width: "100%" }}></span>
+//                     <span className="tooltiptext tooltip-top"></span>
+//                   </div>
+//                   <Link to={`/product/${product.name}`} className="rating-reviews">(reviews)</Link>
+//                 </div>
+//                 <div className="product-pa-wrapper">
+//                   <div className="product-price">₹{product.price}</div>
+//                 </div>
+//               </div>
+//             </SwiperSlide>
+//           ))}
+//         </div>
+//       </Swiper>
+//     </section>
+//   );
+// };
+
+// export default SimilarProducts;

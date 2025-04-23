@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKENDURL } from "../../config/config";
+import addToWishlist from "../../helpers/addToWishlist";
 
 const Fashion = () => {
   const [products, setProducts] = useState([]);
@@ -62,9 +63,14 @@ const Fashion = () => {
                     </a>
                     <div className="product-action-vertical">
                       <a href="#" className="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
-                      <a href="#" className="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                      <a href="#" className="btn-product-icon btn-quickview w-icon-search" title="Quickview"></a>
-                      <a href="#" className="btn-product-icon btn-compare w-icon-compare" title="Add to Compare"></a>
+                      
+                      <a
+                         href="#"
+                        onClick={(e) => addToWishlist(e, product._id)}
+                        className="btn-product-icon btn-wishlist w-icon-heart"
+                        title="Add to wishlist"
+                       ></a>
+                     
                     </div>
                   </figure>
                   <div className="product-details">
@@ -97,3 +103,7 @@ const Fashion = () => {
 };
 
 export default Fashion;
+
+
+
+
