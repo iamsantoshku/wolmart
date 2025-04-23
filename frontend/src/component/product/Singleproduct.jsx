@@ -76,8 +76,8 @@ const SingleProduct = () => {
                     <div className="swiper-container product-single-swiper swiper-theme nav-inner">
                       <div className="swiper-wrapper row cols-1 gutter-no">
                         {selectedImage ? (
-                          <div className="swiper-slide  ">
-                            <figure className="product-image">
+                          <div className="swiper-slide ">
+                            <figure className="product-image img2">
                               <img
                                 src={`${BACKENDURL}/uploads/product/${selectedImage.split("\\").pop()}`}
                                 alt={product.name}

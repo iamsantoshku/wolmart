@@ -12,6 +12,7 @@ const Cart = () => {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  // const{name} = useParams();
 
   useEffect(() => {
     fetchCart();
@@ -83,12 +84,9 @@ const Cart = () => {
                         <td className="product-thumbnail ">
                           <div className="p-relative">
                             {/* className="sm:w-[200px] w-[100px]" */}
-                            <a href={`/product/${item.product._id}`}>
+                            <a href={`/product/${item.product.name}`}>
                               <figure>
                                 <img
-
-
-
                                   src={
                                     item.product.image
                                       ? `${BACKENDURL}/uploads/product/${item.product.image.split("\\").pop()}`
@@ -97,6 +95,7 @@ const Cart = () => {
                                   alt={item.product.name}
                                   width="200"
                                   height="200"
+                                  className="img1" 
                                 />
                               </figure>
                             </a>

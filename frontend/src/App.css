@@ -99,10 +99,27 @@
     height: 200px !important;
   }
 }
+/* img2 */
 
+@media (max-width: 480px) {
+  .img2 {
+    height: 400px !important;
+  }
+}
 
 @media (max-width: 640px) {
   .custom-mobile-height {
     height: 300px !important;
   }
+}
+
+
+
+@media (max-width: 640px) {
+  .img1{
+    /* margin-left: 45px; */
+    width: 100%;
+
+  }
+  
 }

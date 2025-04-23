@@ -85,7 +85,7 @@ const SingleProduct = () => {
                     <div className="swiper-wrapper row cols-1 gutter-no">
                       {selectedImage ? (
                         <div className="swiper-slide">
-                          <figure className="product-image">
+                          <figure className="product-image img2">
                             <img
                               src={`${BACKENDURL}/uploads/product/${selectedImage.split("\\").pop()}`}
                               alt={product.name}
@@ -210,7 +210,7 @@ const SingleProduct = () => {
                   </div>
 
                   <div className="product-form container">
-                    <div className="product-qty-form">
+                    {/* <div className="product-qty-form">
                       <div className="input-group">
                         <input
                           className="quantity form-control"
@@ -222,7 +222,7 @@ const SingleProduct = () => {
                         <button className="quantity-plus w-icon-plus"></button>
                         <button className="quantity-minus w-icon-minus"></button>
                       </div>
-                    </div>
+                    </div> */}
                     <button className="btn btn-primary btn-cart" onClick={handleAddToCart}>
                       <i className="w-icon-cart"></i>
                       <span>Add to Cart</span>
