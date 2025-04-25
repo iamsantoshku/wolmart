@@ -132,73 +132,151 @@ export const countCartController = async (req, res) => {
   };
   
 
-  export const getCartController = async (req, res) => {
-    try {
-      const userId = req.userId; // Assuming authentication middleware sets req.userId
+//   export const getCartController = async (req, res) => {
+//     try {
+//       const userId = req.userId; // Assuming authentication middleware sets req.userId
   
-      // Fetch the cart with populated product details
-      const cart = await CartModel.findOne({ user: userId }).populate({
-        path: "items.product",
-        select: "name price images", // Fetch necessary fields
-      });
+//       // Fetch the cart with populated product details
+//       const cart = await CartModel.findOne({ user: userId }).populate({
+//         path: "items.product",
+//         select: "name price images", // Fetch necessary fields
+//       });
   
-      if (!cart) {
-        return res.status(404).json({
-          message: "Cart is empty",
-          success: false,
-          error: true,
-        });
-      }
+//       if (!cart) {
+//         return res.status(404).json({
+//           message: "Cart is empty",
+//           success: false,
+//           error: true,
+//         });
+//       }
   
-      // Process the cart items to extract the first available image
-      const cartWithImages = cart.items.map((item) => {
-        let product = item.product;
+//       // Process the cart items to extract the first available image
+//       const cartWithImages = cart.items.map((item) => {
+//         let product = item.product;
         
-        // Extract the first image from the images array
-        let productImage = null;
-        if (product.images && product.images.length > 0) {
-          productImage = product.images[0].urls.length > 0 ? product.images[0].urls[0] : null;
-        }
+//         // Extract the first image from the images array
+//         let productImage = null;
+//         if (product.images && product.images.length > 0) {
+//           productImage = product.images[0].urls.length > 0 ? product.images[0].urls[0] : null;
+//         }
   
-        return {
-          _id: item._id,
-          product: {
-            _id: product._id,
-            name: product.name,
-            price: product.price,
-            image: productImage, // Attach the image
-          },
-          size: item.size,
-          quantity: item.quantity,
-          price: item.price,
-        };
-      });
+//         return {
+//           _id: item._id,
+//           product: {
+//             _id: product._id,
+//             name: product.name,
+//             price: product.price,
+//             image: productImage, // Attach the image
+//           },
+//           size: item.size,
+//           quantity: item.quantity,
+//           price: item.price,
+          
+// color: item.color,
+//         };
+//       });
   
-      return res.status(200).json({
-        data: {
-          _id: cart._id,
-          user: cart.user,
-          items: cartWithImages,
-          totalPrice: cart.totalPrice,
-          totalQuantity: cart.totalQuantity,
-          createdAt: cart.createdAt,
-          updatedAt: cart.updatedAt,
-        },
-        message: "Cart retrieved successfully",
-        success: true,
-        error: false,
-      });
-    } catch (err) {
-      console.error("Get Cart Error:", err);
-      res.status(500).json({
-        message: err?.message || "Internal server error",
-        error: true,
+//       return res.status(200).json({
+//         data: {
+//           _id: cart._id,
+//           user: cart.user,
+//           items: cartWithImages,
+//           totalPrice: cart.totalPrice,
+//           totalQuantity: cart.totalQuantity,
+//           createdAt: cart.createdAt,
+//           updatedAt: cart.updatedAt,
+//         },
+//         message: "Cart retrieved successfully",
+//         success: true,
+//         error: false,
+//       });
+//     } catch (err) {
+//       console.error("Get Cart Error:", err);
+//       res.status(500).json({
+//         message: err?.message || "Internal server error",
+//         error: true,
+//         success: false,
+//       });
+//     }
+//   };
+
+
+export const getCartController = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    const cart = await CartModel.findOne({ user: userId }).populate({
+      path: "items.product",
+      select: "name price images colors", // include 'colors' to get variant images
+    });
+
+    if (!cart) {
+      return res.status(404).json({
+        message: "Cart is empty",
         success: false,
+        error: true,
       });
     }
-  };
 
+    // Map and process items
+    const cartWithImages = cart.items.map((item) => {
+      const product = item.product;
 
+      let productImage = null;
+
+      // First try to find image from selected color
+      if (item.color && product.colors && product.colors.length > 0) {
+        const matchedColor = product.colors.find(
+          (colorObj) => colorObj.color.toLowerCase() === item.color.toLowerCase()
+        );
+        if (matchedColor && matchedColor.images.length > 0) {
+          productImage = matchedColor.images[0]; // Use first image for the color
+        }
+      }
+
+      // Fallback to default image
+      if (!productImage && product.images && product.images.length > 0) {
+        productImage = product.images[0].urls.length > 0 ? product.images[0].urls[0] : null;
+      }
+
+      return {
+        _id: item._id,
+        product: {
+          _id: product._id,
+          name: product.name,
+          price: product.price,
+          image: productImage,
+        },
+        size: item.size,
+        color: item.color,
+        quantity: item.quantity,
+        price: item.price,
+      };
+    });
+
+    return res.status(200).json({
+      data: {
+        _id: cart._id,
+        user: cart.user,
+        items: cartWithImages,
+        totalPrice: cart.totalPrice,
+        totalQuantity: cart.totalQuantity,
+        createdAt: cart.createdAt,
+        updatedAt: cart.updatedAt,
+      },
+      message: "Cart retrieved successfully",
+      success: true,
+      error: false,
+    });
+  } catch (err) {
+    console.error("Get Cart Error:", err);
+    res.status(500).json({
+      message: err?.message || "Internal server error",
+      error: true,
+      success: false,
+    });
+  }
+};
 
 
 

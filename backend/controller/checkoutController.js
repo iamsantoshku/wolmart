@@ -17,85 +17,7 @@ const razorpay = new Razorpay({
   });
 
   
-  
-//   export const placePaidOrder = async (req, res) => {
-//     try {
-//       const { userId, products, billingDetails } = req.body;
-  
-//       const user = await User.findById(userId);
-//       if (!user) {
-//         return res.status(404).json({ success: false, message: "User not found" });
-//       }
-  
-//       let totalAmount = 0;
-//       const validatedProducts = await Promise.all(
-//         products.map(async (item) => {
-//           const product = await Product.findById(item.productId);
-//           if (!product) throw new Error(`Product with ID ${item.productId} not found`);
-//           if (!product.vendor) throw new Error(`Vendor ID is required for product ${item.productId}`);
-  
-//           const productTotal = product.price * item.quantity;
-//           totalAmount += productTotal;
-  
-//           return {
-//             productId: product._id,
-//             vendorId: product.vendor.toString(),
-//             name: product.name,
-//             quantity: item.quantity,
-//             price: productTotal,
-//             size: item.size,
-//           };
-//         })
-//       );
-  
-//       // Step 1: Create Razorpay order (amount in paise)
-//       const razorpayOrder = await razorpay.orders.create({
-//         amount: totalAmount * 100, // convert to paise
-//         currency: "INR",
-//         receipt: `order_rcptid_${Math.random().toString(36).substring(2, 7)}`,
-//         payment_capture: 1,
-//       });
-  
-//       // Step 2: Save as pending order in DB (optional until payment success)
-//       const newOrder = new Checkoute({
-//         userId,
-//         products: validatedProducts,
-//         totalAmount,
-//         billingDetails,
-//         status: "Payment Pending",
-//         razorpayOrderId: razorpayOrder.id,
-//       });
-  
-//       await newOrder.save();
-  
-//       // Step 3: Send back Razorpay order details to frontend
-    
-//     // res.status(201).json({
-//     //     success: true,
-//     //     razorpayOrderId: razorpayOrder.id,
-//     //     amount: razorpayOrder.amount,
-//     //     currency: razorpayOrder.currency,
-//     //     razorpayKey: process.env.RAZORPAY_KEY_ID, // match this with frontend
-//     //     order: newOrder,
-//     //   });
 
-//     res.status(201).json({
-//         success: true,
-//         order: {
-//           id: razorpayOrder.id,
-//           amount: razorpayOrder.amount,
-//           currency: razorpayOrder.currency,
-//         },
-//         razorpayKey: process.env.RAZORPAY_KEY_ID,
-//         newOrder,
-//       });
-      
-//     } catch (error) {
-//       res.status(500).json({ success: false, message: error.message });
-//     }
-//   };
-
-// Place Order Controller cash on delevery
 
 // export const placePaidOrder = async (req, res) => {
 //     try {
@@ -169,6 +91,8 @@ export const placePaidOrder = async (req, res) => {
                     quantity: item.quantity,
                     price: product.price,
                     size: item.size,
+                    image: item.image, // Assuming image is passed in the request
+                    color: item.color, // Assuming color is passed in the request
                 };
             })
         );
@@ -248,6 +172,8 @@ export const placeOrder = async (req, res) => {
                     quantity: item.quantity,
                     price: productTotal,
                     size: item.size,
+                    image: item.image, // Assuming image is passed in the request
+                    color: item.color, // Assuming color is passed in the request
                    
                 };
             })

@@ -175,10 +175,28 @@ const SingleProduct = () => {
                                 border: "1px solid #000",
                                 margin: "5px"
                               }}
+                              // onClick={(e) => {
+                              //   e.preventDefault();
+                              //   setSelectedColor(colorObj.color);
+                              // }}
+
                               onClick={(e) => {
                                 e.preventDefault();
                                 setSelectedColor(colorObj.color);
+                              
+                                // Filter images based on selected color
+                                const colorImages = product.colors.find(
+                                  (clr) => clr.color === colorObj.color
+                                )?.images;
+                              
+                                if (colorImages && colorImages.length > 0) {
+                                  setSelectedImage(colorImages[0]); // Set first image of selected color
+                                } else if (product.images && product.images.length > 0) {
+                                  // fallback to default image if no color image found
+                                  setSelectedImage(product.images[0].urls[0]);
+                                }
                               }}
+                              
                             ></a>
                           ))
                         ) : (

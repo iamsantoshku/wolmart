@@ -467,7 +467,21 @@ const Checkoute = () => {
                     ></span>
                   </div>
                 )}
+
               </td>
+              <div className="flex items-center justify-center mt-1">
+                <img
+                                                  src={
+                                                    item.product.image
+                                                      ? `${BACKENDURL}/uploads/product/${item.product.image.split("\\").pop()}`
+                                                      : "/assets/images/shop/default.jpg"
+                                                  }
+                                                  alt={item.product.name}
+                                                  width="60"
+                                                  height="60"
+                                                  className="img3 " 
+                                                />
+              </div>
               <td className="py-4 text-right text-2xl font-medium text-gray-800">
                 {(item.quantity * item.product.price).toFixed(2)}
               </td>

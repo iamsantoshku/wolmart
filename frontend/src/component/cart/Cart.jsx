@@ -113,26 +113,9 @@ const Cart = () => {
                         <td className="product-name">
                           <a href={`/product/${item.product._id}`}>{item.product.name}</a>
                           {item.size && <p className="mt-1 text-sm">Size: <strong>{item.size}</strong></p>}
-                          {item.color && (
-                            <p className="mt-1 text-sm d-flex align-items-center">
-                              Color: <span
-                                style={{
-                                  backgroundColor: item.color,
-                                  width: "15px",
-                                  height: "15px",
-                                  border: "1px solid #000",
-                                  display: "inline-block",
-                                  marginLeft: "5px",
-                                  borderRadius: "50%",
-                                }}
-                              ></span>
-                            </p>
-                          )}
+                          {item.color && <p className="mt-1 text-sm">Color: <strong>{item.color}</strong></p>}
+                          
                         </td>
-
-
-
-
                         <td className="product-price">
                           <span className="amount">${item.price.toFixed(2)}</span>
                         </td>

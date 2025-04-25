@@ -36,7 +36,16 @@ import { authToken } from "../middleware/authToken.js";
 const router = express.Router();
 
 // POST route for product upload with exactly 4 images
-router.post("/upload", upload.array("images", 4), uploadProduct);
+// router.post("/upload", upload.array("images", 4), uploadProduct);
+
+router.post(
+    "/upload",
+    upload.fields([
+      { name: "images", maxCount: 4 },
+      { name: "colorImages", maxCount: 10 }, // adjust this number as needed
+    ]),
+    uploadProduct
+  );
 
 router.get("/vendor/:shopName", getProductsByVendor);
 router.get("/products/:category", getProductsByCategory);

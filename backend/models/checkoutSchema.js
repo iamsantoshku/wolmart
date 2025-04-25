@@ -60,6 +60,8 @@ const CheckouteSchema = new mongoose.Schema(
         quantity: { type: Number, required: true },
         price: { type: Number, required: true },
         size: { type: String, required: true },
+        color: { type: String }, // 🆕 selected color
+    image: { type: String }, // 🆕 selected image path
       },
     ],
     totalAmount: { type: Number, required: true },

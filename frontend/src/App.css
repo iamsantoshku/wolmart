@@ -123,3 +123,11 @@
   }
   
 }
+@media (max-width: 640px) {
+  .img3{
+    /* margin-left: 45px; */
+    height: 70px !important;
+    width: 70px
+  }
+}
+/* .img3 */

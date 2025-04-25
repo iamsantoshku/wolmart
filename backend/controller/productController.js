@@ -8,10 +8,9 @@ import Vendor from "../models/vendorSchema.js";
 import Category from "../models/catogrySchema.js"
 import mongoose from "mongoose";
 
+
 // export const uploadProduct = async (req, res) => {
 //   try {
-    
-
 //     const { shopName, name, description, price, category, brand, stock, isFeatured, specifications, sizes, colors } = req.body;
 
 //     // Parsing JSON Fields (if they are sent as strings)
@@ -31,6 +30,11 @@ import mongoose from "mongoose";
 //     const vendor = await Vendor.findOne({ shopName });
 //     if (!vendor) {
 //       return res.status(404).json({ message: "Vendor not found", error: true, success: false });
+//     }
+
+//     // Check if vendor is approved
+//     if (!vendor.isApproved) {
+//       return res.status(403).json({ message: "Vendor is not approved to add a product", error: true, success: false });
 //     }
 
 //     // Organizing Images by Colors
@@ -78,23 +82,144 @@ import mongoose from "mongoose";
 // };
 
 
+// export const uploadProduct = async (req, res) => {
+//   try {
+//     const {
+//       shopName,
+//       name,
+//       description,
+//       price,
+//       category,
+//       brand,
+//       stock,
+//       isFeatured,
+//       specifications,
+//       sizes,
+//       colors,
+//     } = req.body;
+
+//     // Parse JSON fields if needed
+//     let parsedSpecifications = {};
+//     let parsedSizes = [];
+//     let parsedColors = [];
+
+//     try {
+//       parsedSpecifications = specifications ? JSON.parse(specifications) : {};
+//       parsedSizes = sizes ? JSON.parse(sizes) : [];
+//       parsedColors = colors ? JSON.parse(colors) : [];
+//     } catch (err) {
+//       console.warn("Error parsing JSON fields:", err);
+//     }
+
+//     // Validate Vendor
+//     const vendor = await Vendor.findOne({ shopName });
+//     if (!vendor) {
+//       return res
+//         .status(404)
+//         .json({ message: "Vendor not found", error: true, success: false });
+//     }
+
+//     if (!vendor.isApproved) {
+//       return res.status(403).json({
+//         message: "Vendor is not approved to add a product",
+//         error: true,
+//         success: false,
+//       });
+//     }
+
+//     // Organize images
+//     const uploadedFiles = req.files || {};
+//     const generalImages = uploadedFiles.images || [];
+//     const colorImages = uploadedFiles.colorImages || [];
+
+//     // Default image set
+//     const imagesField = [
+//       {
+//         color: "default",
+//         urls: generalImages.map((file) => file.path),
+//       },
+//     ];
+
+//     // Organize color images
+//     let colorsWithImages = [];
+
+//     if (parsedColors.length > 0) {
+//       parsedColors.forEach((colorObj) => {
+//         const matchingImages = colorImages
+//           .filter((file) => file.originalname.includes(colorObj.color))
+//           .map((file) => file.path);
+
+//         colorsWithImages.push({
+//           color: colorObj.color,
+//           images: matchingImages,
+//         });
+//       });
+//     }
+
+//     // Construct new product
+//     const newProduct = new Product({
+//       name,
+//       description,
+//       price,
+//       category,
+//       brand,
+//       stock,
+//       isFeatured: isFeatured === "true",
+//       specifications: parsedSpecifications,
+//       sizes: parsedSizes,
+//       images: imagesField,
+//       colors:
+//         colorsWithImages.length > 0
+//           ? colorsWithImages
+//           : [
+//               {
+//                 color: "default",
+//                 images: colorImages.map((file) => file.path),
+//               },
+//             ],
+//       vendor: vendor._id,
+//     });
+
+//     // Save product and update vendor
+//     await newProduct.save();
+//     vendor.productsByCategory.push(newProduct._id);
+//     await vendor.save();
+
+//     res.status(201).json({
+//       message: "Product added successfully",
+//       success: true,
+//       data: newProduct,
+//     });
+//   } catch (error) {
+//     console.error("Error adding product:", error);
+//     res.status(500).json({
+//       message: "Internal Server Error: " + error.message,
+//       error: true,
+//       success: false,
+//     });
+//   }
+// };
 
 export const uploadProduct = async (req, res) => {
   try {
-    const { shopName, name, description, price, category, brand, stock, isFeatured, specifications, sizes, colors } = req.body;
+    const {
+      shopName,
+      name,
+      description,
+      price,
+      category,
+      brand,
+      stock,
+      isFeatured,
+      specifications,
+      sizes,
+      colors,
+    } = req.body;
 
-    // Parsing JSON Fields (if they are sent as strings)
-    let parsedSpecifications = {};
-    let parsedSizes = [];
-    let parsedColors = [];
-
-    try {
-      parsedSpecifications = specifications ? JSON.parse(specifications) : {};
-      parsedSizes = sizes ? JSON.parse(sizes) : [];
-      parsedColors = colors ? JSON.parse(colors) : [];
-    } catch (err) {
-      console.warn("Error parsing JSON fields:", err);
-    }
+    // Parse fields
+    const parsedSpecifications = specifications ? JSON.parse(specifications) : {};
+    const parsedSizes = sizes ? JSON.parse(sizes) : [];
+    const parsedColors = colors ? JSON.parse(colors) : [];
 
     // Validate Vendor
     const vendor = await Vendor.findOne({ shopName });
@@ -102,28 +227,56 @@ export const uploadProduct = async (req, res) => {
       return res.status(404).json({ message: "Vendor not found", error: true, success: false });
     }
 
-    // Check if vendor is approved
     if (!vendor.isApproved) {
-      return res.status(403).json({ message: "Vendor is not approved to add a product", error: true, success: false });
-    }
-
-    // Organizing Images by Colors
-    let colorsWithImages = [];
-    if (parsedColors.length > 0 && req.files && req.files.length > 0) {
-      parsedColors.forEach((colorObj) => {
-        const colorImages = req.files
-          .filter((file) => file.originalname.includes(colorObj.color)) // Assuming file names contain color names
-          .map((file) => file.path);
-
-        colorsWithImages.push({ color: colorObj.color, images: colorImages });
+      return res.status(403).json({
+        message: "Vendor is not approved to add a product",
+        error: true,
+        success: false,
       });
     }
-    let imagesField = [];
-    if (req.files && req.files.length > 0) {
-      imagesField.push({ color: "default", urls: req.files.map((file) => file.path) });
-    }
 
-    // Construct New Product Object
+    // Uploaded images
+    const uploadedFiles = req.files || {};
+    const generalImages = uploadedFiles.images || [];
+    const colorImages = uploadedFiles.colorImages || [];
+
+    // Remove duplicate paths
+    const uniqueGeneralImagePaths = [...new Set(generalImages.map((file) => file.path))];
+
+    // Handle general images
+    const imagesField = uniqueGeneralImagePaths.length
+      ? [
+          {
+            color: "default",
+            urls: uniqueGeneralImagePaths,
+          },
+        ]
+      : [];
+
+    // Handle color-specific images
+    const colorsWithImages = parsedColors.map((colorObj) => {
+      const matchingImages = colorImages
+        .filter((file) => file.originalname.toLowerCase().includes(colorObj.color.toLowerCase()))
+        .map((file) => file.path);
+      return {
+        color: colorObj.color,
+        images: [...new Set(matchingImages)], // prevent duplicate image paths
+      };
+    });
+
+    // If no colorImages matched or provided, fallback to default
+    const finalColors = colorsWithImages.length && colorsWithImages.some(c => c.images.length)
+      ? colorsWithImages
+      : colorImages.length
+      ? [
+          {
+            color: "default",
+            images: [...new Set(colorImages.map((file) => file.path))],
+          },
+        ]
+      : [];
+
+    // Create Product
     const newProduct = new Product({
       name,
       description,
@@ -135,21 +288,32 @@ export const uploadProduct = async (req, res) => {
       specifications: parsedSpecifications,
       sizes: parsedSizes,
       images: imagesField,
-      colors: colorsWithImages.length > 0 ? colorsWithImages : [{ color: "default", images: req.files.map((file) => file.path) }],
+      colors: finalColors,
       vendor: vendor._id,
     });
 
-    // Save Product
+    // Save Product & Vendor
     await newProduct.save();
     vendor.productsByCategory.push(newProduct._id);
     await vendor.save();
 
-    res.status(201).json({ message: "Product added successfully", success: true, data: newProduct });
+    res.status(201).json({
+      message: "Product added successfully",
+      success: true,
+      data: newProduct,
+    });
   } catch (error) {
     console.error("Error adding product:", error);
-    res.status(500).json({ message: "Internal Server Error: " + error.message, error: true, success: false });
+    res.status(500).json({
+      message: "Internal Server Error: " + error.message,
+      error: true,
+      success: false,
+    });
   }
 };
+
+
+
 
 export const getProductsByVendor = async (req, res) => {
   try {
