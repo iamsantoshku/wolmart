@@ -154,9 +154,8 @@ const Tab1 = () => {
                     {[1, 2, 3, 4, 5].map((star) => (
                       <span
                         key={star}
-                        className={`text-2xl ${
-                          average >= star ? "text-yellow-400" : "text-gray-300"
-                        }`}
+                        className={`text-2xl ${average >= star ? "text-yellow-400" : "text-gray-300"
+                          }`}
                       >
                         ★
                       </span>
@@ -166,38 +165,37 @@ const Tab1 = () => {
 
                   {/* User Rating */}
                   <div className="flex justify-center gap-1">
-                  <div className="flex justify-center gap-0 mt-0">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <span
-                        key={star}
-                        onClick={() => handleStarClick(product._id, star)}
-                        className={`cursor-pointer text-2xl ${
-                          userRatings[product._id]?.stars >= star
-                            ? "text-yellow-500"
-                            : "text-gray-300"
-                        }`}
+                  {/* <div className="flex justify-center gap-0 mt-0">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <span
+                          key={star}
+                          onClick={() => handleStarClick(product._id, star)}
+                          className={`cursor-pointer text-2xl ${userRatings[product._id]?.stars >= star
+                              ? "text-yellow-500"
+                              : "text-gray-300"
+                            }`}
+                        >
+                          ★
+                        </span>
+                      ))}
+                    </div> */}
+                    {/* <div>
+                      <button
+                        onClick={() => handleReviewSubmit(product._id)}
+                        className="mt-1 px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
                       >
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                  <div>
-                  <button
-                    onClick={() => handleReviewSubmit(product._id)}
-                    className="mt-1 px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
-                  >
-                    Submit
-                  </button>
+                        Submit
+                      </button>
 
+
+                    </div> */}
 
                   </div>
 
-                  </div>
-                
 
-                  
 
-                  
+
+
                   <div className="product-price mt-0">
                     <ins className="new-price">{product.price}</ins>
                     {product.oldPrice && (

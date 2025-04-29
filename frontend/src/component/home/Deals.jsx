@@ -10,10 +10,10 @@ const Deals = () => {
 
 
         </div>
-        <div class="col-lg-3 mb-4">
+        {/* <div class="col-lg-3 mb-4">
             <Adds/>
 
-        </div>
+        </div> */}
 
     </div>
   )

@@ -5,14 +5,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKENDURL } from "../../config/config";
 
-
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules"; 
+import { Pagination, Autoplay } from "swiper/modules"; // ⬅️ Removed Navigation here
 
 // ✅ Import Swiper styles
 import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import "swiper/css/pagination"; // ⬅️ Removed navigation CSS import
 
 const Categorymonth = () => {
   const [categories, setCategories] = useState([]);
@@ -21,7 +19,7 @@ const Categorymonth = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${BACKENDURL}/api/v1/category/getall-cat`);
-        setCategories(response.data); // 🔹 API should return an array of categories
+        setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -31,7 +29,6 @@ const Categorymonth = () => {
   }, []);
 
   useEffect(() => {
-    // ✅ Ensure Wolmart script is initialized after the component loads
     if (window.Wolmart) {
       window.Wolmart.init();
     }
@@ -44,7 +41,7 @@ const Categorymonth = () => {
           Top Categories Of The Month
         </h2>
 
-        {/* ✅ Fixed Swiper settings */}
+        {/* ✅ Updated Swiper settings */}
         <Swiper
           spaceBetween={20}
           slidesPerView={2}
@@ -53,17 +50,15 @@ const Categorymonth = () => {
             768: { slidesPerView: 5 },
             992: { slidesPerView: 6 },
           }}
-          navigation
           pagination={{ clickable: true }}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
-          modules={[Navigation, Pagination, Autoplay]} // ✅ Corrected Swiper module usage
+          modules={[Pagination, Autoplay]} // ⬅️ No Navigation module
         >
           {categories.length > 0 ? (
             categories.map((category) => {
-              // Construct valid image URL
               const imageUrl = category.logo
                 ? `${BACKENDURL}${category.logo}`
-                : "/assets/images/shop/default-category.jpg"; // 🔹 Default image if logo is missing
+                : "/assets/images/shop/default-category.jpg";
 
               return (
                 <SwiperSlide key={category._id}>
@@ -75,12 +70,12 @@ const Categorymonth = () => {
                         className="category-image"
                         onError={(e) => {
                           e.target.src = "/assets/images/shop/default-category.jpg";
-                        }} // 🔹 Fallback if image is broken
+                        }}
                         style={{
-                          width: "200px", // 🔹 Ensures uniform width
-                          height: "200px", // 🔹 Ensures uniform height
-                          objectFit: "cover", // 🔹 Prevents stretching/distortion
-                          borderRadius: "10px", // 🔹 Optional: Adds a slight border-radius
+                          width: "200px",
+                          height: "200px",
+                          objectFit: "cover",
+                          borderRadius: "10px",
                         }}
                       />
                     </a>
