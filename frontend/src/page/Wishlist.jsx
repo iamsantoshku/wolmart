@@ -304,7 +304,7 @@ const Wishlist = () => {
                                             <tr key={productId}>
                                                 <td className="product-thumbnail">
                                                     <div className="p-relative">
-                                                        <a href={`/product/${product.name}`}>
+                                                        <a href={`/${product.name}`}>
                                                             <figure>
                                                                 <img
                                                                     src={productImage}
@@ -336,7 +336,7 @@ stock}</span>
                                                 <td className="wishlist-action">
                                                     <div className="d-lg-flex">
                                                         <Link
-                                                            to={`/product/${product.name}`}
+                                                            to={`/${product.name}`}
                                                             className="btn btn-quickview btn-outline btn-default btn-rounded btn-sm mb-2 mb-lg-0"
                                                         >
                                                             Quick View

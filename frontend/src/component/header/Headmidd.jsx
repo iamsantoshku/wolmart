@@ -61,7 +61,7 @@ const Headmidd = () => {
         </button>        
           
           <a href="/" className="logo ml-lg-0">
-  <img src="/assets/images/logo.png" alt="logo" width="144" height="45" />
+  <img src="/assets/images/zumpon logo 04.png" alt="logo" width="144" height="45" />
 </a>
 
           <form onSubmit={handleSearch} className="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">

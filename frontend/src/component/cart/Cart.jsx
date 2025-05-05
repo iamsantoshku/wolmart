@@ -84,7 +84,7 @@ const Cart = () => {
                         <td className="product-thumbnail ">
                           <div className="p-relative">
                             {/* className="sm:w-[200px] w-[100px]" */}
-                            <a href={`/product/${item.product.name}`}>
+                            <a href={`/${item.product.name}`}>
                               <figure>
                                 <img
                                   src={
@@ -111,7 +111,7 @@ const Cart = () => {
 
 
                         <td className="product-name">
-                          <a href={`/product/${item.product._id}`}>{item.product.name}</a>
+                          <a href={`/${item.product.name}`}>{item.product.name}</a>
                           {item.size && <p className="mt-1 text-sm">Size: <strong>{item.size}</strong></p>}
                           {item.color && <p className="mt-1 text-sm">Color: <strong>{item.color}</strong></p>}
                           

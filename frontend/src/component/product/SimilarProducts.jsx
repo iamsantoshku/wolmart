@@ -47,7 +47,7 @@ const SimilarProducts = ({ name }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {similarProducts.map((product) => (
             <div key={product._id} className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
-              <Link to={`/product/${product.name}`} className="block">
+              <Link to={`/${product.name}`} className="block">
               <img
                 src={`${BACKENDURL}/uploads/product/${product.images?.[0]?.urls?.[0].split("\\").pop()}`}
                 alt="Product"

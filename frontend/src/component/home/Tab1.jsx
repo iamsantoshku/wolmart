@@ -113,7 +113,7 @@ const Tab1 = () => {
                 className="bg-white shadow-md rounded-lg p-4 transition-all hover:shadow-lg"
               >
                 <div className="relative group">
-                  <Link to={`/product/${product.name}`} className="block">
+                  <Link to={`/${product.name}`} className="block">
                     {product.images.length > 0 && (
                       <img
                         src={`${BACKENDURL}/uploads/product/${product.images?.[0]?.urls?.[0].split("\\").pop()}`}

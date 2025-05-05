@@ -24,6 +24,7 @@ const SingleProduct = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
+      
       try {
         const response = await fetch(`${BACKENDURL}/api/v1/product/productdet/${name}`);
         const data = await response.json();

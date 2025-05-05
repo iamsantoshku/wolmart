@@ -139,7 +139,7 @@ const AppRoutes = () => {
       <Route path="/vendor/:shopName" element={<Store />} />
       <Route path="/category/:categoryName" element={<CategoryPage />} />
       {/* <Route path="/product/:id" element={<SingleProduct />} /> */}
-      <Route path="/product/:name" element={<SingleProduct />} />
+      <Route path="/:name" element={<SingleProduct />} />
 
       <Route path="/cart" element={<Cart />} />
       <Route path="/search" element={<SearchResultsPage />} />

@@ -8,70 +8,196 @@ import dotenv from "dotenv"
 import crypto from "crypto";
 
 
+
+
+
+dotenv.config(); // Load environment variables
+
 export const userSignUpController = async (req, res) => {
-    try {
-        const { email, password, name, role, shopName, profilePic, shopUrl, phoneNumber } = req.body;
+  try {
+    const { email, password, name, role, shopName, shopUrl, phoneNumber } = req.body;
 
-        // Check if user already exists
-        const existingUser = await userModel.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({
-                message: "User already exists.",
-                error: true,
-                success: false
-            });
-        }
-
-        // Validate required fields
-        if (!email || !password || !name || !role) {
-            return res.status(400).json({
-                message: "Please provide all required fields.",
-                error: true,
-                success: false
-            });
-        }
-
-        // Additional validation for vendors
-        if (role === "vendor" && (!shopName || !shopUrl || !phoneNumber)) {
-            return res.status(400).json({
-                message: "Vendors must provide shopName, shopUrl, and phoneNumber.",
-                error: true,
-                success: false
-            });
-        }
-
-        // Hash password
-        const salt = bcrypt.genSaltSync(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        // Create new user
-        const newUser = new userModel({
-            name,
-            email,
-            password: hashedPassword,
-            role: role.toLowerCase(),
-            phoneNumber: role === "vendor" ? phoneNumber : null,
-            shopName: role === "vendor" ? shopName : null,
-            shopUrl: role === "vendor" ? shopUrl : null,
-        });
-
-        // Save user in database
-        await newUser.save();
-
-        res.status(201).json({
-            message: "User registered successfully!",
-            success: true,
-            error: false
-        });
-
-    } catch (err) {
-        res.status(500).json({
-            message: err.message || "Internal Server Error",
-            error: true,
-            success: false
-        });
+    // Check if user already exists
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        message: "User already exists.",
+        error: true,
+        success: false
+      });
     }
+
+    // Validate required fields
+    if (!email || !password || !name || !role) {
+      return res.status(400).json({
+        message: "Please provide all required fields.",
+        error: true,
+        success: false
+      });
+    }
+
+    // Additional validation for vendors
+    if (role === "vendor" && (!shopName || !shopUrl || !phoneNumber)) {
+      return res.status(400).json({
+        message: "Vendors must provide shopName, shopUrl, and phoneNumber.",
+        error: true,
+        success: false
+      });
+    }
+
+    // Hash password
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create new user
+    const newUser = new userModel({
+      name,
+      email,
+      password: hashedPassword,
+      role: role.toLowerCase(),
+      phoneNumber: role === "vendor" ? phoneNumber : null,
+      shopName: role === "vendor" ? shopName : null,
+      shopUrl: role === "vendor" ? shopUrl : null,
+    });
+
+    // Save user in database
+    await newUser.save();
+
+    // Send email with user ID and name
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    // const mailOptions = {
+    //   from: process.env.EMAIL_USER,
+    //   to: newUser.email,
+    //   subject: "Welcome to Zumpon!",
+    //   html: `
+    //     <h2>Hello ${newUser.name},</h2>
+    //     <p>Thank you for registering on Zumpon!</p>
+    //     <p><strong>Your User ID:</strong> ${newUser._id}</p>
+    //     <p>We’re excited to have you on board.</p>
+    //     <br/>
+    //     <p>Best regards,<br/>The Zumpon Team</p>
+    //   `,
+    // };
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: newUser.email,
+      subject: "Welcome to Zumpon!",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+          <div style="background-color: #4CAF50; padding: 15px; border-radius: 8px 8px 0 0; color: white; text-align: center;">
+            <h1 style="margin: 0;">Zumpon</h1>
+          </div>
+          <div style="padding: 20px; background-color: #ffffff;">
+            <h2 style="color: #333;">Hello ${newUser.name},</h2>
+            <p style="font-size: 16px; color: #555;">Thank you for registering on <strong>Zumpon</strong>!</p>
+            <p style="font-size: 16px; color: #555;"><strong>Your User ID:</strong> <span style="color: #333;">${newUser._id}</span></p>
+            <p style="font-size: 16px; color: #555;">We’re excited to have you on board.</p>
+            <br/>
+            <p style="font-size: 16px; color: #555;">Best regards,<br/><strong>The Zumpon Team</strong></p>
+          </div>
+          <div style="background-color: #f1f1f1; text-align: center; padding: 10px; font-size: 12px; color: #777; border-radius: 0 0 8px 8px;">
+            &copy; ${new Date().getFullYear()} Zumpon. All rights reserved.
+          </div>
+        </div>
+      `
+    };
+    
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+      } else {
+        console.log("Email sent:", info.response);
+      }
+    });
+
+    res.status(201).json({
+      message: "User registered successfully!",
+      success: true,
+      error: false
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      message: err.message || "Internal Server Error",
+      error: true,
+      success: false
+    });
+  }
 };
+
+// export const userSignUpController = async (req, res) => {
+//     try {
+//         const { email, password, name, role, shopName, profilePic, shopUrl, phoneNumber } = req.body;
+
+//         // Check if user already exists
+//         const existingUser = await userModel.findOne({ email });
+//         if (existingUser) {
+//             return res.status(400).json({
+//                 message: "User already exists.",
+//                 error: true,
+//                 success: false
+//             });
+//         }
+
+//         // Validate required fields
+//         if (!email || !password || !name || !role) {
+//             return res.status(400).json({
+//                 message: "Please provide all required fields.",
+//                 error: true,
+//                 success: false
+//             });
+//         }
+
+//         // Additional validation for vendors
+//         if (role === "vendor" && (!shopName || !shopUrl || !phoneNumber)) {
+//             return res.status(400).json({
+//                 message: "Vendors must provide shopName, shopUrl, and phoneNumber.",
+//                 error: true,
+//                 success: false
+//             });
+//         }
+
+//         // Hash password
+//         const salt = bcrypt.genSaltSync(10);
+//         const hashedPassword = await bcrypt.hash(password, salt);
+
+//         // Create new user
+//         const newUser = new userModel({
+//             name,
+//             email,
+//             password: hashedPassword,
+//             role: role.toLowerCase(),
+//             phoneNumber: role === "vendor" ? phoneNumber : null,
+//             shopName: role === "vendor" ? shopName : null,
+//             shopUrl: role === "vendor" ? shopUrl : null,
+//         });
+
+//         // Save user in database
+//         await newUser.save();
+
+//         res.status(201).json({
+//             message: "User registered successfully!",
+//             success: true,
+//             error: false
+//         });
+
+//     } catch (err) {
+//         res.status(500).json({
+//             message: err.message || "Internal Server Error",
+//             error: true,
+//             success: false
+//         });
+//     }
+// };
 
 // User Login
 export const usersignin = async (req, res) => {

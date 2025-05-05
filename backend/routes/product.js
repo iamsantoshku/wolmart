@@ -53,6 +53,7 @@ router.get("/allproduct", getAllProducts);
 
 // router.get("/productdet/:productId", getSingleProduct);
 router.get('/productdet/:name', getSingleProduct)
+
 router.get("/search/:query", searchProducts);
 // router.get("/products/:productId/similar", getSimilarProducts);
 router.get("/products/:productName/similar", getSimilarProducts);

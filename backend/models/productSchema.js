@@ -4,6 +4,7 @@
 
 import mongoose from "mongoose";
 
+
 const reviewSchema = new mongoose.Schema(
   {
     user: {
@@ -26,6 +27,7 @@ const reviewSchema = new mongoose.Schema(
 
 const ProductSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  
   description: String,
   price: Number,
   category: String,
@@ -54,5 +56,7 @@ const ProductSchema = new mongoose.Schema({
   averageRating: { type: Number, default: 0 },
   totalReviews: { type: Number, default: 0 },
 }, { timestamps: true });
+
+
 
 export default mongoose.model("Product", ProductSchema);
