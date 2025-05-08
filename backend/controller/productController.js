@@ -82,6 +82,8 @@ import mongoose from "mongoose";
 // };
 
 
+
+
 // export const uploadProduct = async (req, res) => {
 //   try {
 //     const {
@@ -98,25 +100,15 @@ import mongoose from "mongoose";
 //       colors,
 //     } = req.body;
 
-//     // Parse JSON fields if needed
-//     let parsedSpecifications = {};
-//     let parsedSizes = [];
-//     let parsedColors = [];
-
-//     try {
-//       parsedSpecifications = specifications ? JSON.parse(specifications) : {};
-//       parsedSizes = sizes ? JSON.parse(sizes) : [];
-//       parsedColors = colors ? JSON.parse(colors) : [];
-//     } catch (err) {
-//       console.warn("Error parsing JSON fields:", err);
-//     }
+//     // Parse fields
+//     const parsedSpecifications = specifications ? JSON.parse(specifications) : {};
+//     const parsedSizes = sizes ? JSON.parse(sizes) : [];
+//     const parsedColors = colors ? JSON.parse(colors) : [];
 
 //     // Validate Vendor
 //     const vendor = await Vendor.findOne({ shopName });
 //     if (!vendor) {
-//       return res
-//         .status(404)
-//         .json({ message: "Vendor not found", error: true, success: false });
+//       return res.status(404).json({ message: "Vendor not found", error: true, success: false });
 //     }
 
 //     if (!vendor.isApproved) {
@@ -127,36 +119,48 @@ import mongoose from "mongoose";
 //       });
 //     }
 
-//     // Organize images
+//     // Uploaded images
 //     const uploadedFiles = req.files || {};
 //     const generalImages = uploadedFiles.images || [];
 //     const colorImages = uploadedFiles.colorImages || [];
 
-//     // Default image set
-//     const imagesField = [
-//       {
-//         color: "default",
-//         urls: generalImages.map((file) => file.path),
-//       },
-//     ];
+//     // Remove duplicate paths
+//     const uniqueGeneralImagePaths = [...new Set(generalImages.map((file) => file.path))];
 
-//     // Organize color images
-//     let colorsWithImages = [];
+//     // Handle general images
+//     const imagesField = uniqueGeneralImagePaths.length
+//       ? [
+//           {
+//             color: "default",
+//             urls: uniqueGeneralImagePaths,
+//           },
+//         ]
+//       : [];
 
-//     if (parsedColors.length > 0) {
-//       parsedColors.forEach((colorObj) => {
-//         const matchingImages = colorImages
-//           .filter((file) => file.originalname.includes(colorObj.color))
-//           .map((file) => file.path);
+//     // Handle color-specific images
+//     const colorsWithImages = parsedColors.map((colorObj) => {
+//       const matchingImages = colorImages
+//         .filter((file) => file.originalname.toLowerCase().includes(colorObj.color.toLowerCase()))
+//         .map((file) => file.path);
+//       return {
+//         color: colorObj.color,
+//         images: [...new Set(matchingImages)], // prevent duplicate image paths
+//       };
+//     });
 
-//         colorsWithImages.push({
-//           color: colorObj.color,
-//           images: matchingImages,
-//         });
-//       });
-//     }
+//     // If no colorImages matched or provided, fallback to default
+//     const finalColors = colorsWithImages.length && colorsWithImages.some(c => c.images.length)
+//       ? colorsWithImages
+//       : colorImages.length
+//       ? [
+//           {
+//             color: "default",
+//             images: [...new Set(colorImages.map((file) => file.path))],
+//           },
+//         ]
+//       : [];
 
-//     // Construct new product
+//     // Create Product
 //     const newProduct = new Product({
 //       name,
 //       description,
@@ -168,19 +172,11 @@ import mongoose from "mongoose";
 //       specifications: parsedSpecifications,
 //       sizes: parsedSizes,
 //       images: imagesField,
-//       colors:
-//         colorsWithImages.length > 0
-//           ? colorsWithImages
-//           : [
-//               {
-//                 color: "default",
-//                 images: colorImages.map((file) => file.path),
-//               },
-//             ],
+//       colors: finalColors,
 //       vendor: vendor._id,
 //     });
 
-//     // Save product and update vendor
+//     // Save Product & Vendor
 //     await newProduct.save();
 //     vendor.productsByCategory.push(newProduct._id);
 //     await vendor.save();
@@ -199,6 +195,8 @@ import mongoose from "mongoose";
 //     });
 //   }
 // };
+
+
 
 export const uploadProduct = async (req, res) => {
   try {
@@ -240,15 +238,21 @@ export const uploadProduct = async (req, res) => {
     const generalImages = uploadedFiles.images || [];
     const colorImages = uploadedFiles.colorImages || [];
 
-    // Remove duplicate paths
-    const uniqueGeneralImagePaths = [...new Set(generalImages.map((file) => file.path))];
+    // Generate public URLs for general images
+    const uniqueGeneralImageUrls = [
+      ...new Set(
+        generalImages.map(
+          (file) => file.publicUrl || `/uploads/product/${file.filename}`
+        )
+      ),
+    ];
 
     // Handle general images
-    const imagesField = uniqueGeneralImagePaths.length
+    const imagesField = uniqueGeneralImageUrls.length
       ? [
           {
             color: "default",
-            urls: uniqueGeneralImagePaths,
+            urls: uniqueGeneralImageUrls,
           },
         ]
       : [];
@@ -256,25 +260,34 @@ export const uploadProduct = async (req, res) => {
     // Handle color-specific images
     const colorsWithImages = parsedColors.map((colorObj) => {
       const matchingImages = colorImages
-        .filter((file) => file.originalname.toLowerCase().includes(colorObj.color.toLowerCase()))
-        .map((file) => file.path);
+        .filter((file) =>
+          file.originalname.toLowerCase().includes(colorObj.color.toLowerCase())
+        )
+        .map((file) => file.publicUrl || `/uploads/product/${file.filename}`);
       return {
         color: colorObj.color,
-        images: [...new Set(matchingImages)], // prevent duplicate image paths
+        images: [...new Set(matchingImages)],
       };
     });
 
     // If no colorImages matched or provided, fallback to default
-    const finalColors = colorsWithImages.length && colorsWithImages.some(c => c.images.length)
-      ? colorsWithImages
-      : colorImages.length
-      ? [
-          {
-            color: "default",
-            images: [...new Set(colorImages.map((file) => file.path))],
-          },
-        ]
-      : [];
+    const finalColors =
+      colorsWithImages.length && colorsWithImages.some((c) => c.images.length)
+        ? colorsWithImages
+        : colorImages.length
+        ? [
+            {
+              color: "default",
+              images: [
+                ...new Set(
+                  colorImages.map(
+                    (file) => file.publicUrl || `/uploads/product/${file.filename}`
+                  )
+                ),
+              ],
+            },
+          ]
+        : [];
 
     // Create Product
     const newProduct = new Product({
