@@ -1,6 +1,7 @@
 
 
 
+
 // import { toast } from "react-toastify";
 // import { BACKENDURL } from "../config/config";
 
@@ -14,19 +15,16 @@
 //       return { error: true, message: "Size is required" };
 //     }
 
-//     // Ensure size is a valid string
 //     const validSize = typeof size === "string" ? size.trim() : "";
 //     if (!validSize) {
 //       toast.error("Invalid size selection!");
 //       return { error: true, message: "Invalid size" };
 //     }
 
-//     // Prepare payload
 //     const payload = {
-//       // productId: id,
-//       name:name,
+//       name,
 //       size: validSize,
-//       selectedColor: selectedColor || null, // Ensure color is optional
+//       selectedColor: selectedColor || null,
 //     };
 
 //     console.log("Sending request to backend with payload:", payload);
@@ -70,20 +68,14 @@ const addToCart = async (e, name, size, selectedColor) => {
     e?.stopPropagation();
     e?.preventDefault();
 
-    if (!size) {
-      toast.error("Please select a size before adding to cart!");
-      return { error: true, message: "Size is required" };
-    }
-
-    const validSize = typeof size === "string" ? size.trim() : "";
-    if (!validSize) {
-      toast.error("Invalid size selection!");
-      return { error: true, message: "Invalid size" };
+    if (!name) {
+      toast.error("Product name is required to add to cart!");
+      return { error: true, message: "Product name is required" };
     }
 
     const payload = {
       name,
-      size: validSize,
+      size: size ? size.trim() : null,
       selectedColor: selectedColor || null,
     };
 
@@ -99,7 +91,6 @@ const addToCart = async (e, name, size, selectedColor) => {
     });
 
     const responseData = await response.json();
-
     console.log("Response from backend:", responseData);
 
     if (response.ok) {

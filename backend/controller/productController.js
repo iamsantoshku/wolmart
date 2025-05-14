@@ -84,120 +84,6 @@ import mongoose from "mongoose";
 
 
 
-// export const uploadProduct = async (req, res) => {
-//   try {
-//     const {
-//       shopName,
-//       name,
-//       description,
-//       price,
-//       category,
-//       brand,
-//       stock,
-//       isFeatured,
-//       specifications,
-//       sizes,
-//       colors,
-//     } = req.body;
-
-//     // Parse fields
-//     const parsedSpecifications = specifications ? JSON.parse(specifications) : {};
-//     const parsedSizes = sizes ? JSON.parse(sizes) : [];
-//     const parsedColors = colors ? JSON.parse(colors) : [];
-
-//     // Validate Vendor
-//     const vendor = await Vendor.findOne({ shopName });
-//     if (!vendor) {
-//       return res.status(404).json({ message: "Vendor not found", error: true, success: false });
-//     }
-
-//     if (!vendor.isApproved) {
-//       return res.status(403).json({
-//         message: "Vendor is not approved to add a product",
-//         error: true,
-//         success: false,
-//       });
-//     }
-
-//     // Uploaded images
-//     const uploadedFiles = req.files || {};
-//     const generalImages = uploadedFiles.images || [];
-//     const colorImages = uploadedFiles.colorImages || [];
-
-//     // Remove duplicate paths
-//     const uniqueGeneralImagePaths = [...new Set(generalImages.map((file) => file.path))];
-
-//     // Handle general images
-//     const imagesField = uniqueGeneralImagePaths.length
-//       ? [
-//           {
-//             color: "default",
-//             urls: uniqueGeneralImagePaths,
-//           },
-//         ]
-//       : [];
-
-//     // Handle color-specific images
-//     const colorsWithImages = parsedColors.map((colorObj) => {
-//       const matchingImages = colorImages
-//         .filter((file) => file.originalname.toLowerCase().includes(colorObj.color.toLowerCase()))
-//         .map((file) => file.path);
-//       return {
-//         color: colorObj.color,
-//         images: [...new Set(matchingImages)], // prevent duplicate image paths
-//       };
-//     });
-
-//     // If no colorImages matched or provided, fallback to default
-//     const finalColors = colorsWithImages.length && colorsWithImages.some(c => c.images.length)
-//       ? colorsWithImages
-//       : colorImages.length
-//       ? [
-//           {
-//             color: "default",
-//             images: [...new Set(colorImages.map((file) => file.path))],
-//           },
-//         ]
-//       : [];
-
-//     // Create Product
-//     const newProduct = new Product({
-//       name,
-//       description,
-//       price,
-//       category,
-//       brand,
-//       stock,
-//       isFeatured: isFeatured === "true",
-//       specifications: parsedSpecifications,
-//       sizes: parsedSizes,
-//       images: imagesField,
-//       colors: finalColors,
-//       vendor: vendor._id,
-//     });
-
-//     // Save Product & Vendor
-//     await newProduct.save();
-//     vendor.productsByCategory.push(newProduct._id);
-//     await vendor.save();
-
-//     res.status(201).json({
-//       message: "Product added successfully",
-//       success: true,
-//       data: newProduct,
-//     });
-//   } catch (error) {
-//     console.error("Error adding product:", error);
-//     res.status(500).json({
-//       message: "Internal Server Error: " + error.message,
-//       error: true,
-//       success: false,
-//     });
-//   }
-// };
-
-
-
 export const uploadProduct = async (req, res) => {
   try {
     const {
@@ -238,21 +124,15 @@ export const uploadProduct = async (req, res) => {
     const generalImages = uploadedFiles.images || [];
     const colorImages = uploadedFiles.colorImages || [];
 
-    // Generate public URLs for general images
-    const uniqueGeneralImageUrls = [
-      ...new Set(
-        generalImages.map(
-          (file) => file.publicUrl || `/uploads/product/${file.filename}`
-        )
-      ),
-    ];
+    // Remove duplicate paths
+    const uniqueGeneralImagePaths = [...new Set(generalImages.map((file) => file.path))];
 
     // Handle general images
-    const imagesField = uniqueGeneralImageUrls.length
+    const imagesField = uniqueGeneralImagePaths.length
       ? [
           {
             color: "default",
-            urls: uniqueGeneralImageUrls,
+            urls: uniqueGeneralImagePaths,
           },
         ]
       : [];
@@ -260,34 +140,25 @@ export const uploadProduct = async (req, res) => {
     // Handle color-specific images
     const colorsWithImages = parsedColors.map((colorObj) => {
       const matchingImages = colorImages
-        .filter((file) =>
-          file.originalname.toLowerCase().includes(colorObj.color.toLowerCase())
-        )
-        .map((file) => file.publicUrl || `/uploads/product/${file.filename}`);
+        .filter((file) => file.originalname.toLowerCase().includes(colorObj.color.toLowerCase()))
+        .map((file) => file.path);
       return {
         color: colorObj.color,
-        images: [...new Set(matchingImages)],
+        images: [...new Set(matchingImages)], // prevent duplicate image paths
       };
     });
 
     // If no colorImages matched or provided, fallback to default
-    const finalColors =
-      colorsWithImages.length && colorsWithImages.some((c) => c.images.length)
-        ? colorsWithImages
-        : colorImages.length
-        ? [
-            {
-              color: "default",
-              images: [
-                ...new Set(
-                  colorImages.map(
-                    (file) => file.publicUrl || `/uploads/product/${file.filename}`
-                  )
-                ),
-              ],
-            },
-          ]
-        : [];
+    const finalColors = colorsWithImages.length && colorsWithImages.some(c => c.images.length)
+      ? colorsWithImages
+      : colorImages.length
+      ? [
+          {
+            color: "default",
+            images: [...new Set(colorImages.map((file) => file.path))],
+          },
+        ]
+      : [];
 
     // Create Product
     const newProduct = new Product({
@@ -324,6 +195,135 @@ export const uploadProduct = async (req, res) => {
     });
   }
 };
+
+
+
+// export const uploadProduct = async (req, res) => {
+//   try {
+//     const {
+//       shopName,
+//       name,
+//       description,
+//       price,
+//       category,
+//       brand,
+//       stock,
+//       isFeatured,
+//       specifications,
+//       sizes,
+//       colors,
+//     } = req.body;
+
+//     // Parse fields
+//     const parsedSpecifications = specifications ? JSON.parse(specifications) : {};
+//     const parsedSizes = sizes ? JSON.parse(sizes) : [];
+//     const parsedColors = colors ? JSON.parse(colors) : [];
+
+//     // Validate Vendor
+//     const vendor = await Vendor.findOne({ shopName });
+//     if (!vendor) {
+//       return res.status(404).json({ message: "Vendor not found", error: true, success: false });
+//     }
+
+//     if (!vendor.isApproved) {
+//       return res.status(403).json({
+//         message: "Vendor is not approved to add a product",
+//         error: true,
+//         success: false,
+//       });
+//     }
+
+//     // Uploaded images
+//     const uploadedFiles = req.files || {};
+//     const generalImages = uploadedFiles.images || [];
+//     const colorImages = uploadedFiles.colorImages || [];
+
+//     // Generate public URLs for general images
+//     const uniqueGeneralImageUrls = [
+//       ...new Set(
+//         generalImages.map(
+//           (file) => file.publicUrl || `/uploads/product/${file.filename}`
+//         )
+//       ),
+//     ];
+
+//     // Handle general images
+//     const imagesField = uniqueGeneralImageUrls.length
+//       ? [
+//           {
+//             color: "default",
+//             urls: uniqueGeneralImageUrls,
+//           },
+//         ]
+//       : [];
+
+//     // Handle color-specific images
+//     const colorsWithImages = parsedColors.map((colorObj) => {
+//       const matchingImages = colorImages
+//         .filter((file) =>
+//           file.originalname.toLowerCase().includes(colorObj.color.toLowerCase())
+//         )
+//         .map((file) => file.publicUrl || `/uploads/product/${file.filename}`);
+//       return {
+//         color: colorObj.color,
+//         images: [...new Set(matchingImages)],
+//       };
+//     });
+
+//     // If no colorImages matched or provided, fallback to default
+//     const finalColors =
+//       colorsWithImages.length && colorsWithImages.some((c) => c.images.length)
+//         ? colorsWithImages
+//         : colorImages.length
+//         ? [
+//             {
+//               color: "default",
+//               images: [
+//                 ...new Set(
+//                   colorImages.map(
+//                     (file) => file.publicUrl || `/uploads/product/${file.filename}`
+//                   )
+//                 ),
+//               ],
+//             },
+//           ]
+//         : [];
+
+//     // Create Product
+//     const newProduct = new Product({
+//       name,
+//       description,
+//       price,
+//       category,
+//       brand,
+//       stock,
+//       isFeatured: isFeatured === "true",
+//       specifications: parsedSpecifications,
+//       sizes: parsedSizes,
+//       images: imagesField,
+//       colors: finalColors,
+//       vendor: vendor._id,
+//     });
+
+//     // Save Product & Vendor
+//     await newProduct.save();
+//     vendor.productsByCategory.push(newProduct._id);
+//     await vendor.save();
+
+//     res.status(201).json({
+//       message: "Product added successfully",
+//       success: true,
+//       data: newProduct,
+//     });
+//   } catch (error) {
+//     console.error("Error adding product:", error);
+//     res.status(500).json({
+//       message: "Internal Server Error: " + error.message,
+//       error: true,
+//       success: false,
+//     });
+//   }
+// };
 
 
 
@@ -398,36 +398,9 @@ export const getAllProducts = async (req, res) => {
 
 
 
-export const getSingleProduct = async (req, res) => {
-  try {
-    const product = await Product.findOne({ name: req.params.name }).populate("vendor");
-
-    if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: "Product not found",
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      data: product,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Error fetching product",
-      error: error.message,
-    });
-  }
-};
-
-
 // export const getSingleProduct = async (req, res) => {
 //   try {
-//     const productName = req.params.name.replace(/-/g, ' '); // Convert hyphens to spaces
-
-//     const product = await Product.findOne({ name: productName }).populate("vendor");
+//     const product = await Product.findOne({ name: req.params.name }).populate("vendor");
 
 //     if (!product) {
 //       return res.status(404).json({
@@ -449,6 +422,33 @@ export const getSingleProduct = async (req, res) => {
 //   }
 // };
 
+
+
+export const getSingleProduct = async (req, res) => {
+  try {
+    // Replace hyphens with spaces to find the product
+    const productName = req.params.name.replace(/-/g, " ");
+    const product = await Product.findOne({ name: productName }).populate("vendor");
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: product,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching product",
+      error: error.message,
+    });
+  }
+};
 
 
 

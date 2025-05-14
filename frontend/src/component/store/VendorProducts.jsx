@@ -63,7 +63,8 @@ const VendorProducts = () => {
                   position: "relative",
                 }}
               >
-                <a href={`/${product.name}`}>
+                <a href={`/${product.name.replace(/\s+/g, "-")}`}>
+                {/* <Link to={`/${product.name.replace(/\s+/g, "-")}`} className="block"></Link> */}
                   <img
                     src={`${BACKENDURL}/uploads/product/${product.images?.[0]?.urls?.[0].split("\\").pop()}`}
                     alt={product.name}

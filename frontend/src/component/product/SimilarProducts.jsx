@@ -47,7 +47,7 @@ const SimilarProducts = ({ name }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {similarProducts.map((product) => (
             <div key={product._id} className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
-              <Link to={`/${product.name}`} className="block">
+              <Link to={`/${product.name.replace(/\s+/g, "-")}`} className="block">
               <img
                 src={`${BACKENDURL}/uploads/product/${product.images?.[0]?.urls?.[0].split("\\").pop()}`}
                 alt="Product"
@@ -60,7 +60,9 @@ const SimilarProducts = ({ name }) => {
                 <h3 className="text-lg font-semibold text-gray-700">{product.name}</h3>
                 <p className="text-gray-600">Price: ₹{product.price}</p>
                 <p className="text-gray-500 text-sm">Stock: {product.stock} available</p>
-                <Link to={`/product/${product.name}`} className="block">
+                <Link to={`/${product.name.replace(/\s+/g, "-")}`} className="block">
+                {/* `/${product.name.replace(/\s+/g, "-")}` */}
+
                 <button className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
                   View Product
                 </button>

@@ -47,10 +47,10 @@ const SingleProduct = () => {
   }, [name]);
 
   const handleAddToCart = (e) => {
-    if (!selectedSize) {
-      toast.error("Please select a size!");
-      return;
-    }
+    // if (!selectedSize) {
+    //   toast.error("Please select a size!");
+    //   return;
+    // }
 
     addToCart(e, product.name, selectedSize, selectedColor);
   };

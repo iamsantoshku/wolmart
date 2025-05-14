@@ -33,7 +33,7 @@ const ProductList = ({ products, categoryName, loading }) => {
               <div key={product._id} className="product-wrap">
                 <div className="product text-center">
                   <figure className="product-media">
-                    <a href={`/${product.name}`}>
+                    <a href={`/${product.name.replace(/\s+/g, "-")}`}>
                       <img
                         src={imageUrl}
                         alt={product.name}
