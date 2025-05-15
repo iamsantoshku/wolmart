@@ -210,19 +210,7 @@ const SingleProduct = () => {
                   </div>
 
                   <div className="product-form container">
-                    {/* <div className="product-qty-form">
-                      <div className="input-group">
-                        <input
-                          className="quantity form-control"
-                          type="number"
-                          min="1"
-                          max="10000000"
-                          defaultValue="1"
-                        />
-                        <button className="quantity-plus w-icon-plus"></button>
-                        <button className="quantity-minus w-icon-minus"></button>
-                      </div>
-                    </div> */}
+                    
                     <button className="btn btn-primary btn-cart" onClick={handleAddToCart}>
                       <i className="w-icon-cart"></i>
                       <span>Add to Cart</span>
@@ -251,3 +239,7 @@ const SingleProduct = () => {
 };
 
 export default SingleProduct;
+
+
+
+

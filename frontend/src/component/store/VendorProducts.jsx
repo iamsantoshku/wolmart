@@ -86,18 +86,7 @@ const VendorProducts = () => {
                   <a href={`/product/${product._id}`}>{product.name}</a>
                 </h3>
 
-                {/* <div className="ratings-container text-sm text-gray-600 mt-1">
-                  <div className="ratings-full">
-                    <span className="ratings" style={{ width: "100%" }}></span>
-                    <span className="tooltiptext tooltip-top"></span>
-                  </div>
-                  <a
-                    href={`/product/${product.name}`}
-                    className="rating-reviews ml-2"
-                  >
-                    ({product.reviews?.length || 0} reviews)
-                  </a>
-                </div> */}
+                
 
 <div className="flex justify-center items-center mt-1">
   <div className="text-orange-400 text-3xl">
@@ -133,3 +122,7 @@ const VendorProducts = () => {
 };
 
 export default VendorProducts;
+
+
+
+

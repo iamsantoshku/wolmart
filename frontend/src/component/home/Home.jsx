@@ -19,28 +19,27 @@ const Home = () => {
     <div className="home">
       <div className="page-wrapper">
         <main className="main">
-          
-          {/* <Homeintroo/> */}
+
           <div className="hidden lg:block">
-        {/* <IntrosecDesktop /> */}
-        <Homeintroo/>
-      </div>
+
+            <Homeintroo />
+          </div>
           <div className="block lg:hidden">
-        {/* <IntrosecMobile /> */}
-        <Introsec/>
-      </div>
-          
+
+            <Introsec />
+          </div>
+
           <div className="container">
             <Homeswipe />
-            
-            <Deals/>
-            <Categorymonth/>
-            <Populardeprt/>
-            <Banner1/>
-            <Clothingbann/>
-            <Banner3/>
-            <Ourclient/>
-            <Fromblog/>
+
+            <Deals />
+            <Categorymonth />
+            <Populardeprt />
+            <Banner1 />
+            <Clothingbann />
+            <Banner3 />
+            {/* <Ourclient /> */}
+            <Fromblog />
           </div>
 
         </main>

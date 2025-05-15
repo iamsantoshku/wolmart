@@ -59,7 +59,10 @@ router.get("/search/:query", searchProducts);
 router.get("/products/:productName/similar", getSimilarProducts);
 // router.get("/clothing-fashion", getClothingAndFashionProducts);
 router.get("/clothing-fashion", getClothingAndFashionProducts);
-router.post("/productrv/:productId/review",authToken, addReviewToProduct);
+// router.post("/productrv/:productName/review",authToken, addReviewToProduct);
+// Updated Route (Make sure this is correct)
+router.post("/productrv/:productName/review", authToken, addReviewToProduct);
+
 
 // GET all reviews for a product
 router.get("/productrv/:productId/reviews", getProductReviews);

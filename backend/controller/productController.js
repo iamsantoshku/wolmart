@@ -543,29 +543,88 @@ export const getClothingAndFashionProducts = async (req, res) => {
 
 
 
+// export const addReviewToProduct = async (req, res) => {
+//   try {
+
+//     const productName = req.params.name.replace(/-/g, " ");
+   
+//     const { stars, comment } = req.body;
+//     const userId = req.userId; // get user ID from the auth middleware
+
+//     if (!stars || stars < 1 || stars > 5) {
+//       return res.status(400).json({ success: false, message: "Rating must be between 1 and 5 stars." });
+//     }
+
+//     // const product = await Product.findById(productId);
+//     const product = await Product.findOne({ name: productName })
+//     if (!product) {
+//       return res.status(404).json({ success: false, message: "Product not found." });
+//     }
+
+//     const existingReview = product.reviews.find(
+//       (rev) => rev.user.toString() === userId.toString()
+//     );
+
+//     if (existingReview) {
+//       existingReview.stars = stars;
+//       existingReview.comment = comment || "";
+//     } else {
+//       product.reviews.push({
+//         user: userId,
+//         stars,
+//         comment,
+//       });
+//     }
+
+//     product.totalReviews = product.reviews.length;
+//     product.averageRating =
+//       product.reviews.reduce((sum, r) => sum + r.stars, 0) / product.totalReviews;
+
+//     await product.save();
+
+//     res.status(200).json({
+//       success: true,
+//       message: "Review submitted successfully.",
+//       reviews: product.reviews,
+//       averageRating: product.averageRating,
+//       totalReviews: product.totalReviews,
+//     });
+//   } catch (error) {
+//     console.error("Error adding review:", error);
+//     res.status(500).json({ success: false, message: "Server error." });
+//   }
+// };
+
+
+// Updated Review Controller
+mongoose.set('strictPopulate', false);
 export const addReviewToProduct = async (req, res) => {
   try {
-    const { productId } = req.params;
+    const productName = req.params.productName.replace(/-/g, " ");
     const { stars, comment } = req.body;
     const userId = req.userId; // get user ID from the auth middleware
 
-    if (!stars || stars < 1 || stars > 5) {
-      return res.status(400).json({ success: false, message: "Rating must be between 1 and 5 stars." });
-    }
+    // if (!stars) {
+    //   return res.status(400).json({ success: false, message: "Rating must be between 1 and 5 stars." });
+    // }
 
-    const product = await Product.findById(productId);
+    // Finding the product by name
+    const product = await Product.findOne({ name: productName });
     if (!product) {
       return res.status(404).json({ success: false, message: "Product not found." });
     }
 
+    // Check if user has already reviewed the product
     const existingReview = product.reviews.find(
       (rev) => rev.user.toString() === userId.toString()
     );
 
     if (existingReview) {
+      // Update existing review
       existingReview.stars = stars;
       existingReview.comment = comment || "";
     } else {
+      // Add new review
       product.reviews.push({
         user: userId,
         stars,
@@ -573,6 +632,7 @@ export const addReviewToProduct = async (req, res) => {
       });
     }
 
+    // Update average rating and total reviews
     product.totalReviews = product.reviews.length;
     product.averageRating =
       product.reviews.reduce((sum, r) => sum + r.stars, 0) / product.totalReviews;

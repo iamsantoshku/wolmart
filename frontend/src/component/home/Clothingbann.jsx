@@ -1,6 +1,7 @@
 import React from 'react'
 import Banner2 from './Banner2'
 import Fashion from './Fashion'
+import Fashionmob from './Fashionmob'
 
 const Clothingbann = () => {
   return (
@@ -11,8 +12,18 @@ const Clothingbann = () => {
                             Products<i className="w-icon-long-arrow-right"></i></a>
         </div>
         <div class="row">
-            <Banner2/>
-            <Fashion/>
+             <Banner2/>
+            
+             {/* <div className="hidden lg:block"> */}
+             
+              <Fashion/>
+            
+          {/* </div> */}
+          <div className="block lg:hidden">
+
+            <Fashionmob/>
+          </div>
+            
         </div>
 
     </div>

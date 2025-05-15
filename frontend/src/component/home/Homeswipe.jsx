@@ -64,7 +64,7 @@ const Homeswipe = () => {
         </div>
       </div> */}
 
-<div className="mt-8 mb-6 px-4">
+<div className="mt-10 mb-3 px-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div className="flex items-center space-x-4 p-5 border rounded-lg shadow-md">
           <span className="text-blue-500 text-3xl">
