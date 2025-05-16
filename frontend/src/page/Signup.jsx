@@ -325,7 +325,7 @@ const Signup = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-slate-50 to-indigo-00 p-6">
       <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-lg animate-fade-in">
-        <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-6 tracking-tight">Create an Account</h2>
+        <h2 className="text-4xl font-extrabold text-center  mb-6 tracking-tight" style={{ color: "rgb(51, 102, 153)" }}>Create an Account</h2>
 
         {error && (
           <p className="text-red-600 bg-red-100 border border-red-300 rounded-lg px-4 py-2 text-sm text-center mb-4 animate-pulse">
@@ -419,16 +419,41 @@ const Signup = () => {
             </>
           )}
 
-          <button
+          {/* <button
             type="submit"
             className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold p-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
             Sign Up
-          </button>
+          </button> */}
+
+          <button
+  type="submit"
+  className="w-full text-white font-semibold p-3 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+  style={{
+    background: "linear-gradient(to right, rgb(51, 102, 153), rgb(41, 82, 123))",
+  }}
+  onMouseOver={(e) =>
+    (e.target.style.background = "linear-gradient(to right, rgb(41, 82, 123), rgb(31, 62, 93))")
+  }
+  onMouseOut={(e) =>
+    (e.target.style.background = "linear-gradient(to right, rgb(51, 102, 153), rgb(41, 82, 123))")
+  }
+>
+  Sign Up
+</button>
+
 
           <p className="text-center text-gray-600 mt-4">
             Already have an account?{" "}
-            <a href="/login" className="text-blue-500 hover:underline">Log in here</a>
+            {/* <a href="/login" className="text-blue-500 hover:underline">Log in here</a> */}
+            <a
+  href="/login"
+  className="hover:underline"
+  style={{ color: "rgb(51, 102, 153)" }}
+>
+  Log in here
+</a>
+
           </p>
         </form>
       </div>

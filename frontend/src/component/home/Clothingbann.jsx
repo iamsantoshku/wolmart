@@ -19,6 +19,7 @@ const Clothingbann = () => {
               <Fashion/>
             
           {/* </div> */}
+
           <div className="block lg:hidden">
 
             <Fashionmob/>

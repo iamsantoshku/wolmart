@@ -2,7 +2,8 @@
 
 
 
-import React from 'react';
+// //  React from 'react';
+import React from 'react'; 
 
 const Fromblog = () => {
   return (
@@ -20,23 +21,23 @@ const Fromblog = () => {
       <div className="swiper">
         <div
           className="swiper-container swiper-theme"
-          data-swiper-options={`{
-            "slidesPerView": 1,
-            "spaceBetween": 20,
-            "breakpoints": {
-              "576": {
-                "slidesPerView": 2
-              },
-              "768": {
-                "slidesPerView": 3
-              },
-              "992": {
-                "slidesPerView": 4
-              }
-            }
-          }`}
+          // data-swiper-options={`{
+          //   "slidesPerView": 1,
+          //   "spaceBetween": 20,
+          //   "breakpoints": {
+          //     "576": {
+          //       "slidesPerView": 2
+          //     },
+          //     "768": {
+          //       "slidesPerView": 3
+          //     },
+          //     "992": {
+          //       "slidesPerView": 4
+          //     }
+          //   }
+          // }`}
         >
-          <div className="swiper-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-1 gap-0.4">
+          <div className="swiper-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-1 gap-2">
             <div className="swiper-slide post text-center overlay-zoom">
               <figure className="post-media br-sm">
                 <a href="post-single.html">
@@ -161,3 +162,6 @@ const Fromblog = () => {
 };
 
 export default Fromblog;
+
+
+

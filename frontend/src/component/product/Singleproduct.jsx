@@ -140,6 +140,7 @@ const SingleProduct = () => {
                         Category: <span className="product-category"><a href="#">{product.category || "Unknown"}</a></span>
                       </div>
                     </div>
+                    <hr className="product-divider" />
                     <div className="product-price">
                       <ins className="new-price">₹{product.price || "0.00"}</ins>
                     </div>
@@ -157,7 +158,7 @@ const SingleProduct = () => {
                         )}
                       </ul>
                     </div>
-                    <hr className="product-divider" />
+                    
 
                     <div className="product-form product-variation-form product-color-swatch">
                       <label>Color:</label>

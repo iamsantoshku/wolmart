@@ -174,7 +174,7 @@ const Login = () => {
                 </div>
               </div>
               <p className="text-center text-gray-600 mt-4">
-          Don't have an account? <a href="/signup" className="text-blue-500 hover:underline">Sign up</a>
+          Don't have an account? <a href="/signup" className=" hover:underline"  style={{ color: "rgb(51, 102, 153)" }}>Sign up</a>
         </p>
 
               <p className="text-center">Sign in with social account</p>
