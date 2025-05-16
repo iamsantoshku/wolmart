@@ -47,6 +47,34 @@ router.post(
     uploadProduct
   );
 
+// router.post(
+//   "/upload",
+//   upload.fields([
+//     { name: "images", maxCount: 4 },
+//     { name: "colorImages", maxCount: 10 }, // Adjust the count as needed
+//   ]),
+//   (req, res) => {
+//     try {
+//       // Handling general images
+//       const images = req.files.images ? req.files.images.map(file => file.publicUrl) : [];
+
+//       // Handling color images
+//       const colorImages = req.files.colorImages
+//         ? req.files.colorImages.map(file => file.publicUrl)
+//         : [];
+
+//       // Send response with URLs
+//       res.status(200).json({
+//         success: true,
+//         images,
+//         colorImages,
+//       });
+//     } catch (error) {
+//       res.status(500).json({ success: false, message: "Image upload failed", error });
+//     }
+//   }
+// );
+
 router.get("/vendor/:shopName", getProductsByVendor);
 router.get("/products/:category", getProductsByCategory);
 router.get("/allproduct", getAllProducts);

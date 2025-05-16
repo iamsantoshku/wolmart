@@ -134,7 +134,7 @@ const Dashboard = () => {
                 <hr className="my-2" />
                 <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer">
                     <FaCogs />
-                    <a href="#account-details" className="text-3xl">Account Details</a>
+                    <a href="/account-details/" className="text-3xl">Account Details</a>
                 </li>
                 <hr className="my-2" />
                 <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer">
@@ -145,13 +145,13 @@ const Dashboard = () => {
                 {user?.role === "admin" && (
                     <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer">
                         <FaCogs />
-                        <a href="admin-panel" className="text-3xl">Admin Panel</a>
+                        <a href="/admin-panel/" className="text-3xl">Admin Panel</a>
                     </li>
                 )}
                 {user?.role === "vendor" && (
                     <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer">
                         <FaStore />
-                        <a href="vendor-panel" className="text-3xl">Vendor Panel</a>
+                        <a href="/vendor-panel/" className="text-3xl">Vendor Panel</a>
                     </li>
                 )}
                 <hr className="my-2" />
