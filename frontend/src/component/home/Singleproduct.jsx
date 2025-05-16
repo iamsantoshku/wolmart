@@ -132,7 +132,7 @@ const SingleProduct = () => {
                     <div className="swiper-wrapper row cols-1 gutter-no">
                       {selectedImage ? (
                         <div className="swiper-slide">
-                          <figure className="product-image">
+                          <figure className="product-image img2">
                             <img
                               src={`${BACKENDURL}/uploads/product/${selectedImage.split("\\").pop()}`}
                               alt={product.name}
@@ -147,8 +147,8 @@ const SingleProduct = () => {
                     </div>
                     {/* <button className="swiper-button-next"></button>
                     <button className="swiper-button-prev"></button> */}
-                    <div className="product-label-group">
-                      <label className="product-label label-discount">25% Off</label>
+                    <div className="product-label-group ">
+                      <label className="product-label label-discount ml-10">25% Off</label>
                     </div>
                   </div>
 

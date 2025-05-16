@@ -63,9 +63,18 @@ const SimilarProducts = ({ name }) => {
                 <Link to={`/${product.name.replace(/\s+/g, "-")}`} className="block">
                 {/* `/${product.name.replace(/\s+/g, "-")}` */}
 
-                <button className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                {/* <button className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
                   View Product
-                </button>
+                </button> */}
+
+                <button 
+  className="mt-3 w-full text-white py-2 rounded-lg" 
+  style={{ backgroundColor: 'rgb(51, 102, 153)' }}
+  onMouseOver={(e) => (e.target.style.backgroundColor = 'rgba(41, 82, 123)')}
+  onMouseOut={(e) => (e.target.style.backgroundColor = 'rgb(51, 102, 153)')}
+>
+  View Product
+</button>
                 </Link>
                 
               </div>

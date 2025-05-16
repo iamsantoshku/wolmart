@@ -48,7 +48,7 @@ const MergedHeader = () => {
         <React.Fragment key={category._id}>
           
           <li className='ml-3'>
-            <a href={`/category/${category._id}`}>
+            <a href={`/category/${category._id}/`}>
               <i className={`w-icon-${getIconClass(index)}`}></i>{category.name}
             </a>
           </li>

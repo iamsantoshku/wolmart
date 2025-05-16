@@ -53,7 +53,7 @@ const Fashion = () => {
               <div key={product._id} className="swiper-slide product-col">
                 <div className="product-wrap product text-center">
                   <figure className="product-media">
-                    <a href={`/${product.name.replace(/\s+/g, "-")}`}>
+                    <a href={`/${product.name.replace(/\s+/g, "-")}/`}>
                       <img
                         src={`${BACKENDURL}/uploads/product/${product.images?.[0]?.urls?.[0].split("\\").pop()}`}
                         alt={product.name}

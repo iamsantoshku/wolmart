@@ -111,7 +111,7 @@ const Headmidd = () => {
             </div>
           </div>
 
-          <a className="wishlist label-down link d-xs-show" href="/wishlist">
+          <a className="wishlist label-down link d-xs-show" href="/wishlist/">
             <i className="w-icon-heart"></i>
             <span className="wishlist-label d-lg-show">Wishlist</span>
           </a>
@@ -119,7 +119,7 @@ const Headmidd = () => {
 
           <div className="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
             <div className="cart-overlay"></div>
-            <a href="/cart" className="cart-toggle label-down link">
+            <a href="/cart/" className="cart-toggle label-down link">
               <i className="w-icon-cart">
                 <span className="cart-count">{cartCount}</span>
               </i>
@@ -131,7 +131,7 @@ const Headmidd = () => {
             <div className="dropdown-box">
               <div className="cart-header">
                 <span>Shopping Cart</span>
-                <a href="/cart" className="btn-close">
+                <a href="/cart/" className="btn-close">
                   Close<i className="w-icon-long-arrow-right"></i>
                 </a>
               </div>
@@ -161,10 +161,10 @@ const Headmidd = () => {
                 <span className="price">$58.67</span>
               </div>
               <div className="cart-action">
-                <a href="/cart" className="btn btn-dark btn-outline btn-rounded">
+                <a href="/cart/" className="btn btn-dark btn-outline btn-rounded">
                   View Cart
                 </a>
-                <a href="/checkout.html" className="btn btn-primary btn-rounded">
+                <a href="/checkout/" className="btn btn-primary btn-rounded">
                   Checkout
                 </a>
               </div>

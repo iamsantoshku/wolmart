@@ -30,14 +30,14 @@ const Headund = () => {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/vendor-store-list">Shop</Link>
+          <Link to="/vendor-store-list/">Shop</Link>
           <ul className="megamenu">
             <li>
               <h4 className="menu-title">Shop Pages</h4>
               <ul>
                 {categories.map((category) => (
                   <li key={category._id}>
-                    <Link to={`/category/${category._id}`}>{category.name}</Link>
+                    <Link to={`/category/${category._id}/`}>{category.name}</Link>
                   </li>
                 ))}
                 {/* <li><a href="shop-boxed-banner.html">Boxed Banner</a></li>
@@ -91,12 +91,12 @@ const Headund = () => {
           </ul>
         </li>
         <li>
-          <a href="/vendor-store-list">Vendor</a>
+          <a href="/vendor-store-list/">Vendor</a>
           <ul>
             <li>
-              <a href="/vendor-store-list">Store Listing</a>
+              <a href="/vendor-store-list/">Store Listing</a>
               <ul>
-                <li><Link to="/vendor-store-list">Store listing 1</Link></li>
+                <li><Link to="/vendor-store-list/">Store listing 1</Link></li>
               </ul>
             </li>
           </ul>
@@ -105,15 +105,15 @@ const Headund = () => {
           <Link to="/blog">Blog</Link>
         </li>
         <li>
-          <a href="/about-us">Pages</a>
+          <a href="/about-us/">Pages</a>
           <ul>
             <li><Link to="/about-us">About Us</Link></li>
             <li><Link to="/become-a-vendor">Become A Vendor</Link></li>
             <li><Link to="/contact-us">Contact Us</Link></li>
-            <li><Link to="/wishlist">Wishlist</Link></li>
-            <li><Link to="/cart">Cart</Link></li>
-            <li><Link to="/checkout">Checkout</Link></li>
-            <li><Link to="/my-account">My Account</Link></li>
+            <li><Link to="/wishlist/">Wishlist</Link></li>
+            <li><Link to="/cart/">Cart</Link></li>
+            <li><Link to="/checkout/">Checkout</Link></li>
+            <li><Link to="/my-account/">My Account</Link></li>
           </ul>
         </li>
       </ul>

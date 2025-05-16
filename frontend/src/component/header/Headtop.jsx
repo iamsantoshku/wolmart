@@ -74,12 +74,12 @@ const Headtop = () => {
           <a href="blog" className="d-lg-show">
             Blog
           </a>
-          <a href="contact-us" className="d-lg-show">
+          <a href="/contact-us/" className="d-lg-show">
             Contact Us
           </a>
 
           {currentUser ? (
-            <a href="/my-account" className="">
+            <a href="/my-account/" className="">
               My Account
             </a>
           ) : (

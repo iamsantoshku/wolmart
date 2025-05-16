@@ -114,7 +114,7 @@ const Tab1 = () => {
               >
                 <div className="relative group">
                   {/* <Link to={`/${product.name}`} className="block"> */}
-                  <Link to={`/${product.name.replace(/\s+/g, "-")}`} className="block">
+                  <Link to={`/${product.name.replace(/\s+/g, "-")}/`} className="block">
                     {product.images.length > 0 && (
                       <img
                         src={`${BACKENDURL}/uploads/product/${product.images?.[0]?.urls?.[0].split("\\").pop()}`}
@@ -147,7 +147,7 @@ const Tab1 = () => {
 
                 <div className="product-details text-center mt-0  space-y-3">
                   <h4 className="product-name">
-                    <Link to={`/product/${product.name}`}>{product.name}</Link>
+                    <Link to={`/product/${product.name}/`}>{product.name}</Link>
                   </h4>
 
                   {/* Average Rating */}
