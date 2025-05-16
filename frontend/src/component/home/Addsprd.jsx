@@ -8,7 +8,7 @@ const Addsprd = () => {
                     <h4 className="title-sm title-underline font-weight-bolder ls-normal mb-2">
                         Top 20 Best Seller
                     </h4>
-                    <div className="swiper">
+                    <div className="swiper ml-3">
                         <div
                             className="swiper-container swiper-theme nav-top"
                             data-swiper-options={`{
@@ -111,7 +111,7 @@ const Addsprd = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="product product-widget bb-no">
+                            {/* <div className="product product-widget bb-no">
                                 <figure className="product-media">
                                     <a href="product-default.html">
                                         <img
@@ -137,8 +137,8 @@ const Addsprd = () => {
                                         <del className="old-price">$253.50</del>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="product product-widget">
+                            </div> */}
+                            {/* <div className="product product-widget">
                                 <figure className="product-media">
                                     <a href="product-default.html">
                                         <img
@@ -164,7 +164,7 @@ const Addsprd = () => {
                                         <del className="old-price">$500.00</del>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     {/* <button className="swiper-button-next"></button>

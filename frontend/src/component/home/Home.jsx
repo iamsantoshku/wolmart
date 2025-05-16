@@ -38,7 +38,7 @@ const Home = () => {
             <Banner1 />
             <Clothingbann />
             <Banner3 />
-            {/* <Ourclient /> */}
+            <Ourclient />
             <Fromblog />
           </div>
 
