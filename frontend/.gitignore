@@ -12,7 +12,7 @@ lerna-debug.log*
 .env
 
 node_modules
-dist
+disd
 dist-ssr
 *.local
 
@@ -25,4 +25,4 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+*.sw
